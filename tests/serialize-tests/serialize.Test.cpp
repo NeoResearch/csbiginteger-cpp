@@ -194,7 +194,7 @@ TEST(csBISerializeTests, ConstructorS256_Equals_256)
    EXPECT_EQ(big.toInt(), 256);
 }
 
-/*
+
 //test('constructor csBigInteger("-256", 10) equals -256', () => {
 //  expect(new csBigInteger("-256", 10).valueOf()).toBe(-256);
 //});
@@ -204,7 +204,7 @@ TEST(csBISerializeTests, ConstructorSM256_Equals_M256)
    BigInteger big("-256", 10);
    EXPECT_EQ(big.toInt(), -256);
 }
-*/
+
 
 /*
 test('constructor csBigInteger("1", 10) equals 1', () => {

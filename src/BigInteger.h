@@ -12,6 +12,7 @@
 // ... none
 
 typedef int int32;
+typedef long int64;
 typedef unsigned char byte;
 typedef std::vector<byte> vbyte;
 
@@ -113,6 +114,9 @@ public:
 
    // native int32 format
    int32 toInt() const;
+
+   // native int64 format
+   int64 toLong() const;
 
    int Sign() const;
 

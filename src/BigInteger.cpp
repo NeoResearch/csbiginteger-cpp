@@ -207,7 +207,8 @@ BigInteger::BigInteger(vbyte data)
 BigInteger::BigInteger(string str, int base)
 {
    mpz_class a = csBigIntegerMPZparses(str, base);
-   cout << "PARSED str: " << str << " on base=" << base << ". Will convert to MPZ." << endl;
+   cout << "PARSED str: " << str << " on base=" << base << ". Will convert MPZ to byte array." << endl;
+
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 
@@ -230,10 +231,24 @@ BigInteger::toInt() const
    cout << "hex little: " << BigInteger::toHexString(vb) << endl;
    mpz_class a = csBigIntegerMPZparse(vb);
    cout << "===> toInt() ==> csBigIntegerMPZparse completed... will get ui" << endl;
-   int32 i = a.get_ui();
+   int32 i = a.get_ui(); // unsigned int
    if (a < 0)
       i *= -1;
    cout << "int is " << i << endl;
+   return i;
+}
+
+int64
+BigInteger::toLong() const
+{
+   cout << endl
+        << " =========== toLong() =======" << endl;
+   vbyte vb = this->ToByteArray(); // little-endian
+   cout << "hex little: " << BigInteger::toHexString(vb) << endl;
+   mpz_class a = csBigIntegerMPZparse(vb);
+   cout << "===> toInt() ==> csBigIntegerMPZparse completed... will get ui" << endl;
+   int64 i = a.get_si(); // signed long int
+   cout << "long is " << i << endl;
    return i;
 }
 
@@ -361,12 +376,14 @@ mpz_class
 csBigIntegerMPZparses(string n, int base)
 {
    if (base == 10) {
+      cout << " -----> directly converting to mpz base 10" << endl;
       if (n.length() == 0)
          n = "0";
       return mpz_class(n, base);
    }
 
    if (base == 2) {
+      cout << " -----> directly converting to mpz base 10" << endl;
       if (n.length() == 0)
          n = "0";
       return mpz_class(n, base);
