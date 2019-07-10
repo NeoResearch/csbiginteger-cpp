@@ -10,6 +10,8 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
+#include <assert.h>
+
 // Ported from
 // - https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
 
@@ -23,7 +25,6 @@ csBigIntegerMPZparse(vbyte n);
 // string parse
 mpz_class
 csBigIntegerMPZparses(string n, int base);
-
 
 /*
 mpz_class
@@ -219,10 +220,15 @@ BigInteger::BigInteger(int32 val)
 int32
 BigInteger::toInt() const
 {
+   cout << endl
+        << " =========== toInt() =======" << endl;
    vbyte vb = this->ToByteArray(); // little-endian
    cout << "hex little: " << BigInteger::toHexString(vb) << endl;
    mpz_class a = csBigIntegerMPZparse(vb);
+   cout << "===> toInt() ==> csBigIntegerMPZparse completed... will get ui" << endl;
    int32 i = a.get_ui();
+   if (a < 0)
+      i *= -1;
    cout << "int is " << i << endl;
    return i;
 }
@@ -283,6 +289,7 @@ csBigIntegerMPZparse(vbyte n)
    */
 
    std::string s = BigInteger::toHexString(n); //.toString().toLowerCase().replace(/\W-/g, '');
+   cout << " -------> parse s: " << s << endl;
 
    // base 10
    //if(base == 10) {
@@ -314,23 +321,29 @@ csBigIntegerMPZparse(vbyte n)
 
    // verify if number is negative (most significant bit)
    if (BigInteger::checkNegativeBit(s)) {
-      cout << "========> IS NEGATIVE lehex! s: " << s << endl;
+      cout << " ========> IS NEGATIVE lehex! s: " << s << endl;
       // is negative, must handle twos-complement
       mpz_class vint(BigInteger::revertHexString(s), 16);                // as big-endian again
       std::string rbitnum = csBigIntegerGetBitsFromNonNegativeMPZ(vint); //vint.ToString(2);
+      cout << " ------> rbitnum: " << rbitnum << endl;
       // negate bits
       std::stringstream y2;
       for (int i = 0; i < rbitnum.length(); i++)
          y2 << (rbitnum[i] == '0' ? '1' : '0');
+      cout << " ------> neg: " << y2.str() << endl;
       mpz_class by2(y2.str(), 2);
       mpz_class by2add = by2 + 1;
       mpz_class finalnum = by2add * (-1);
       //BigInteger finalnum =  new BN(y2, 2).add(new BN(1)).mul(new BN(-1));
+
+      assert(finalnum < 0); // must be negative
+
+      cout << " =======> finished parse negative mpz" << endl;
       return finalnum; //new csBigInteger(finalnum);
    } else {
-      cout << "========> IS POSITIVE lehex! s: " << s << endl;
+      cout << " ========> IS POSITIVE lehex! s: " << s << endl;
       std::string sbig = BigInteger::revertHexString(s);
-      cout << "BIG ENDIAN TO MPZ: " << sbig << endl;
+      cout << " -----> BIG ENDIAN TO MPZ: " << sbig << endl;
       // positive is easy
       //return new csBigInteger(new BN(csBigInteger.revertHexString(s), 16, 'be'));
       return mpz_class(sbig, 16); // big-endian again

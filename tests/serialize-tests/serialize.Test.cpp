@@ -55,7 +55,6 @@ TEST(csBigIntegerSerializeTests, Construtor127_Equals_127)
 TEST(csBigIntegerSerializeTests, Construtor128_Equals_128)
 {
    BigInteger big(128);
-   cout << "big.ToString() => " << big.ToString() << endl;
    EXPECT_EQ(big.toInt(), 128);
 }
 
@@ -70,7 +69,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorM1_toHexString_ff)
    EXPECT_EQ(big.toHexStr(), "ff");
 }
 
-/*
+
 //test('constructor csBigInteger(-1) equals -1', () => {
 //  expect(new csBigInteger(-1).valueOf()).toBe(-1);
 //});
@@ -80,7 +79,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorM1_Equals_M1)
    BigInteger big(-1);
    EXPECT_EQ(big.toInt(), -1);
 }
-*/
+
 
 /*
 test('constructor csBigInteger(csBigInteger(10)) equals 10', () => {
