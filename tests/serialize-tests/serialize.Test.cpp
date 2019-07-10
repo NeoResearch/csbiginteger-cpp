@@ -12,7 +12,7 @@ using namespace csBigInteger;
 //  expect(new csBigInteger().valueOf()).toBe(0);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstrutorEmpty_Equals_Zero)
+TEST(csBISerializeTests, ConstrutorEmpty_Equals_Zero)
 {
    BigInteger big;
    EXPECT_EQ(big.toInt(), 0);
@@ -22,7 +22,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorEmpty_Equals_Zero)
 //  expect(new csBigInteger("123").valueOf()).toBe(123);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstrutorStr123_Equals_123)
+TEST(csBISerializeTests, ConstrutorStr123_Equals_123)
 {
    BigInteger big("123");
    EXPECT_EQ(big.toInt(), 123);
@@ -32,7 +32,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorStr123_Equals_123)
 //  expect(new csBigInteger(123).valueOf()).toBe(123);
 //});
 
-TEST(csBigIntegerSerializeTests, Construtor123_Equals_123)
+TEST(csBISerializeTests, Construtor123_Equals_123)
 {
    BigInteger big(123);
    EXPECT_EQ(big.toInt(), 123);
@@ -42,7 +42,7 @@ TEST(csBigIntegerSerializeTests, Construtor123_Equals_123)
 //  expect(new csBigInteger(127).valueOf()).toBe(127);
 //});
 
-TEST(csBigIntegerSerializeTests, Construtor127_Equals_127)
+TEST(csBISerializeTests, Construtor127_Equals_127)
 {
    BigInteger big(127);
    EXPECT_EQ(big.toInt(), 127);
@@ -52,7 +52,7 @@ TEST(csBigIntegerSerializeTests, Construtor127_Equals_127)
 //  expect(new csBigInteger(128).valueOf()).toBe(128);
 //});
 
-TEST(csBigIntegerSerializeTests, Construtor128_Equals_128)
+TEST(csBISerializeTests, Construtor128_Equals_128)
 {
    BigInteger big(128);
    EXPECT_EQ(big.toInt(), 128);
@@ -62,7 +62,7 @@ TEST(csBigIntegerSerializeTests, Construtor128_Equals_128)
 //test('constructor csBigInteger(-1).toHexString() equals "ff"', () => {
 //  expect(new csBigInteger(-1).toHexString()).toBe("ff");
 //});
-TEST(csBigIntegerSerializeTests, ConstrutorM1_toHexString_ff)
+TEST(csBISerializeTests, ConstrutorM1_toHexString_ff)
 {
    BigInteger big(-1);
    EXPECT_EQ(big.toHexStr(), "ff");
@@ -72,7 +72,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorM1_toHexString_ff)
 //  expect(new csBigInteger(-1).valueOf()).toBe(-1);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorM1_Equals_M1)
+TEST(csBISerializeTests, ConstructorM1_Equals_M1)
 {
    BigInteger big(-1);
    EXPECT_EQ(big.toInt(), -1);
@@ -83,7 +83,7 @@ TEST(csBigIntegerSerializeTests, ConstructorM1_Equals_M1)
 //  expect(new csBigInteger(b).valueOf()).toBe(10);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructor10_Equals_10)
+TEST(csBISerializeTests, Constructor10_Equals_10)
 {
    BigInteger big(10);
    EXPECT_EQ(big.toInt(), 10);
@@ -93,7 +93,7 @@ TEST(csBigIntegerSerializeTests, Constructor10_Equals_10)
 //  expect(new csBigInteger([5]).valueOf()).toBe(5);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructorv5_Equals_5)
+TEST(csBISerializeTests, Constructorv5_Equals_5)
 {
    BigInteger big(vbyte(1, 0x05));
    EXPECT_EQ(big.toInt(), 5);
@@ -103,7 +103,7 @@ TEST(csBigIntegerSerializeTests, Constructorv5_Equals_5)
 //  expect(new csBigInteger([127]).valueOf()).toBe(127);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructorv127_Equals_127)
+TEST(csBISerializeTests, Constructorv127_Equals_127)
 {
    BigInteger big(vbyte(1, 127));
    EXPECT_EQ(big.toInt(), 127);
@@ -113,7 +113,7 @@ TEST(csBigIntegerSerializeTests, Constructorv127_Equals_127)
 //  expect(new csBigInteger([128]).valueOf()).toBe(-128);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructorv128_Equals_M128)
+TEST(csBISerializeTests, Constructorv128_Equals_M128)
 {
    BigInteger big(vbyte(1, 128));
    EXPECT_EQ(big.toInt(), -128);
@@ -123,7 +123,7 @@ TEST(csBigIntegerSerializeTests, Constructorv128_Equals_M128)
 //  expect(new csBigInteger([251]).valueOf()).toBe(-5);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructorv251_Equals_M5)
+TEST(csBISerializeTests, Constructorv251_Equals_M5)
 {
    BigInteger big(vbyte(1, 251));
    EXPECT_EQ(big.toInt(), -5);
@@ -133,7 +133,7 @@ TEST(csBigIntegerSerializeTests, Constructorv251_Equals_M5)
 //  expect(new csBigInteger("fb", 16).valueOf()).toBe(-5);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorSfb_Equals_M5)
+TEST(csBISerializeTests, ConstructorSfb_Equals_M5)
 {
    BigInteger big("fb", 16);
    EXPECT_EQ(big.toInt(), -5);
@@ -144,7 +144,7 @@ TEST(csBigIntegerSerializeTests, ConstructorSfb_Equals_M5)
 //  expect(new csBigInteger([251, 0]).valueOf()).toBe(251);
 //});
 
-TEST(csBigIntegerSerializeTests, Constructorv251v0_Equals_251)
+TEST(csBISerializeTests, Constructorv251v0_Equals_251)
 {
    vbyte v = { 251, 0 };
    BigInteger big(v);
@@ -156,7 +156,7 @@ TEST(csBigIntegerSerializeTests, Constructorv251v0_Equals_251)
 //  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorSfb00_Equals_251)
+TEST(csBISerializeTests, ConstructorSfb00_Equals_251)
 {
    BigInteger big("fb00", 16);
    EXPECT_EQ(big.toInt(), 251);
@@ -167,7 +167,7 @@ TEST(csBigIntegerSerializeTests, ConstructorSfb00_Equals_251)
 //  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorS251_Equals_251)
+TEST(csBISerializeTests, ConstructorS251_Equals_251)
 {
    BigInteger big("251", 10);
    EXPECT_EQ(big.toInt(), 251);
@@ -177,7 +177,7 @@ TEST(csBigIntegerSerializeTests, ConstructorS251_Equals_251)
 //  expect(new csBigInteger("255", 10).valueOf()).toBe(255);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorS255_Equals_255)
+TEST(csBISerializeTests, ConstructorS255_Equals_255)
 {
    BigInteger big("255", 10);
    EXPECT_EQ(big.toInt(), 255);
@@ -188,7 +188,7 @@ TEST(csBigIntegerSerializeTests, ConstructorS255_Equals_255)
 //  expect(new csBigInteger("256", 10).valueOf()).toBe(256);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorS256_Equals_256)
+TEST(csBISerializeTests, ConstructorS256_Equals_256)
 {
    BigInteger big("256", 10);
    EXPECT_EQ(big.toInt(), 256);
@@ -199,7 +199,7 @@ TEST(csBigIntegerSerializeTests, ConstructorS256_Equals_256)
 //  expect(new csBigInteger("-256", 10).valueOf()).toBe(-256);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstructorSM256_Equals_M256)
+TEST(csBISerializeTests, ConstructorSM256_Equals_M256)
 {
    BigInteger big("-256", 10);
    EXPECT_EQ(big.toInt(), -256);
