@@ -58,7 +58,6 @@ TEST(csBigIntegerSerializeTests, Construtor128_Equals_128)
    EXPECT_EQ(big.toInt(), 128);
 }
 
-
 // ADVANCED THIS TEST. WILL REPEAT IT LATER (TODO: REMOVE)
 //test('constructor csBigInteger(-1).toHexString() equals "ff"', () => {
 //  expect(new csBigInteger(-1).toHexString()).toBe("ff");
@@ -69,36 +68,61 @@ TEST(csBigIntegerSerializeTests, ConstrutorM1_toHexString_ff)
    EXPECT_EQ(big.toHexStr(), "ff");
 }
 
-
 //test('constructor csBigInteger(-1) equals -1', () => {
 //  expect(new csBigInteger(-1).valueOf()).toBe(-1);
 //});
 
-TEST(csBigIntegerSerializeTests, ConstrutorM1_Equals_M1)
+TEST(csBigIntegerSerializeTests, ConstructorM1_Equals_M1)
 {
    BigInteger big(-1);
    EXPECT_EQ(big.toInt(), -1);
 }
 
+//test('constructor csBigInteger(csBigInteger(10)) equals 10', () => {
+//  var b = new csBigInteger(10);
+//  expect(new csBigInteger(b).valueOf()).toBe(10);
+//});
+
+TEST(csBigIntegerSerializeTests, Constructor10_Equals_10)
+{
+   BigInteger big(10);
+   EXPECT_EQ(big.toInt(), 10);
+}
+
+//test('constructor csBigInteger([5]) equals 5', () => {
+//  expect(new csBigInteger([5]).valueOf()).toBe(5);
+//});
+
+TEST(csBigIntegerSerializeTests, Constructorv5_Equals_5)
+{
+   BigInteger big(vbyte(1, 0x05));
+   EXPECT_EQ(big.toInt(), 5);
+}
+
+
+//test('constructor csBigInteger([127]) equals 127', () => {
+//  expect(new csBigInteger([127]).valueOf()).toBe(127);
+//});
+
+TEST(csBigIntegerSerializeTests, Constructorv127_Equals_127)
+{
+   BigInteger big(vbyte(1, 127));
+   EXPECT_EQ(big.toInt(), 127);
+}
 
 /*
-test('constructor csBigInteger(csBigInteger(10)) equals 10', () => {
-  var b = new csBigInteger(10);
-  expect(new csBigInteger(b).valueOf()).toBe(10);
-});
+//test('constructor csBigInteger([128]) equals -128', () => {
+//  expect(new csBigInteger([128]).valueOf()).toBe(-128);
+//});
 
-test('constructor csBigInteger([5]) equals 5', () => {
-  expect(new csBigInteger([5]).valueOf()).toBe(5);
-});
+TEST(csBigIntegerSerializeTests, Constructorv128_Equals_128)
+{
+   BigInteger big(vbyte(1, 128));
+   EXPECT_EQ(big.toInt(), 128);
+}
+*/
 
-test('constructor csBigInteger([127]) equals 127', () => {
-  expect(new csBigInteger([127]).valueOf()).toBe(127);
-});
-
-test('constructor csBigInteger([128]) equals -128', () => {
-  expect(new csBigInteger([128]).valueOf()).toBe(-128);
-});
-
+/*
 test('constructor csBigInteger([251]) equals -5', () => {
   expect(new csBigInteger([251]).valueOf()).toBe(-5);
 });
