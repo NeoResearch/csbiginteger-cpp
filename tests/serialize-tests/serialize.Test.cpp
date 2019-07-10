@@ -139,7 +139,7 @@ TEST(csBigIntegerSerializeTests, ConstructorSfb_Equals_M5)
    EXPECT_EQ(big.toInt(), -5);
 }
 
-/*
+
 //test('constructor csBigInteger([251, 0]) equals 251', () => {
 //  expect(new csBigInteger([251, 0]).valueOf()).toBe(251);
 //});
@@ -151,6 +151,7 @@ TEST(csBigIntegerSerializeTests, Constructorv251v0_Equals_251)
    EXPECT_EQ(big.toInt(), 251);
 }
 
+
 //test('constructor csBigInteger("fb00", 16) equals 251', () => {
 //  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
 //});
@@ -160,7 +161,7 @@ TEST(csBigIntegerSerializeTests, ConstructorSfb00_Equals_251)
    BigInteger big("fb00", 16);
    EXPECT_EQ(big.toInt(), 251);
 }
-*/
+
 
 /*
 test('constructor csBigInteger("251", 10) equals 251', () => {

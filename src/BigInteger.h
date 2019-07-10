@@ -62,7 +62,10 @@ public:
 
    BigInteger(); // zero
 
-   BigInteger(std::string str, int base = 10); // default is base 10
+   // default is base 10
+   // allowed base 2
+   // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
+   BigInteger(std::string str, int base = 10);
 
    BigInteger(int32 value);
    BigInteger(const BigInteger& value);

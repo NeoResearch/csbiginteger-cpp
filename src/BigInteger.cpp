@@ -194,12 +194,16 @@ BigInteger::BigInteger()
 {
 }
 
+// input byte data in little-endian format
 BigInteger::BigInteger(vbyte data)
   : _data(data)
 {
+   reverse(_data.begin(), _data.end()); // to little-endian
 }
 
 // default is base 10
+// allows base 2
+// if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
 BigInteger::BigInteger(string str, int base)
 {
    mpz_class a = csBigIntegerMPZparses(str, base);
@@ -376,15 +380,14 @@ csBigIntegerMPZparses(string n, int base)
    while (n.length() < 2)
       n.insert(0, "0"); // zero padding
 
+   vbyte vb; // prefix '0x' indicates big-endian, otherwise is little-endian
    if ((n[0] == '0') && (n[1] == 'x')) {
       // removing '0x'
       n = n.substr(2, n.length() - 2);
-   }
-
-   // vb is big-endian byte array
-   vbyte vb = BigInteger::HexToBytes(n);
-
-   reverse(vb.begin(), vb.end()); // to little-endian
+      vb = BigInteger::HexToBytes(n);
+      reverse(vb.begin(), vb.end()); // to little-endian
+   } else
+      vb = BigInteger::HexToBytes(n); // directly reading little-endian byte array
 
    // base 16
    return csBigIntegerMPZparse(vb); // vb is little-endian byte array
