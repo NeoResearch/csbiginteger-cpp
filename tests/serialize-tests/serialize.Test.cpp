@@ -163,23 +163,50 @@ TEST(csBigIntegerSerializeTests, ConstructorSfb00_Equals_251)
 }
 
 
+//test('constructor csBigInteger("251", 10) equals 251', () => {
+//  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
+//});
+
+TEST(csBigIntegerSerializeTests, ConstructorS251_Equals_251)
+{
+   BigInteger big("251", 10);
+   EXPECT_EQ(big.toInt(), 251);
+}
+
+//test('constructor csBigInteger("255", 10) equals 255', () => {
+//  expect(new csBigInteger("255", 10).valueOf()).toBe(255);
+//});
+
+TEST(csBigIntegerSerializeTests, ConstructorS255_Equals_255)
+{
+   BigInteger big("255", 10);
+   EXPECT_EQ(big.toInt(), 255);
+}
+
+
+//test('constructor csBigInteger("256", 10) equals 256', () => {
+//  expect(new csBigInteger("256", 10).valueOf()).toBe(256);
+//});
+
+TEST(csBigIntegerSerializeTests, ConstructorS256_Equals_256)
+{
+   BigInteger big("256", 10);
+   EXPECT_EQ(big.toInt(), 256);
+}
+
 /*
-test('constructor csBigInteger("251", 10) equals 251', () => {
-  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
-});
+//test('constructor csBigInteger("-256", 10) equals -256', () => {
+//  expect(new csBigInteger("-256", 10).valueOf()).toBe(-256);
+//});
 
-test('constructor csBigInteger("255", 10) equals 255', () => {
-  expect(new csBigInteger("255", 10).valueOf()).toBe(255);
-});
+TEST(csBigIntegerSerializeTests, ConstructorSM256_Equals_M256)
+{
+   BigInteger big("-256", 10);
+   EXPECT_EQ(big.toInt(), -256);
+}
+*/
 
-test('constructor csBigInteger("256", 10) equals 256', () => {
-  expect(new csBigInteger("256", 10).valueOf()).toBe(256);
-});
-
-test('constructor csBigInteger("-256", 10) equals -256', () => {
-  expect(new csBigInteger("-256", 10).valueOf()).toBe(-256);
-});
-
+/*
 test('constructor csBigInteger("1", 10) equals 1', () => {
   expect(new csBigInteger("1", 10).valueOf()).toBe(1);
 });
