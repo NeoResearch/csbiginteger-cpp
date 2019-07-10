@@ -24,6 +24,7 @@ csBigIntegerMPZparse(vbyte n);
 mpz_class
 csBigIntegerMPZparses(string n, int base);
 
+
 /*
 mpz_class
 csBigIntegerToMPZFromBase10(string strDataBigDec)
@@ -54,9 +55,9 @@ csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big)
 
    string sbin;
    while (big > 0) {
-      mpz_class rest = (big % 256);
+      mpz_class rest = (big % 2);
       sbin.insert(0, (rest.get_ui() == 0 ? string("0") : string("1")));
-      big = big / 256;
+      big = big / 2;
    }
    return sbin;
 }
@@ -67,7 +68,9 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
    vbyte v;
    // positive conversion
    if (big >= 0) {
-      cout << "NOW POSITIVE!" << endl;
+      cout << "NOW POSITIVE! (SHOULD NEVER CALL NEGATIVE!)" << endl;
+      //int xx;
+      //cin >> xx;
       while (big > 0) {
          mpz_class rest = (big % 256);
          v.push_back((byte)rest.get_ui());
@@ -90,88 +93,98 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       cout << "finished!" << endl;
       //int x;
       //cin >> x;
-   } else // negative conversion
-   {
-      cout << "NEGATIVE!" << endl;
-      // from csBigInteger.js (could improve)
-      // negative numbers
-      //console.log("NEGATIVE: "+bigint);
+      return v;
+   }
 
-      /*
+   // negative conversion
+
+   cout << "NEGATIVE! LET THE BATTLE BEGIN! \\o/" << endl;
+   //int xx;
+   //cin >> xx;
+   // from csBigInteger.js (could improve)
+   // negative numbers
+   //console.log("NEGATIVE: "+bigint);
+
+   /*
 		 // https://msdn.microsoft.com/en-us/library/system.numerics.biginteger(v=vs.110).aspx
 		 The BigInteger structure assumes that negative values are stored by using two's complement representation. Because the BigInteger structure represents a numeric value with no fixed length, the BigInteger(Byte[]) constructor always interprets the most significant bit of the last byte in the array as a sign bit. To prevent the BigInteger(Byte[]) constructor from confusing the two's complement representation of a negative value with the sign and magnitude representation of a positive value, positive values in which the most significant bit of the last byte in the byte array would ordinarily be set should include an additional byte whose value is 0. For example, 0xC0 0xBD 0xF0 0xFF is the little-endian hexadecimal representation of either -1,000,000 or 4,293,967,296. Because the most significant bit of the last byte in this array is on, the value of the byte array would be interpreted by the BigInteger(Byte[]) constructor as -1,000,000. To instantiate a BigInteger whose value is positive, a byte array whose elements are 0xC0 0xBD 0xF0 0xFF 0x00 must be passed to the constructor.
 		 */
-      //x=-1000000; // must become (big endian) "f0bdc0" => little endian C0 BD F0  (careful with positive 4,293,967,296 that may become negative, need to be C0 BD F0 FF 00)
-      // ASSERT (x < 0) !!! x==0 is problematic! equals to 256...
-      //x=-1; // ff => 0x ff
-      //x=-2; // fe => 0x fe
-      //x=-127; // 81 => 0x 81
-      //x=-255; // "ff01" => 0x 01 ff
-      //x=-256; // "ff00" => 0x 00 ff
-      //x=-257; // "feff" => 0x ff fe
-      //x=-128; // "ff80" => 0x 80 ff
-      // only for negative integers
-      // var x = bigint.mul(new BN(-1)); // turn into positive
-      mpz_class x = big * (-1); // turn into positive
-                                //console.log("POSITIVE:" +x);
-                                // ========================
-                                // perform two's complement
-                                // ========================
-                                // convert to binary
-      // var y = x.toString(2);
-      vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
-      cout << "vx:" << BigInteger::toHexString(vx) << endl;
-      BigInteger bx(vx); // build based on big-endian byte array
+   //x=-1000000; // must become (big endian) "f0bdc0" => little endian C0 BD F0  (careful with positive 4,293,967,296 that may become negative, need to be C0 BD F0 FF 00)
+   // ASSERT (x < 0) !!! x==0 is problematic! equals to 256...
+   //x=-1; // ff => 0x ff
+   //x=-2; // fe => 0x fe
+   //x=-127; // 81 => 0x 81
+   //x=-255; // "ff01" => 0x 01 ff
+   //x=-256; // "ff00" => 0x 00 ff
+   //x=-257; // "feff" => 0x ff fe
+   //x=-128; // "ff80" => 0x 80 ff
+   // only for negative integers
+   // var x = bigint.mul(new BN(-1)); // turn into positive
+   mpz_class x = big * (-1); // turn into positive
+                             //console.log("POSITIVE:" +x);
+                             // ========================
+                             // perform two's complement
+                             // ========================
+                             // convert to binary
+   // var y = x.toString(2);
+   vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
+   cout << "vx:" << BigInteger::toHexString(vx) << endl;
+   BigInteger bx(vx); // build based on big-endian byte array
 
-      cout << "bx:" << bx.ToString() << endl;
-      std::string y = bx.ToString(2);
-      cout << "y: " << y << endl;
-      //console.log("BINARY:" +y);
-      //console.log("FIRST BINARY: "+y);
-      // extra padding for limit cases (avoid overflow) // y = "0"+y;
+   cout << "bx:" << bx.ToString() << endl;
+   std::string y = bx.ToString(2);
+   cout << "y: " << y << endl;
+   //console.log("BINARY:" +y);
+   //console.log("FIRST BINARY: "+y);
+   // extra padding for limit cases (avoid overflow) // y = "0"+y;
+   y.insert(0, "0"); // prepend
+
+   //guarantee length must be at least 8, or add padding!
+   while ((y.length() < 8) || (y.length() % 8 != 0)) {
+      //console.log("ADDING PADDING 1!");
+      //y = "0"+y;
       y.insert(0, "0"); // prepend
-
-      //guarantee length must be at least 8, or add padding!
-      while ((y.length() < 8) || (y.length() % 8 != 0)) {
-         //console.log("ADDING PADDING 1!");
-         //y = "0"+y;
-         y.insert(0, "0"); // prepend
-      }
-      cout << "y: " << y << endl;
-      //console.log("BINARY AFTER PADDING:" +y);
-      // invert bits
-      std::string y2 = "";
-      for (int i = 0; i < y.length(); i++)
-         y2 += (y[i] == '0' ? '1' : '0');
-      //console.log("SECOND BINARY: "+y2);
-      cout << "y2: " << y2 << endl;
-      // go back to int
-      BigInteger by3(y2, 2);
-      //console.log("INT is "+y3);
-      cout << "by3: " << by3.toInt() << endl;
-      // sum 1
-      BigInteger bby3 = by3 + 1;
-      //console.log("INT is after sum "+y3);
-      cout << "bby3: " << bby3.toInt() << endl;
-      // convert to binary again
-      std::string y4 = bby3.ToString(2);
-      //guarantee length must be at least 8, or add padding!
-      while (y4.length() < 8) {
-         //console.log("ADDING PADDING!");
-         //y4 = "0"+y4;
-         y4.insert(0, "0"); // prepend
-      }
-      cout << "y4: " << y4 << endl;
-      // convert to big-endian hex string
-      //BigInteger by4(y4, 2);
-      //cout << "by4: " << by4.toInt() << endl;
-      //std::string y5 = by4.ToString(16);
-      // convert to little-endian
-      //return csBigInteger.revertHexString(y5);
-      //v = BigInteger::HexToBytes(y5);
-      v = BigInteger::BinToBytes(y4);
-      cout << "final v:" << BigInteger::toHexString(v) << endl;
    }
+   cout << "y: " << y << endl;
+   //console.log("BINARY AFTER PADDING:" +y);
+   // invert bits
+   std::string y2 = "";
+   for (int i = 0; i < y.length(); i++)
+      y2 += (y[i] == '0' ? '1' : '0');
+   //console.log("SECOND BINARY: "+y2);
+   cout << "y2: " << y2 << endl;
+   // go back to int
+   //BigInteger by3(y2, 2); // recursive behavior
+   mpz_class by3(y2, 2);
+   //console.log("INT is "+y3);
+   //cout << "by3: " << by3.toInt() << endl;
+   cout << "by3: " << by3.get_ui() << endl;
+   // sum 1
+   mpz_class bby3 = by3 + 1;
+   //console.log("INT is after sum "+y3);
+   cout << "bby3: " << bby3.get_ui() << endl;
+
+   // convert to binary again
+   //std::string y4 = bby3.ToString(2);
+   std::string y4 = csBigIntegerGetBitsFromNonNegativeMPZ(bby3);
+
+   //guarantee length must be at least 8, or add padding!
+   while (y4.length() < 8) {
+      //console.log("ADDING PADDING!");
+      //y4 = "0"+y4;
+      y4.insert(0, "0"); // prepend
+   }
+   cout << "y4: " << y4 << endl;
+   // convert to big-endian hex string
+   //BigInteger by4(y4, 2);
+   //cout << "by4: " << by4.toInt() << endl;
+   //std::string y5 = by4.ToString(16);
+   // convert to little-endian
+   //return csBigInteger.revertHexString(y5);
+   //v = BigInteger::HexToBytes(y5);
+   v = BigInteger::BinToBytes(y4);
+   cout << "final v:" << BigInteger::toHexString(v) << endl;
+
    return v;
 }
 
@@ -189,14 +202,18 @@ BigInteger::BigInteger(vbyte data)
 BigInteger::BigInteger(string str, int base)
 {
    mpz_class a = csBigIntegerMPZparses(str, base);
+   cout << "PARSED str: " << str << " on base=" << base << ". Will convert to MPZ." << endl;
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 
 BigInteger::BigInteger(int32 val)
 {
+   cout << "WILL WORK WITH val=" << val << endl;
    mpz_class a = val;
    _data = csBigIntegerGetBytesFromMPZ(a);
    cout << "int " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
+   //int x;
+   //cin >> x;
 }
 
 int32

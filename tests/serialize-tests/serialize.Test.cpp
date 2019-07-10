@@ -59,7 +59,7 @@ TEST(csBigIntegerSerializeTests, Construtor128_Equals_128)
    EXPECT_EQ(big.toInt(), 128);
 }
 
-/*
+
 // ADVANCED THIS TEST. WILL REPEAT IT LATER (TODO: REMOVE)
 //test('constructor csBigInteger(-1).toHexString() equals "ff"', () => {
 //  expect(new csBigInteger(-1).toHexString()).toBe("ff");
@@ -70,7 +70,7 @@ TEST(csBigIntegerSerializeTests, ConstrutorM1_toHexString_ff)
    EXPECT_EQ(big.toHexStr(), "ff");
 }
 
-
+/*
 //test('constructor csBigInteger(-1) equals -1', () => {
 //  expect(new csBigInteger(-1).valueOf()).toBe(-1);
 //});
