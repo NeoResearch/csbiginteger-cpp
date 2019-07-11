@@ -991,7 +991,6 @@ TEST(csBISerializeTests, BigIntegerS0x00fb_16_toInt_251)
    EXPECT_EQ(big.toInt(), 251);
 }
 
-
 // =============== testing javascript number limits (more than 53 bits) =======
 
 //test('csBigInteger(9007199254740991) equals 9007199254740991 (number is safe for JavaScript)', () => {
@@ -1004,7 +1003,6 @@ TEST(csBISerializeTests, BigInteger9007199254740991_toLong)
    EXPECT_EQ(big.toLong(), 9007199254740991);
 }
 
-
 //test('csBigInteger(9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
 //  expect( function(){ new csBigInteger(9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
 //});
@@ -1016,7 +1014,6 @@ TEST(csBISerializeTests, BigInteger9007199254740992_toLong)
    EXPECT_EQ(big.toLong(), 9007199254740992);
 }
 
-
 //test('csBigInteger(-9007199254740991) equals -9007199254740991 (number is safe for JavaScript)', () => {
 //  expect(new csBigInteger(-9007199254740991).valueOf()).toBe(-9007199254740991);
 //});
@@ -1026,7 +1023,6 @@ TEST(csBISerializeTests, BigIntegerM9007199254740991_toLong)
    BigInteger big(-9007199254740991L);
    EXPECT_EQ(big.toLong(), -9007199254740991);
 }
-
 
 //test('csBigInteger(-9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
 //  expect( function(){ new csBigInteger(-9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
@@ -1038,7 +1034,6 @@ TEST(csBISerializeTests, BigIntegerM9007199254740992_toLong)
    BigInteger big(-9007199254740992L);
    EXPECT_EQ(big.toLong(), -9007199254740992);
 }
-
 
 // ============= testing binary (basic tests) =================
 
@@ -1052,7 +1047,6 @@ TEST(csBISerializeTests, BigInteger10_ToString_2_1010)
    EXPECT_EQ(big.ToString(2), "1010");
 }
 
-
 // =============== testing internal BN library ===================
 
 // NO INTERFACE WITH NATIVE BIGNUM IS PROVIDED ON C++ PORTABLE
@@ -1063,23 +1057,44 @@ TEST(csBISerializeTests, BigInteger10_ToString_2_1010)
 
 // ========================= snowy big test ======================
 
-/*
-test('csBigInteger(big).ToHexString equals hexbig.length == 129', () => {
-  expect(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
+//test('csBigInteger(big).ToHexString equals hexbig.length == 129', () => {
+//  expect(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
 5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215', 10).toHexString().length/2).
-toBe(129);
-});
+//toBe(129);
+//});
 
-test('csBigInteger(big).ToHexString equals hexbig', () => {
-  expect(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
+TEST(csBISerializeTests, BigInteger_big_toHexStr_length_129_bytes)
+{
+   BigInteger big("17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847"
+                  "732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208"
+                  "5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215",
+                  10);
+   EXPECT_EQ(big.toHexStr().length() / 2, 129);
+}
+
+//test('csBigInteger(big).ToHexString equals hexbig', () => {
+//  expect(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
 5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215', 10).toHexString()).
-toBe('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
+//toBe('fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
 fffffffffffffffffffffff00');
-});
+//});
 
+TEST(csBISerializeTests, BigInteger_big_toHexStr_equals_bighex)
+{
+   BigInteger big("17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847"
+                  "732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208"
+                  "5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215",
+                  10);
+   EXPECT_EQ(big.toHexStr(), "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                             "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                             "fffffffffffffffffffffff00");
+}
+
+// WILL NOT TEST INTERNAL BIGNUM ON C++ PORTABLE
+/*
 // =========================== testing asBN() and BN library =======================
 
 test('csBigInteger(big).asBN()', () => {
@@ -1099,14 +1114,29 @@ toEqual(new BN('1797693134862315907729305190789024733617976978942306572734300811
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
 5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137214', 10));
 });
+*/
 
-test('csBigInteger(big).sub(1).ToHexString equals hexbig', () => {
-  expect(new csBigInteger(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
+/*
+//test('csBigInteger(big).sub(1).ToHexString equals hexbig', () => {
+//  expect(new csBigInteger(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
 5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215', 10).asBN().sub(new BN(1))).toHexString()).
-toBe('fefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
+//toBe('fefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\
 fffffffffffffffffffffff00');
-});
+//});
 
+TEST(csBISerializeTests, BigInteger_big_minus_1_equals_bighex)
+{
+   BigInteger big("17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847"
+                  "732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208"
+                  "5005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137215",
+                  10);
+   BigInteger big1(1);
+   BigInteger bigFinal = big - big1;
+
+   EXPECT_EQ(big.toHexStr(), "fefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                             "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                             "fffffffffffffffffffffff00");
+}
 */
