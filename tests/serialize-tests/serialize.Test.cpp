@@ -1039,21 +1039,31 @@ TEST(csBISerializeTests, BigIntegerM9007199254740992_toLong)
    EXPECT_EQ(big.toLong(), -9007199254740992);
 }
 
-/*
+
 // ============= testing binary (basic tests) =================
 
-test('csBigInteger(10).toString(2) equals 1010', () => {
-  expect(new csBigInteger(10).toString(2)).toBe("1010");
-});
+//test('csBigInteger(10).toString(2) equals 1010', () => {
+//  expect(new csBigInteger(10).toString(2)).toBe("1010");
+//});
+
+TEST(csBISerializeTests, BigInteger10_ToString_2_1010)
+{
+   BigInteger big(10);
+   EXPECT_EQ(big.ToString(2), "1010");
+}
+
 
 // =============== testing internal BN library ===================
 
-test('csBigInteger(BN(100)) equals 100', () => {
-  expect(new csBigInteger(new BN(100)).asBN().toNumber()).toBe(100);
-});
+// NO INTERFACE WITH NATIVE BIGNUM IS PROVIDED ON C++ PORTABLE
+
+//test('csBigInteger(BN(100)) equals 100', () => {
+//  expect(new csBigInteger(new BN(100)).asBN().toNumber()).toBe(100);
+//});
 
 // ========================= snowy big test ======================
 
+/*
 test('csBigInteger(big).ToHexString equals hexbig.length == 129', () => {
   expect(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
