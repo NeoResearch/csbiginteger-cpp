@@ -24,19 +24,8 @@ class BigInteger
 private:
    // internal data (vector of bytes) in big-endian format (for readability)
    // efficiency is not important at this moment, correctness and portability is!
+   // TODO: perhaps it's better to store in little-endian format... see which methods are affected.
    vbyte _data;
-
-public:
-   // object accessible helper method
-   // hex string is returned on little-endian
-   std::string toHexStr() const
-   {
-      vbyte data = this->_data;               //this->ToByteArray();        // big-endian
-      std::reverse(data.begin(), data.end()); // to little-endian
-      std::string s = Helper::toHexString(data);
-      // TODO: why not just return 's' here? some strange dependency exists between ToByteArray method...
-      return s.length() == 0 ? "00" : s;
-   }
 
 public:
    const static BigInteger getMin; // get?
@@ -158,7 +147,19 @@ public:
 
    BigInteger& operator>>=(int i2);
 
-   // what is needed here?
+   // what else is needed here?
+
+public:
+   // object accessible helper method
+   // hex string is returned on little-endian
+   std::string toHexStr() const
+   {
+      vbyte data = this->_data;               // from big-endian
+      std::reverse(data.begin(), data.end()); // to little-endian
+      std::string s = Helper::toHexString(data);
+      // TODO: why not just return 's' here? some strange dependency exists between ToByteArray method...
+      return s.length() == 0 ? "00" : s;
+   }
 };
 }
 
