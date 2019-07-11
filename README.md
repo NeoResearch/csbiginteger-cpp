@@ -1,6 +1,6 @@
 # csBigInteger.cpp
 
-## csBigInteger
+## csBigInteger for C++
 
 This project is part of the [csBigInteger](https://github.com/neoresearch/csBigInteger) macro project, a C# BigInteger implementation on C++ (portable format desired)
 
