@@ -30,7 +30,7 @@ csBigIntegerMPZparses(string n, int base);
 string
 csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big);
 
-// get bytearray from mpz bignum (positive or negative)
+// get big-endian bytearray from mpz bignum (positive or negative)
 vbyte
 csBigIntegerGetBytesFromMPZ(mpz_class big);
 
@@ -94,8 +94,8 @@ BigInteger::operator+(long l2)
    reverse(vb.begin(), vb.end());  // to big-endian
    mpz_class bThis = csBigIntegerMPZparse(vb);
    mpz_class bThisPlus = bThis + l2;
-   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get little-endian
-   reverse(v.begin(), v.end());                      // to big-endian
+   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get big-endian
+   reverse(v.begin(), v.end());                      // to little-endian
    return BigInteger(v);
 }
 
@@ -108,8 +108,8 @@ BigInteger::operator-(const BigInteger& big2)
    mpz_class bOther = csBigIntegerMPZparse(vb_other);
    // operation -
    mpz_class bThisPlus = bThis - bOther;
-   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get little-endian
-   reverse(v.begin(), v.end());                      // to big-endian
+   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get big-endian
+   reverse(v.begin(), v.end());                      // to little-endian
    return BigInteger(v);
 }
 
