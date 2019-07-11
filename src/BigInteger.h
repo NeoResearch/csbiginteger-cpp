@@ -52,9 +52,10 @@ public:
    // hex string is returned on little-endian
    std::string toHexStr() const
    {
-      vbyte data = this->_data;               // big-endian
+      vbyte data = this->_data;               //this->ToByteArray();        // big-endian
       std::reverse(data.begin(), data.end()); // to little-endian
       std::string s = BigInteger::toHexString(data);
+      // TODO: why not just return 's' here? some strange dependency exists between ToByteArray method...
       return s.length() == 0 ? "00" : s;
    }
 
@@ -92,6 +93,8 @@ public:
    // this one is little-endian
    vbyte ToByteArray() const
    {
+      if (this->_data.size() == 0)
+         return vbyte(1, 0x00);
       vbyte data = this->_data; // copy
       std::reverse(data.begin(), data.end());
       return std::move(data); // move
