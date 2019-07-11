@@ -44,7 +44,14 @@ public:
    const static BigInteger Zero;
    const static BigInteger MinusOne;
 
-   BigInteger(); // zero
+   // zero
+   BigInteger();
+
+   // copy constructor
+   BigInteger(const BigInteger& value);
+
+   // move constructor
+   BigInteger(BigInteger&& corpse);
 
    // default is base 10
    // allowed base 2
@@ -53,7 +60,6 @@ public:
 
    BigInteger(int32 value);
    BigInteger(int64 value);
-   BigInteger(const BigInteger& value);
 
    // byte data in little-endian format
    BigInteger(vbyte data);

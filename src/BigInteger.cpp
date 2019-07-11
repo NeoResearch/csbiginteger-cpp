@@ -18,7 +18,7 @@
 using namespace std;
 using namespace csBigInteger;
 
-// input is raw big-endian format (same as _data)
+// input is raw little-endian format
 mpz_class
 csBigIntegerMPZparse(vbyte n);
 
@@ -36,6 +36,18 @@ csBigIntegerGetBytesFromMPZ(mpz_class big);
 
 // nothing to initialize on empty constructor ('_data' is already empty)
 BigInteger::BigInteger()
+{
+}
+
+// copy
+BigInteger::BigInteger(const BigInteger& copy)
+  : _data(copy._data)
+{
+}
+
+// move
+BigInteger::BigInteger(BigInteger&& corpse)
+  : _data(std::move(corpse._data))
 {
 }
 
@@ -90,27 +102,20 @@ BigInteger::toLong() const
 BigInteger
 BigInteger::operator+(long l2)
 {
-   vbyte vb = this->ToByteArray(); // little-endian
-   reverse(vb.begin(), vb.end());  // to big-endian
-   mpz_class bThis = csBigIntegerMPZparse(vb);
-   mpz_class bThisPlus = bThis + l2;
-   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get big-endian
-   reverse(v.begin(), v.end());                      // to little-endian
-   return BigInteger(v);
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis + l2);           // get big-endian
+   return std::move(r);
 }
 
 BigInteger
 BigInteger::operator-(const BigInteger& big2)
 {
-   vbyte vb = this->ToByteArray(); // little-endian
-   mpz_class bThis = csBigIntegerMPZparse(vb);
-   vbyte vb_other = big2.ToByteArray(); // little-endian
-   mpz_class bOther = csBigIntegerMPZparse(vb_other);
-   // operation -
-   mpz_class bThisPlus = bThis - bOther;
-   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get big-endian
-   reverse(v.begin(), v.end());                      // to little-endian
-   return BigInteger(v);
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis - bOther);       // get big-endian
+   return std::move(r);
 }
 
 string
@@ -157,7 +162,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // v is added backwards (little-endian), must reverse (to big-endian)
       reverse(v.begin(), v.end());
       // finished
-      return v;
+      return std::move(v);
    } else {
       // -------------------
       // negative conversion
@@ -198,7 +203,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // get in bytes
       vbyte v = Helper::BinToBytes(y4);
       // finished
-      return v;
+      return std::move(v);
    }
 }
 
