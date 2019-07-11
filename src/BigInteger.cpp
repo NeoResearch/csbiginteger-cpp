@@ -81,14 +81,14 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       }
 
       // added in little-endian format (backwards)
-      string leHex = BigInteger::toHexString(v);
+      string leHex = Helper::toHexString(v);
       if (leHex.length() == 0)
          leHex = "00";
       cout << "leHex: " << leHex;
       // check if became negative
       cout << endl;
       cout << "WILL CHECK NEGATIVE BIT!" << endl;
-      if (BigInteger::checkNegativeBit(leHex)) {
+      if (Helper::checkNegativeBit(leHex)) {
          cout << "---> will add zero to avoid negative!" << endl;
          v.push_back(0); // guarantee non-negative
       }
@@ -96,7 +96,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // v is added backwards (little-endian), must reverse (to big-endian)
       reverse(v.begin(), v.end());
 
-      cout << "bytes (big-endian): " << BigInteger::toHexString(v) << endl;
+      cout << "bytes (big-endian): " << Helper::toHexString(v) << endl;
       cout << "finished!" << endl
            << endl;
       //int x;
@@ -137,12 +137,12 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // var y = x.toString(2);
       vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
       cout << "returned from csBigIntegerGetBytesFromMPZ (still in NEGATIVE part)" << endl;
-      cout << "vx (big-endian):" << BigInteger::toHexString(vx) << endl;
+      cout << "vx (big-endian):" << Helper::toHexString(vx) << endl;
 
       //vbyte vx_little = vx;
       //reverse(vx_little.begin(), vx_little.end()); // to little-endian
       //BigInteger bx(vx_little);
-      mpz_class bx(BigInteger::toHexString(vx), 16);
+      mpz_class bx(Helper::toHexString(vx), 16);
 
       //cout << "bx:" << bx.ToString() << endl;
       cout << "bx:" << bx.get_str(16) << endl;
@@ -196,9 +196,9 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       //std::string y5 = by4.ToString(16);
       // convert to little-endian
       //return csBigInteger.revertHexString(y5);
-      //v = BigInteger::HexToBytes(y5);
-      v = BigInteger::BinToBytes(y4);
-      cout << "final v:" << BigInteger::toHexString(v) << endl;
+      //v = Helper::HexToBytes(y5);
+      v = Helper::BinToBytes(y4);
+      cout << "final v:" << Helper::toHexString(v) << endl;
 
       return v;
    }
@@ -232,7 +232,7 @@ BigInteger::BigInteger(int32 val)
    cout << "WILL WORK WITH int32 val=" << val << endl;
    mpz_class a = val;
    _data = csBigIntegerGetBytesFromMPZ(a);
-   cout << "int32 " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
+   cout << "int32 " << val << " -> hexbig: " << Helper::toHexString(_data) << endl;
    //int x;
    //cin >> x;
 }
@@ -242,7 +242,7 @@ BigInteger::BigInteger(int64 val)
    cout << "WILL WORK WITH int64 val=" << val << endl;
    mpz_class a = val;
    _data = csBigIntegerGetBytesFromMPZ(a);
-   cout << "int64 " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
+   cout << "int64 " << val << " -> hexbig: " << Helper::toHexString(_data) << endl;
    //int x;
    //cin >> x;
 }
@@ -253,7 +253,7 @@ BigInteger::toInt() const
    cout << endl
         << " =========== toInt() =======" << endl;
    vbyte vb = this->ToByteArray(); // little-endian
-   cout << "hex little: " << BigInteger::toHexString(vb) << endl;
+   cout << "hex little: " << Helper::toHexString(vb) << endl;
    mpz_class a = csBigIntegerMPZparse(vb);
    cout << "===> toInt() ==> csBigIntegerMPZparse completed... will get ui" << endl;
    int32 i = a.get_ui(); // unsigned int
@@ -269,7 +269,7 @@ BigInteger::toLong() const
    cout << endl
         << " =========== toLong() =======" << endl;
    vbyte vb = this->ToByteArray(); // little-endian
-   cout << "hex little: " << BigInteger::toHexString(vb) << endl;
+   cout << "hex little: " << Helper::toHexString(vb) << endl;
    mpz_class a = csBigIntegerMPZparse(vb);
    cout << "===> toInt() ==> csBigIntegerMPZparse completed... will get ui" << endl;
    int64 i = a.get_si(); // signed long int
@@ -328,7 +328,7 @@ csBigIntegerMPZparse(vbyte n)
    // return b;
 
    cout << "WILL PARSE BYTE ARRAY OF SIZE n=" << n.size() << endl;
-   cout << "parsing little-endian hex: " << BigInteger::toHexString(n) << endl;
+   cout << "parsing little-endian hex: " << Helper::toHexString(n) << endl;
    if (n.size() == 0)
       return mpz_class(0);
    /*
@@ -336,7 +336,7 @@ csBigIntegerMPZparse(vbyte n)
 		// [251, 0] -> "fb00" -> 251
 		std::stringstream s;
 		for(int i=0;i<n.size();i++) {
-			std::string dig = BigInteger::toHexString(n[i]); // toString(16)
+			std::string dig = Helper::toHexString(n[i]); // toString(16)
 			if(dig.length==1)
 				s << "0";
 			s << dig;
@@ -345,7 +345,7 @@ csBigIntegerMPZparse(vbyte n)
 	} // end little-endian array
    */
 
-   std::string s = BigInteger::toHexString(n); //.toString().toLowerCase().replace(/\W-/g, '');
+   std::string s = Helper::toHexString(n); //.toString().toLowerCase().replace(/\W-/g, '');
    cout << " -------> parse s: " << s << endl;
 
    // base 10
@@ -374,13 +374,13 @@ csBigIntegerMPZparse(vbyte n)
    //}
 
    // already little-endian s
-   //s = BigInteger::revertHexString(s); // to little-endian
+   //s = Helper::revertHexString(s); // to little-endian
 
    // verify if number is negative (most significant bit)
-   if (BigInteger::checkNegativeBit(s)) {
+   if (Helper::checkNegativeBit(s)) {
       cout << " ========> IS NEGATIVE lehex! s: " << s << endl;
       // is negative, must handle twos-complement
-      mpz_class vint(BigInteger::revertHexString(s), 16);                // as big-endian again
+      mpz_class vint(Helper::revertHexString(s), 16);                // as big-endian again
       std::string rbitnum = csBigIntegerGetBitsFromNonNegativeMPZ(vint); //vint.ToString(2);
       cout << " ------> rbitnum: " << rbitnum << endl;
       // negate bits
@@ -399,7 +399,7 @@ csBigIntegerMPZparse(vbyte n)
       return finalnum; //new csBigInteger(finalnum);
    } else {
       cout << " ========> IS POSITIVE lehex! s: " << s << endl;
-      std::string sbig = BigInteger::revertHexString(s);
+      std::string sbig = Helper::revertHexString(s);
       cout << " -----> BIG ENDIAN TO MPZ: " << sbig << endl;
       // positive is easy
       //return new csBigInteger(new BN(csBigInteger.revertHexString(s), 16, 'be'));
@@ -439,10 +439,10 @@ csBigIntegerMPZparses(string n, int base)
    if ((n[0] == '0') && (n[1] == 'x')) {
       // removing '0x'
       n = n.substr(2, n.length() - 2);
-      vb = BigInteger::HexToBytes(n);
+      vb = Helper::HexToBytes(n);
       reverse(vb.begin(), vb.end()); // to little-endian
    } else
-      vb = BigInteger::HexToBytes(n); // directly reading little-endian byte array
+      vb = Helper::HexToBytes(n); // directly reading little-endian byte array
 
    // base 16
    return csBigIntegerMPZparse(vb); // vb is little-endian byte array

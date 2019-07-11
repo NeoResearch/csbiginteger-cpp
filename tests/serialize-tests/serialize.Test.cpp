@@ -541,53 +541,6 @@ TEST(csBISerializeTests, BigInteger0p00000255MUL100000000_toHexStr_Sff00)
    EXPECT_EQ(big.toHexStr(), "ff00");
 }
 
-// =================================================
-//  checkNegativeBit
-
-//test('constructor csBigInteger.checkNegativeBit("ff") is true', () => {
-//  expect(csBigInteger.checkNegativeBit("ff")).toBe(true);
-//});
-
-TEST(csBISerializeTests, BigInteger_checkNegativeBit_Sff_is_true)
-{
-   EXPECT_EQ(BigInteger::checkNegativeBit("ff"), true);
-}
-
-//test('constructor csBigInteger.checkNegativeBit("7f") is false', () => {
-//  expect(csBigInteger.checkNegativeBit("7f")).toBe(false);
-//});
-
-TEST(csBISerializeTests, BigInteger_checkNegativeBit_S7f_is_false)
-{
-   EXPECT_EQ(BigInteger::checkNegativeBit("7f"), false);
-}
-
-//test('constructor csBigInteger.checkNegativeBit("80") is true', () => {
-//  expect(csBigInteger.checkNegativeBit("80")).toBe(true);
-//});
-
-TEST(csBISerializeTests, BigInteger_checkNegativeBit_S80_is_true)
-{
-   EXPECT_EQ(BigInteger::checkNegativeBit("80"), true);
-}
-
-//test('constructor csBigInteger.checkNegativeBit("800") is false', () => {
-//  expect(csBigInteger.checkNegativeBit("800")).toBe(false);
-//});
-
-TEST(csBISerializeTests, BigInteger_checkNegativeBit_S800_is_false)
-{
-   EXPECT_EQ(BigInteger::checkNegativeBit("800"), false);
-}
-
-//test('constructor csBigInteger.checkNegativeBit("8000") is false', () => {
-//  expect(csBigInteger.checkNegativeBit("8000")).toBe(false);
-//});
-
-TEST(csBISerializeTests, BigInteger_checkNegativeBit_S8000_is_false)
-{
-   EXPECT_EQ(BigInteger::checkNegativeBit("8000"), false);
-}
 
 // =========================================
 // toString()
