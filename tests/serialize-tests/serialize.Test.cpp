@@ -261,7 +261,6 @@ TEST(csBISerializeTests, BigInteger1_toHexStr_S01)
    EXPECT_EQ(big.toHexStr(), "01");
 }
 
-/*
 //test('constructor csBigInteger([]).toHexString() equals "00"', () => {
 //  expect(new csBigInteger([]).toHexString()).toBe("00");
 //});
@@ -271,60 +270,128 @@ TEST(csBISerializeTests, BigIntegerEmptyByteArray_toHexStr_S00)
    BigInteger big(vbyte(0));
    EXPECT_EQ(big.toHexStr(), "00");
 }
-*/
+
+//test('constructor csBigInteger(0).toHexString() equals "00"', () => {
+//  expect(new csBigInteger(0).toHexString()).toBe("00");
+//});
+
+TEST(csBISerializeTests, BigInteger0_toHexStr_S00)
+{
+   BigInteger big(0);
+   EXPECT_EQ(big.toHexStr(), "00");
+}
+
+//test('constructor csBigInteger(255).toHexString() equals "ff00"', () => {
+//  expect(new csBigInteger(255).toHexString()).toBe("ff00");
+//});
+
+TEST(csBISerializeTests, BigInteger255_toHexStr_Sff00)
+{
+   BigInteger big(255);
+   EXPECT_EQ(big.toHexStr(), "ff00");
+}
+
+//test('constructor csBigInteger(254).toHexString() equals "fe00"', () => {
+//  expect(new csBigInteger(254).toHexString()).toBe("fe00");
+//});
+
+TEST(csBISerializeTests, BigInteger254_toHexStr_Sfe00)
+{
+   BigInteger big(254);
+   EXPECT_EQ(big.toHexStr(), "fe00");
+}
+
+//test('constructor csBigInteger(256).toHexString() equals "0001"', () => {
+//  expect(new csBigInteger(256).toHexString()).toBe("0001");
+//});
+
+TEST(csBISerializeTests, BigInteger256_toHexStr_S0001)
+{
+   BigInteger big(256);
+   EXPECT_EQ(big.toHexStr(), "0001");
+}
+
+//test('constructor csBigInteger(127).toHexString() equals "7f"', () => {
+//  expect(new csBigInteger(127).toHexString()).toBe("7f");
+//});
+
+TEST(csBISerializeTests, BigInteger127_toHexStr_S7f)
+{
+   BigInteger big(127);
+   EXPECT_EQ(big.toHexStr(), "7f");
+}
+
+//test('constructor csBigInteger(128).toHexString() equals "8000"', () => {
+//  expect(new csBigInteger(128).toHexString()).toBe("8000");
+//});
+
+TEST(csBISerializeTests, BigInteger128_toHexStr_S8000)
+{
+   BigInteger big(128);
+   EXPECT_EQ(big.toHexStr(), "8000");
+}
+
+//test('constructor csBigInteger(129).toHexString() equals "8100"', () => {
+//  expect(new csBigInteger(129).toHexString()).toBe("8100");
+//});
+
+TEST(csBISerializeTests, BigInteger129_toHexStr_S8100)
+{
+   BigInteger big(129);
+   EXPECT_EQ(big.toHexStr(), "8100");
+}
+
+//test('constructor csBigInteger(-1).toHexString() equals "ff"', () => {
+//  expect(new csBigInteger(-1).toHexString()).toBe("ff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM1_toHexStr_Sff)
+{
+   BigInteger big(-1);
+   EXPECT_EQ(big.toHexStr(), "ff");
+}
+
+//test('constructor csBigInteger(-2).toHexString() equals "fe"', () => {
+//  expect(new csBigInteger(-2).toHexString()).toBe("fe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM2_toHexStr_Sfe)
+{
+   BigInteger big(-2);
+   EXPECT_EQ(big.toHexStr(), "fe");
+}
+
+//test('constructor csBigInteger(-80).toHexString() equals "b0"', () => {
+//  expect(new csBigInteger(-80).toHexString()).toBe("b0");
+//});
+
+TEST(csBISerializeTests, BigIntegerM80_toHexStr_Sb0)
+{
+   BigInteger big(-80);
+   EXPECT_EQ(big.toHexStr(), "b0");
+}
+
+//test('constructor csBigInteger(-127).toHexString() equals "81"', () => {
+//  expect(new csBigInteger(-127).toHexString()).toBe("81");
+//});
+
+TEST(csBISerializeTests, BigIntegerM127_toHexStr_S81)
+{
+   BigInteger big(-127);
+   EXPECT_EQ(big.toHexStr(), "81");
+}
+
+//test('constructor csBigInteger(-128).toHexString() equals "80ff"', () => {
+//  expect(new csBigInteger(-128).toHexString()).toBe("80ff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM128_toHexStr_S80ff)
+{
+   BigInteger big(-128);
+   EXPECT_EQ(big.toHexStr(), "80ff");
+}
 
 /*
-test('constructor csBigInteger(0).toHexString() equals "00"', () => {
-  expect(new csBigInteger(0).toHexString()).toBe("00");
-});
-
-test('constructor csBigInteger(255).toHexString() equals "ff00"', () => {
-  expect(new csBigInteger(255).toHexString()).toBe("ff00");
-});
-
-test('constructor csBigInteger(254).toHexString() equals "fe00"', () => {
-  expect(new csBigInteger(254).toHexString()).toBe("fe00");
-});
-
-test('constructor csBigInteger(256).toHexString() equals "0001"', () => {
-  expect(new csBigInteger(256).toHexString()).toBe("0001");
-});
-
-test('constructor csBigInteger(127).toHexString() equals "7f"', () => {
-  expect(new csBigInteger(127).toHexString()).toBe("7f");
-});
-
-test('constructor csBigInteger(128).toHexString() equals "8000"', () => {
-  expect(new csBigInteger(128).toHexString()).toBe("8000");
-});
-
-test('constructor csBigInteger(129).toHexString() equals "8100"', () => {
-  expect(new csBigInteger(129).toHexString()).toBe("8100");
-});
-
-test('constructor csBigInteger(-1).toHexString() equals "ff"', () => {
-  expect(new csBigInteger(-1).toHexString()).toBe("ff");
-});
-
-test('constructor csBigInteger(-2).toHexString() equals "fe"', () => {
-  expect(new csBigInteger(-2).toHexString()).toBe("fe");
-});
-
-test('constructor csBigInteger(-80).toHexString() equals "b0"', () => {
-  expect(new csBigInteger(-80).toHexString()).toBe("b0");
-});
-
-test('constructor csBigInteger(-80).toHexString() equals "b0"', () => {
-  expect(new csBigInteger(-80).toHexString()).toBe("b0");
-});
-
-test('constructor csBigInteger(-127).toHexString() equals "81"', () => {
-  expect(new csBigInteger(-127).toHexString()).toBe("81");
-});
-
-test('constructor csBigInteger(-128).toHexString() equals "80ff"', () => {
-  expect(new csBigInteger(-128).toHexString()).toBe("80ff");
-});
 
 test('constructor csBigInteger(-129).toHexString() equals "7fff"', () => {
   expect(new csBigInteger(-129).toHexString()).toBe("7fff");

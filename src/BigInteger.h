@@ -49,10 +49,13 @@ public:
 
 public:
    // object accessible helper method
-   // hex string is returned on big-endian
+   // hex string is returned on little-endian
    std::string toHexStr() const
    {
-      return BigInteger::toHexString(this->_data);
+      vbyte data = this->_data;               // big-endian
+      std::reverse(data.begin(), data.end()); // to little-endian
+      std::string s = BigInteger::toHexString(data);
+      return s.length() == 0 ? "00" : s;
    }
 
 public:
