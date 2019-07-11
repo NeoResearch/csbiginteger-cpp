@@ -589,31 +589,67 @@ TEST(csBISerializeTests, BigInteger_checkNegativeBit_S8000_is_false)
    EXPECT_EQ(BigInteger::checkNegativeBit("8000"), false);
 }
 
-/*
+
 // =========================================
 // toString()
 
-test('constructor csBigInteger(5).toString(16) equals "0x05"', () => {
-  var b = new csBigInteger(5);
-  expect(b.toString(16)).toBe("0x05");
-});
+//test('constructor csBigInteger(5).toString(16) equals "0x05"', () => {
+//  var b = new csBigInteger(5);
+//  expect(b.toString(16)).toBe("0x05");
+//});
 
-test('constructor csBigInteger(1).toString(16) equals "0x01"', () => {
-  expect(new csBigInteger(1).toString(16)).toBe("0x01");
-});
+TEST(csBISerializeTests, BigInteger5_ToString_S0x05)
+{
+   BigInteger big(5);
+   EXPECT_EQ(big.ToString(), "0x05");
+}
 
-test('constructor csBigInteger([]).toString(16) equals "0x00"', () => {
-  expect(new csBigInteger([]).toString(16)).toBe("0x00");
-});
 
-test('constructor csBigInteger(0).toString(16) equals "0x00"', () => {
-  expect(new csBigInteger(0).toString(16)).toBe("0x00");
-});
+//test('constructor csBigInteger(1).toString(16) equals "0x01"', () => {
+//  expect(new csBigInteger(1).toString(16)).toBe("0x01");
+//});
 
-test('constructor csBigInteger(255).toString(16) equals "0x00ff"', () => {
-  expect(new csBigInteger(255).toString(16)).toBe("0x00ff");
-});
+TEST(csBISerializeTests, BigInteger1_ToString_S0x01)
+{
+   BigInteger big(1);
+   EXPECT_EQ(big.ToString(), "0x01");
+}
 
+
+//test('constructor csBigInteger([]).toString(16) equals "0x00"', () => {
+//  expect(new csBigInteger([]).toString(16)).toBe("0x00");
+//});
+
+TEST(csBISerializeTests, BigIntegerEmptyByteArray_ToString_S0x00)
+{
+   BigInteger big(vbyte(0));
+   EXPECT_EQ(big.ToString(), "0x00");
+}
+
+
+//test('constructor csBigInteger(0).toString(16) equals "0x00"', () => {
+//  expect(new csBigInteger(0).toString(16)).toBe("0x00");
+//});
+
+TEST(csBISerializeTests, BigInteger0_ToString_S0x00)
+{
+   BigInteger big(0);
+   EXPECT_EQ(big.ToString(), "0x00");
+}
+
+/*
+//test('constructor csBigInteger(255).toString(16) equals "0x00ff"', () => {
+//  expect(new csBigInteger(255).toString(16)).toBe("0x00ff");
+//});
+
+TEST(csBISerializeTests, BigInteger255_ToString_S0x00ff)
+{
+   BigInteger big(255);
+   EXPECT_EQ(big.ToString(), "0x00ff");
+}
+*/
+
+/*
 test('constructor csBigInteger(254).toString(16) equals "0x00fe"', () => {
   expect(new csBigInteger(254).toString(16)).toBe("0x00fe");
 });
