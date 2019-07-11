@@ -51,6 +51,11 @@ BigInteger::BigInteger(BigInteger&& corpse)
 {
 }
 
+// destructor (nothing to do)
+BigInteger::~BigInteger()
+{
+}
+
 // input byte data in little-endian format
 BigInteger::BigInteger(vbyte data)
   : _data(data)

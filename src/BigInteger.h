@@ -53,6 +53,9 @@ public:
    // move constructor
    BigInteger(BigInteger&& corpse);
 
+   // destructor
+   virtual ~BigInteger();
+
    // default is base 10
    // allowed base 2
    // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
