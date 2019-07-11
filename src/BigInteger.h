@@ -105,7 +105,7 @@ public:
    {
       if (base == 16) {
          std::stringstream ss;
-         ss << "0x" << this->toHexStr();
+         ss << "0x" << BigInteger::revertHexString(this->toHexStr()); // to big-endian
          return ss.str();
       }
 
@@ -115,6 +115,9 @@ public:
             ss << parseBin(_data[i]); // byte to binary (TODO: verify if size is 8)
          return ss.str();
       }
+
+      std::cout << "NOT IMPLEMENTED ToString() for base = " << base << std::endl;
+      exit(1);
 
       return "";
    }

@@ -589,7 +589,6 @@ TEST(csBISerializeTests, BigInteger_checkNegativeBit_S8000_is_false)
    EXPECT_EQ(BigInteger::checkNegativeBit("8000"), false);
 }
 
-
 // =========================================
 // toString()
 
@@ -604,7 +603,6 @@ TEST(csBISerializeTests, BigInteger5_ToString_S0x05)
    EXPECT_EQ(big.ToString(), "0x05");
 }
 
-
 //test('constructor csBigInteger(1).toString(16) equals "0x01"', () => {
 //  expect(new csBigInteger(1).toString(16)).toBe("0x01");
 //});
@@ -614,7 +612,6 @@ TEST(csBISerializeTests, BigInteger1_ToString_S0x01)
    BigInteger big(1);
    EXPECT_EQ(big.ToString(), "0x01");
 }
-
 
 //test('constructor csBigInteger([]).toString(16) equals "0x00"', () => {
 //  expect(new csBigInteger([]).toString(16)).toBe("0x00");
@@ -626,7 +623,6 @@ TEST(csBISerializeTests, BigIntegerEmptyByteArray_ToString_S0x00)
    EXPECT_EQ(big.ToString(), "0x00");
 }
 
-
 //test('constructor csBigInteger(0).toString(16) equals "0x00"', () => {
 //  expect(new csBigInteger(0).toString(16)).toBe("0x00");
 //});
@@ -637,7 +633,6 @@ TEST(csBISerializeTests, BigInteger0_ToString_S0x00)
    EXPECT_EQ(big.ToString(), "0x00");
 }
 
-/*
 //test('constructor csBigInteger(255).toString(16) equals "0x00ff"', () => {
 //  expect(new csBigInteger(255).toString(16)).toBe("0x00ff");
 //});
@@ -647,80 +642,178 @@ TEST(csBISerializeTests, BigInteger255_ToString_S0x00ff)
    BigInteger big(255);
    EXPECT_EQ(big.ToString(), "0x00ff");
 }
-*/
+
+//test('constructor csBigInteger(254).toString(16) equals "0x00fe"', () => {
+//  expect(new csBigInteger(254).toString(16)).toBe("0x00fe");
+//});
+
+TEST(csBISerializeTests, BigInteger254_ToString_S0x00fe)
+{
+   BigInteger big(254);
+   EXPECT_EQ(big.ToString(), "0x00fe");
+}
+
+//test('constructor csBigInteger(256).toString(16) equals "0x0100"', () => {
+//  expect(new csBigInteger(256).toString(16)).toBe("0x0100");
+//});
+
+TEST(csBISerializeTests, BigInteger256_ToString_S0x0100)
+{
+   BigInteger big(256);
+   EXPECT_EQ(big.ToString(), "0x0100");
+}
+
+//test('constructor csBigInteger(127).toString(16) equals "0x7f"', () => {
+//  expect(new csBigInteger(127).toString(16)).toBe("0x7f");
+//});
+
+TEST(csBISerializeTests, BigInteger127_ToString_S0x7f)
+{
+   BigInteger big(127);
+   EXPECT_EQ(big.ToString(), "0x7f");
+}
+
+//test('constructor csBigInteger(128).toString(16) equals "0x0080"', () => {
+//  expect(new csBigInteger(128).toString(16)).toBe("0x0080");
+//});
+
+TEST(csBISerializeTests, BigInteger128_ToString_S0x0080)
+{
+   BigInteger big(128);
+   EXPECT_EQ(big.ToString(), "0x0080");
+}
+
+//test('constructor csBigInteger(129).toString(16) equals "0x0081"', () => {
+//  expect(new csBigInteger(129).toString(16)).toBe("0x0081");
+//});
+
+TEST(csBISerializeTests, BigInteger129_ToString_S0x0081)
+{
+   BigInteger big(129);
+   EXPECT_EQ(big.ToString(), "0x0081");
+}
+
+//test('constructor csBigInteger(-1).toString(16) equals "0xff"', () => {
+//  expect(new csBigInteger(-1).toString(16)).toBe("0xff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM1_ToString_S0xff)
+{
+   BigInteger big(-1);
+   EXPECT_EQ(big.ToString(), "0xff");
+}
+
+//test('constructor csBigInteger(-2).toString(16) equals "0xfe"', () => {
+//  expect(new csBigInteger(-2).toString(16)).toBe("0xfe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM2_ToString_S0xfe)
+{
+   BigInteger big(-2);
+   EXPECT_EQ(big.ToString(), "0xfe");
+}
+
+//test('constructor csBigInteger(-80).toString(16) equals "0xb0"', () => {
+//  expect(new csBigInteger(-80).toString(16)).toBe("0xb0");
+//});
+
+TEST(csBISerializeTests, BigIntegerM80_ToString_S0xb0)
+{
+   BigInteger big(-80);
+   EXPECT_EQ(big.ToString(), "0xb0");
+}
+
+//test('constructor csBigInteger(-127).toString(16) equals "0x81"', () => {
+//  expect(new csBigInteger(-127).toString(16)).toBe("0x81");
+//});
+
+TEST(csBISerializeTests, BigIntegerM127_ToString_S0x81)
+{
+   BigInteger big(-127);
+   EXPECT_EQ(big.ToString(), "0x81");
+}
+
+//test('constructor csBigInteger(-128).toString(16) equals "0xff80"', () => {
+//  expect(new csBigInteger(-128).toString(16)).toBe("0xff80");
+//});
+
+TEST(csBISerializeTests, BigIntegerM128_ToString_S0xff80)
+{
+   BigInteger big(-128);
+   EXPECT_EQ(big.ToString(), "0xff80");
+}
+
+//test('constructor csBigInteger(-129).toString(16) equals "0xff7f"', () => {
+//  expect(new csBigInteger(-129).toString(16)).toBe("0xff7f");
+//});
+
+TEST(csBISerializeTests, BigIntegerM129_ToString_S0xff7f)
+{
+   BigInteger big(-129);
+   EXPECT_EQ(big.ToString(), "0xff7f");
+}
+
+//test('constructor csBigInteger(-254).toString(16) equals "0xff02"', () => {
+//  expect(new csBigInteger(-254).toString(16)).toBe("0xff02");
+//});
+
+TEST(csBISerializeTests, BigIntegerM254_ToString_S0xff02)
+{
+   BigInteger big(-254);
+   EXPECT_EQ(big.ToString(), "0xff02");
+}
+
+//test('constructor csBigInteger(-255).toString(16) equals "0xff01"', () => {
+//  expect(new csBigInteger(-255).toString(16)).toBe("0xff01");
+//});
+
+TEST(csBISerializeTests, BigIntegerM255_ToString_S0xff01)
+{
+   BigInteger big(-255);
+   EXPECT_EQ(big.ToString(), "0xff01");
+}
+
+//test('constructor csBigInteger(-256).toString(16) equals "0xff00"', () => {
+//  expect(new csBigInteger(-256).toString(16)).toBe("0xff00");
+//});
+
+TEST(csBISerializeTests, BigIntegerM256_ToString_S0xff00)
+{
+   BigInteger big(-256);
+   EXPECT_EQ(big.ToString(), "0xff00");
+}
+
+//test('constructor csBigInteger(-257).toString(16) equals "0xfeff"', () => {
+//  expect(new csBigInteger(-257).toString(16)).toBe("0xfeff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM257_ToString_S0xfeff)
+{
+   BigInteger big(-257);
+   EXPECT_EQ(big.ToString(), "0xfeff");
+}
+
+//test('constructor csBigInteger(-258).toString(16) equals "0xfefe"', () => {
+//  expect(new csBigInteger(-258).toString(16)).toBe("0xfefe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM258_ToString_S0xfefe)
+{
+   BigInteger big(-258);
+   EXPECT_EQ(big.ToString(), "0xfefe");
+}
+
+//test('constructor csBigInteger(-259).toString(16) equals "0xfefd"', () => {
+//  expect(new csBigInteger(-259).toString(16)).toBe("0xfefd");
+//});
+
+TEST(csBISerializeTests, BigIntegerM259_ToString_S0xfefd)
+{
+   BigInteger big(-259);
+   EXPECT_EQ(big.ToString(), "0xfefd");
+}
 
 /*
-test('constructor csBigInteger(254).toString(16) equals "0x00fe"', () => {
-  expect(new csBigInteger(254).toString(16)).toBe("0x00fe");
-});
-
-test('constructor csBigInteger(256).toString(16) equals "0x0100"', () => {
-  expect(new csBigInteger(256).toString(16)).toBe("0x0100");
-});
-
-test('constructor csBigInteger(127).toString(16) equals "0x7f"', () => {
-  expect(new csBigInteger(127).toString(16)).toBe("0x7f");
-});
-
-test('constructor csBigInteger(128).toString(16) equals "0x0080"', () => {
-  expect(new csBigInteger(128).toString(16)).toBe("0x0080");
-});
-
-test('constructor csBigInteger(129).toString(16) equals "0x0081"', () => {
-  expect(new csBigInteger(129).toString(16)).toBe("0x0081");
-});
-
-test('constructor csBigInteger(-1).toString(16) equals "0xff"', () => {
-  expect(new csBigInteger(-1).toString(16)).toBe("0xff");
-});
-
-test('constructor csBigInteger(-2).toString(16) equals "0xfe"', () => {
-  expect(new csBigInteger(-2).toString(16)).toBe("0xfe");
-});
-
-test('constructor csBigInteger(-80).toString(16) equals "0xb0"', () => {
-  expect(new csBigInteger(-80).toString(16)).toBe("0xb0");
-});
-
-test('constructor csBigInteger(-80).toString(16) equals "0xb0"', () => {
-  expect(new csBigInteger(-80).toString(16)).toBe("0xb0");
-});
-
-test('constructor csBigInteger(-127).toString(16) equals "0x81"', () => {
-  expect(new csBigInteger(-127).toString(16)).toBe("0x81");
-});
-
-test('constructor csBigInteger(-128).toString(16) equals "0xff80"', () => {
-  expect(new csBigInteger(-128).toString(16)).toBe("0xff80");
-});
-
-test('constructor csBigInteger(-129).toString(16) equals "0xff7f"', () => {
-  expect(new csBigInteger(-129).toString(16)).toBe("0xff7f");
-});
-
-test('constructor csBigInteger(-254).toString(16) equals "0xff02"', () => {
-  expect(new csBigInteger(-254).toString(16)).toBe("0xff02");
-});
-
-test('constructor csBigInteger(-255).toString(16) equals "0xff01"', () => {
-  expect(new csBigInteger(-255).toString(16)).toBe("0xff01");
-});
-
-test('constructor csBigInteger(-256).toString(16) equals "0xff00"', () => {
-  expect(new csBigInteger(-256).toString(16)).toBe("0xff00");
-});
-
-test('constructor csBigInteger(-257).toString(16) equals "0xfeff"', () => {
-  expect(new csBigInteger(-257).toString(16)).toBe("0xfeff");
-});
-
-test('constructor csBigInteger(-258).toString(16) equals "0xfefe"', () => {
-  expect(new csBigInteger(-258).toString(16)).toBe("0xfefe");
-});
-
-test('constructor csBigInteger(-259).toString(16) equals "0xfefd"', () => {
-  expect(new csBigInteger(-259).toString(16)).toBe("0xfefd");
-});
 
 test('constructor csBigInteger(-1000000).toString(16) equals "0xf0bdc0"', () => {
   expect(new csBigInteger(-1000000).toString(16)).toBe("0xf0bdc0");
