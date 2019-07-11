@@ -391,39 +391,93 @@ TEST(csBISerializeTests, BigIntegerM128_toHexStr_S80ff)
    EXPECT_EQ(big.toHexStr(), "80ff");
 }
 
+
+//test('constructor csBigInteger(-129).toHexString() equals "7fff"', () => {
+//  expect(new csBigInteger(-129).toHexString()).toBe("7fff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM129_toHexStr_S7fff)
+{
+   BigInteger big(-129);
+   EXPECT_EQ(big.toHexStr(), "7fff");
+}
+
+
+//test('constructor csBigInteger(-254).toHexString() equals "02ff"', () => {
+//  expect(new csBigInteger(-254).toHexString()).toBe("02ff");
+//});
+
+
+TEST(csBISerializeTests, BigIntegerM254_toHexStr_S02ff)
+{
+   BigInteger big(-254);
+   EXPECT_EQ(big.toHexStr(), "02ff");
+}
+
+
+//test('constructor csBigInteger(-255).toHexString() equals "01ff"', () => {
+//  expect(new csBigInteger(-255).toHexString()).toBe("01ff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM255_toHexStr_S01ff)
+{
+   BigInteger big(-255);
+   EXPECT_EQ(big.toHexStr(), "01ff");
+}
+
+//test('constructor csBigInteger(-256).toHexString() equals "00ff"', () => {
+//  expect(new csBigInteger(-256).toHexString()).toBe("00ff");
+//});
+
+TEST(csBISerializeTests, BigIntegerM256_toHexStr_S00ff)
+{
+   BigInteger big(-256);
+   EXPECT_EQ(big.toHexStr(), "00ff");
+}
+
+
+//test('constructor csBigInteger(-257).toHexString() equals "fffe"', () => {
+//  expect(new csBigInteger(-257).toHexString()).toBe("fffe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM257_toHexStr_Sfffe)
+{
+   BigInteger big(-257);
+   EXPECT_EQ(big.toHexStr(), "fffe");
+}
+
+//test('constructor csBigInteger(-258).toHexString() equals "fefe"', () => {
+//  expect(new csBigInteger(-258).toHexString()).toBe("fefe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM258_toHexStr_Sfefe)
+{
+   BigInteger big(-258);
+   EXPECT_EQ(big.toHexStr(), "fefe");
+}
+
+//test('constructor csBigInteger(-259).toHexString() equals "fdfe"', () => {
+//  expect(new csBigInteger(-259).toHexString()).toBe("fdfe");
+//});
+
+TEST(csBISerializeTests, BigIntegerM259_toHexStr_Sfdfe)
+{
+   BigInteger big(-259);
+   EXPECT_EQ(big.toHexStr(), "fdfe");
+}
+
 /*
+//test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
+//  expect(new csBigInteger(-1000000).toHexString()).toBe("c0bdf0");
+//});
 
-test('constructor csBigInteger(-129).toHexString() equals "7fff"', () => {
-  expect(new csBigInteger(-129).toHexString()).toBe("7fff");
-});
+TEST(csBISerializeTests, BigIntegerM259_toHexStr_Sfdfe)
+{
+   BigInteger big(-259);
+   EXPECT_EQ(big.toHexStr(), "fdfe");
+}
 
-test('constructor csBigInteger(-254).toHexString() equals "02ff"', () => {
-  expect(new csBigInteger(-254).toHexString()).toBe("02ff");
-});
 
-test('constructor csBigInteger(-255).toHexString() equals "01ff"', () => {
-  expect(new csBigInteger(-255).toHexString()).toBe("01ff");
-});
-
-test('constructor csBigInteger(-256).toHexString() equals "00ff"', () => {
-  expect(new csBigInteger(-256).toHexString()).toBe("00ff");
-});
-
-test('constructor csBigInteger(-257).toHexString() equals "fffe"', () => {
-  expect(new csBigInteger(-257).toHexString()).toBe("fffe");
-});
-
-test('constructor csBigInteger(-258).toHexString() equals "fefe"', () => {
-  expect(new csBigInteger(-258).toHexString()).toBe("fefe");
-});
-
-test('constructor csBigInteger(-259).toHexString() equals "fdfe"', () => {
-  expect(new csBigInteger(-259).toHexString()).toBe("fdfe");
-});
-
-test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
-  expect(new csBigInteger(-1000000).toHexString()).toBe("c0bdf0");
-});
 
 test('constructor csBigInteger(1000000).toHexString() equals "40420f"', () => {
   expect(new csBigInteger(1000000).toHexString()).toBe("40420f");
