@@ -833,7 +833,6 @@ TEST(csBISerializeTests, BigInteger1000000_ToString_S0x0f4240)
    EXPECT_EQ(big.ToString(), "0x0f4240");
 }
 
-
 // ================================================================
 //                  comparing with Python
 // ================================================================
@@ -854,7 +853,6 @@ TEST(csBISerializeTests, BigInteger4293967296_toHexStr_Sc0bdf0ff00_Py)
    EXPECT_EQ(big.toHexStr(), "c0bdf0ff00");
 }
 
-
 //>>> int.from_bytes(bytes.fromhex("C0BDF0"),byteorder='little')
 // 15777216
 //>>> int.from_bytes(bytes.fromhex("C0BDF000"),byteorder='little')
@@ -870,7 +868,6 @@ TEST(csBISerializeTests, BigInteger15777216_toHexStr_Sc0bdf000_Py)
    EXPECT_EQ(big.toHexStr(), "c0bdf000");
 }
 
-
 //test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
 //  expect(new csBigInteger(-1000000).toHexString()).toBe("c0bdf0");
 //});
@@ -880,7 +877,6 @@ TEST(csBISerializeTests, BigIntegerM1000000_toHexStr_Sc0bdf0_Py)
    BigInteger big(-1000000);
    EXPECT_EQ(big.toHexStr(), "c0bdf0");
 }
-
 
 // Python needs to specify precision on twos-complement
 //>>> hex(-1000000 & (2**32-1)) # 32-bit
@@ -912,42 +908,90 @@ TEST(csBISerializeTests, BigIntegerSc0bdf0ffffff_16_toInt_M1000000_Py)
    EXPECT_EQ(big.toInt(), -1000000);
 }
 
-/*
 // ====================================================================
 //   big-endian input with "0x"
 
-test('constructor csBigInteger("00", 16) equals 0', () => {
-  expect(new csBigInteger("00", 16).valueOf()).toBe(0);
-});
+//test('constructor csBigInteger("00", 16) equals 0', () => {
+//  expect(new csBigInteger("00", 16).valueOf()).toBe(0);
+//});
 
-test('constructor csBigInteger("0x00", 16) equals 0', () => {
-  expect(new csBigInteger("0x00", 16).valueOf()).toBe(0);
-});
+TEST(csBISerializeTests, BigIntegerS00_16_toInt_0)
+{
+   BigInteger big("00", 16);
+   EXPECT_EQ(big.toInt(), 0);
+}
 
-test('constructor csBigInteger("01", 16) equals 1', () => {
-  expect(new csBigInteger("01", 16).valueOf()).toBe(1);
-});
+//test('constructor csBigInteger("0x00", 16) equals 0', () => {
+//  expect(new csBigInteger("0x00", 16).valueOf()).toBe(0);
+//});
 
-test('constructor csBigInteger("0x01", 16) equals 1', () => {
-  expect(new csBigInteger("0x01", 16).valueOf()).toBe(1);
-});
+TEST(csBISerializeTests, BigIntegerS0x00_16_toInt_0)
+{
+   BigInteger big("0x00", 16);
+   EXPECT_EQ(big.toInt(), 0);
+}
 
-test('constructor csBigInteger("fb", 16) equals -5', () => {
-  expect(new csBigInteger("fb", 16).valueOf()).toBe(-5);
-});
+//test('constructor csBigInteger("01", 16) equals 1', () => {
+//  expect(new csBigInteger("01", 16).valueOf()).toBe(1);
+//});
 
-test('constructor csBigInteger("0xfb", 16) equals -5', () => {
-  expect(new csBigInteger("0xfb", 16).valueOf()).toBe(-5);
-});
+TEST(csBISerializeTests, BigIntegerS01_16_toInt_1)
+{
+   BigInteger big("01", 16);
+   EXPECT_EQ(big.toInt(), 1);
+}
 
-test('constructor csBigInteger("fb00", 16) equals 251', () => {
-  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
-});
+//test('constructor csBigInteger("0x01", 16) equals 1', () => {
+//  expect(new csBigInteger("0x01", 16).valueOf()).toBe(1);
+//});
 
-test('constructor csBigInteger("0x00fb", 16) equals 251', () => {
-  expect(new csBigInteger("0x00fb", 16).valueOf()).toBe(251);
-});
+TEST(csBISerializeTests, BigIntegerS0x01_16_toInt_1)
+{
+   BigInteger big("0x01", 16);
+   EXPECT_EQ(big.toInt(), 1);
+}
 
+//test('constructor csBigInteger("fb", 16) equals -5', () => {
+//  expect(new csBigInteger("fb", 16).valueOf()).toBe(-5);
+//});
+
+TEST(csBISerializeTests, BigIntegerSfb_16_toInt_M5)
+{
+   BigInteger big("fb", 16);
+   EXPECT_EQ(big.toInt(), -5);
+}
+
+//test('constructor csBigInteger("0xfb", 16) equals -5', () => {
+//  expect(new csBigInteger("0xfb", 16).valueOf()).toBe(-5);
+//});
+
+TEST(csBISerializeTests, BigIntegerS0xfb_16_toInt_M5)
+{
+   BigInteger big("0xfb", 16);
+   EXPECT_EQ(big.toInt(), -5);
+}
+
+//test('constructor csBigInteger("fb00", 16) equals 251', () => {
+//  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
+//});
+
+TEST(csBISerializeTests, BigIntegerSfb00_16_toInt_251)
+{
+   BigInteger big("fb00", 16);
+   EXPECT_EQ(big.toInt(), 251);
+}
+
+//test('constructor csBigInteger("0x00fb", 16) equals 251', () => {
+//  expect(new csBigInteger("0x00fb", 16).valueOf()).toBe(251);
+//});
+
+TEST(csBISerializeTests, BigIntegerS0x00fb_16_toInt_251)
+{
+   BigInteger big("0x00fb", 16);
+   EXPECT_EQ(big.toInt(), 251);
+}
+
+/*
 // =============== testing javascript number limits (more than 53 bits) =======
 
 test('csBigInteger(9007199254740991) equals 9007199254740991 (number is safe for JavaScript)', () => {
