@@ -991,25 +991,55 @@ TEST(csBISerializeTests, BigIntegerS0x00fb_16_toInt_251)
    EXPECT_EQ(big.toInt(), 251);
 }
 
-/*
+
 // =============== testing javascript number limits (more than 53 bits) =======
 
-test('csBigInteger(9007199254740991) equals 9007199254740991 (number is safe for JavaScript)', () => {
-  expect(new csBigInteger(9007199254740991).valueOf()).toBe(9007199254740991);
-});
+//test('csBigInteger(9007199254740991) equals 9007199254740991 (number is safe for JavaScript)', () => {
+//  expect(new csBigInteger(9007199254740991).valueOf()).toBe(9007199254740991);
+//});
 
-test('csBigInteger(9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
-  expect( function(){ new csBigInteger(9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
-});
+TEST(csBISerializeTests, BigInteger9007199254740991_toLong)
+{
+   BigInteger big(9007199254740991L);
+   EXPECT_EQ(big.toLong(), 9007199254740991);
+}
 
-test('csBigInteger(-9007199254740991) equals -9007199254740991 (number is safe for JavaScript)', () => {
-  expect(new csBigInteger(-9007199254740991).valueOf()).toBe(-9007199254740991);
-});
 
-test('csBigInteger(-9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
-  expect( function(){ new csBigInteger(-9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
-});
+//test('csBigInteger(9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
+//  expect( function(){ new csBigInteger(9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
+//});
+// this test passes on c++
 
+TEST(csBISerializeTests, BigInteger9007199254740992_toLong)
+{
+   BigInteger big(9007199254740992L);
+   EXPECT_EQ(big.toLong(), 9007199254740992);
+}
+
+
+//test('csBigInteger(-9007199254740991) equals -9007199254740991 (number is safe for JavaScript)', () => {
+//  expect(new csBigInteger(-9007199254740991).valueOf()).toBe(-9007199254740991);
+//});
+
+TEST(csBISerializeTests, BigIntegerM9007199254740991_toLong)
+{
+   BigInteger big(-9007199254740991L);
+   EXPECT_EQ(big.toLong(), -9007199254740991);
+}
+
+
+//test('csBigInteger(-9007199254740992) to throw exception (number is unsafe for JavaScript)', () => {
+//  expect( function(){ new csBigInteger(-9007199254740992).valueOf() }).toThrow(new Error("csBigInteger assertion failed: unsafe number"));
+//});
+// this test passes on c++
+
+TEST(csBISerializeTests, BigIntegerM9007199254740992_toLong)
+{
+   BigInteger big(-9007199254740992L);
+   EXPECT_EQ(big.toLong(), -9007199254740992);
+}
+
+/*
 // ============= testing binary (basic tests) =================
 
 test('csBigInteger(10).toString(2) equals 1010', () => {
