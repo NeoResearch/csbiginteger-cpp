@@ -94,20 +94,23 @@ BigInteger::operator+(long l2)
    reverse(vb.begin(), vb.end());  // to big-endian
    mpz_class bThis = csBigIntegerMPZparse(vb);
    mpz_class bThisPlus = bThis + l2;
-   return BigInteger(csBigIntegerGetBytesFromMPZ(bThisPlus));
+   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get little-endian
+   reverse(v.begin(), v.end());                      // to big-endian
+   return BigInteger(v);
 }
 
 BigInteger
-BigInteger::operator-(BigInteger& big2)
+BigInteger::operator-(const BigInteger& big2)
 {
    vbyte vb = this->ToByteArray(); // little-endian
-   reverse(vb.begin(), vb.end());  // to big-endian
    mpz_class bThis = csBigIntegerMPZparse(vb);
-   vbyte vb_other = big2.ToByteArray();       // little-endian
-   reverse(vb_other.begin(), vb_other.end()); // to big-endian
+   vbyte vb_other = big2.ToByteArray(); // little-endian
    mpz_class bOther = csBigIntegerMPZparse(vb_other);
+   // operation -
    mpz_class bThisPlus = bThis - bOther;
-   return BigInteger(csBigIntegerGetBytesFromMPZ(bThisPlus));
+   vbyte v = csBigIntegerGetBytesFromMPZ(bThisPlus); // get little-endian
+   reverse(v.begin(), v.end());                      // to big-endian
+   return BigInteger(v);
 }
 
 string
