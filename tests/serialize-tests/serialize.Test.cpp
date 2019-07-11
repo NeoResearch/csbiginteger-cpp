@@ -833,7 +833,7 @@ TEST(csBISerializeTests, BigInteger1000000_ToString_S0x0f4240)
    EXPECT_EQ(big.ToString(), "0x0f4240");
 }
 
-/*
+
 // ================================================================
 //                  comparing with Python
 // ================================================================
@@ -843,21 +843,44 @@ TEST(csBISerializeTests, BigInteger1000000_ToString_S0x0f4240)
 // 4293967296
 // >>> int.from_bytes(bytes.fromhex("C0BDF0FF00"),byteorder='little')
 // 4293967296
-test('constructor csBigInteger(4293967296).toHexString() equals "c0bdf0ff00"', () => {
-  expect(new csBigInteger(4293967296).toHexString()).toBe("c0bdf0ff00");
-});
+
+//test('constructor csBigInteger(4293967296).toHexString() equals "c0bdf0ff00"', () => {
+//  expect(new csBigInteger(4293967296).toHexString()).toBe("c0bdf0ff00");
+//});
+
+TEST(csBISerializeTests, BigInteger4293967296_toHexStr_Sc0bdf0ff00_Py)
+{
+   BigInteger big(4293967296);
+   EXPECT_EQ(big.toHexStr(), "c0bdf0ff00");
+}
+
 
 //>>> int.from_bytes(bytes.fromhex("C0BDF0"),byteorder='little')
 // 15777216
 //>>> int.from_bytes(bytes.fromhex("C0BDF000"),byteorder='little')
 // 15777216
-test('constructor csBigInteger(15777216).toHexString() equals "c0bdf000"', () => {
-  expect(new csBigInteger(15777216).toHexString()).toBe("c0bdf000");
-});
 
-test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
-  expect(new csBigInteger(-1000000).toHexString()).toBe("c0bdf0");
-});
+//test('constructor csBigInteger(15777216).toHexString() equals "c0bdf000"', () => {
+//  expect(new csBigInteger(15777216).toHexString()).toBe("c0bdf000");
+//});
+
+TEST(csBISerializeTests, BigInteger15777216_toHexStr_Sc0bdf000_Py)
+{
+   BigInteger big(15777216);
+   EXPECT_EQ(big.toHexStr(), "c0bdf000");
+}
+
+
+//test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
+//  expect(new csBigInteger(-1000000).toHexString()).toBe("c0bdf0");
+//});
+
+TEST(csBISerializeTests, BigIntegerM1000000_toHexStr_Sc0bdf0_Py)
+{
+   BigInteger big(-1000000);
+   EXPECT_EQ(big.toHexStr(), "c0bdf0");
+}
+
 
 // Python needs to specify precision on twos-complement
 //>>> hex(-1000000 & (2**32-1)) # 32-bit
@@ -865,17 +888,31 @@ test('constructor csBigInteger(-1000000).toHexString() equals "c0bdf0"', () => {
 //>>> hex(-1000000 & (2**64-1)) # 64-bit
 //'0xfffffffffff0bdc0'
 
-test('constructor csBigInteger("c0bdf0ff",16).valueOf() equals -1000000', () => {
-  expect(new csBigInteger("c0bdf0ff",16).valueOf()).toBe(-1000000);
-});
+//test('constructor csBigInteger("c0bdf0ff",16).valueOf() equals -1000000', () => {
+//  expect(new csBigInteger("c0bdf0ff",16).valueOf()).toBe(-1000000);
+//});
 
+TEST(csBISerializeTests, BigIntegerSc0bdf0ff_16_toInt_M1000000_Py)
+{
+   BigInteger big("c0bdf0ff", 16);
+   EXPECT_EQ(big.toInt(), -1000000);
+}
+
+// from javascript:
 // c0bdf0ffffffffff will not work currently, because precision is not 64-bit (around ~60 bit)
 // So, testing will be done (for now), up to 6-bytes!
 
-test('constructor csBigInteger("c0bdf0ffffff",16).valueOf() equals -1000000', () => {
-  expect(new csBigInteger("c0bdf0ffffff",16).valueOf()).toBe(-1000000);
-});
+//test('constructor csBigInteger("c0bdf0ffffff",16).valueOf() equals -1000000', () => {
+//  expect(new csBigInteger("c0bdf0ffffff",16).valueOf()).toBe(-1000000);
+//});
 
+TEST(csBISerializeTests, BigIntegerSc0bdf0ffffff_16_toInt_M1000000_Py)
+{
+   BigInteger big("c0bdf0ffffff", 16);
+   EXPECT_EQ(big.toInt(), -1000000);
+}
+
+/*
 // ====================================================================
 //   big-endian input with "0x"
 
