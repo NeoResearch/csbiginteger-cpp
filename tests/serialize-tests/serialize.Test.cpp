@@ -501,7 +501,6 @@ TEST(csBISerializeTests, BigInteger10_ToByteArray_v10)
    EXPECT_EQ(big.ToByteArray(), vbyte(1, 10));
 }
 
-
 //test('constructor csBigInteger(-1).toHexString() equals [255]', () => {
 //  expect(new csBigInteger(-1).toByteArray()).toEqual([255]);
 //});
@@ -512,11 +511,9 @@ TEST(csBISerializeTests, BigIntegerM1_ToByteArray_v255)
    EXPECT_EQ(big.ToByteArray(), vbyte(1, 255));
 }
 
-
 //test('constructor csBigInteger(0).toHexString() equals [0]', () => {
 //  expect(new csBigInteger(0).toByteArray()).toEqual([0]);
 //});
-
 
 TEST(csBISerializeTests, BigInteger0_ToByteArray_v0)
 {
@@ -524,15 +521,27 @@ TEST(csBISerializeTests, BigInteger0_ToByteArray_v0)
    EXPECT_EQ(big.ToByteArray(), vbyte(1, 0));
 }
 
+//test('csBigInteger(100000000).toHexString() equals "00e1f505"', () => {
+//  expect(new csBigInteger(100000000).toHexString()).toEqual("00e1f505");
+//});
+
+TEST(csBISerializeTests, BigInteger100000000_toHexStr_S00e1f505)
+{
+   BigInteger big(100000000);
+   EXPECT_EQ(big.toHexStr(), "00e1f505");
+}
+
+//test('test 255: csBigInteger(0.00000255*100000000).toHexString() equals "ff00"', () => {
+//  expect(new csBigInteger(0.00000255*100000000).toHexString()).toEqual("ff00");
+//});
+
+TEST(csBISerializeTests, BigInteger0p00000255MUL100000000_toHexStr_Sff00)
+{
+   BigInteger big((int64)(0.00000255 * 100000000));
+   EXPECT_EQ(big.toHexStr(), "ff00");
+}
+
 /*
-test('csBigInteger(100000000).toHexString() equals "00e1f505"', () => {
-  expect(new csBigInteger(100000000).toHexString()).toEqual("00e1f505");
-});
-
-test('test 255: csBigInteger(0.00000255*100000000).toHexString() equals "ff00"', () => {
-  expect(new csBigInteger(0.00000255*100000000).toHexString()).toEqual("ff00");
-});
-
 // =================================================
 //  checkNegativeBit
 
