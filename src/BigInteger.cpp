@@ -280,10 +280,23 @@ BigInteger::toLong() const
 BigInteger
 BigInteger::operator+(long l2)
 {
-   vbyte vb = this->ToByteArray(); // big-endian
-   reverse(vb.begin(), vb.end());  // to little-endian
+   vbyte vb = this->ToByteArray(); // little-endian
+   reverse(vb.begin(), vb.end());  // to big-endian
    mpz_class bThis = csBigIntegerMPZparse(vb);
    mpz_class bThisPlus = bThis + l2;
+   return BigInteger(csBigIntegerGetBytesFromMPZ(bThisPlus));
+}
+
+BigInteger
+BigInteger::operator-(BigInteger& big2)
+{
+   vbyte vb = this->ToByteArray(); // little-endian
+   reverse(vb.begin(), vb.end());  // to big-endian
+   mpz_class bThis = csBigIntegerMPZparse(vb);
+   vbyte vb_other = big2.ToByteArray();      // little-endian
+   reverse(vb_other.begin(), vb_other.end()); // to big-endian
+   mpz_class bOther = csBigIntegerMPZparse(vb_other);
+   mpz_class bThisPlus = bThis - bOther;
    return BigInteger(csBigIntegerGetBytesFromMPZ(bThisPlus));
 }
 
