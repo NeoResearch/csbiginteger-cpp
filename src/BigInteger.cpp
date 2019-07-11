@@ -67,9 +67,10 @@ vbyte
 csBigIntegerGetBytesFromMPZ(mpz_class big)
 {
    cout << " = = = > csBigIntegerGetBytesFromMPZ: big(10)=" << big.get_str(10) << endl;
-   vbyte v;
+
    // positive conversion
    if (big >= 0) {
+      vbyte v;
       cout << "NOW POSITIVE! (SHOULD NEVER CALL NEGATIVE!)" << endl;
       //int xx;
       //cin >> xx;
@@ -81,6 +82,8 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
 
       // added in little-endian format (backwards)
       string leHex = BigInteger::toHexString(v);
+      if (leHex.length() == 0)
+         leHex = "00";
       cout << "leHex: " << leHex;
       // check if became negative
       cout << endl;
@@ -101,7 +104,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       return v;
    } else {
       // negative conversion
-
+      vbyte v;
       cout << endl
            << "NEGATIVE! LET THE BATTLE BEGIN! \\o/" << endl;
       //int xx;

@@ -139,7 +139,6 @@ TEST(csBISerializeTests, ConstructorSfb_Equals_M5)
    EXPECT_EQ(big.toInt(), -5);
 }
 
-
 //test('constructor csBigInteger([251, 0]) equals 251', () => {
 //  expect(new csBigInteger([251, 0]).valueOf()).toBe(251);
 //});
@@ -151,7 +150,6 @@ TEST(csBISerializeTests, Constructorv251v0_Equals_251)
    EXPECT_EQ(big.toInt(), 251);
 }
 
-
 //test('constructor csBigInteger("fb00", 16) equals 251', () => {
 //  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
 //});
@@ -161,7 +159,6 @@ TEST(csBISerializeTests, ConstructorSfb00_Equals_251)
    BigInteger big("fb00", 16);
    EXPECT_EQ(big.toInt(), 251);
 }
-
 
 //test('constructor csBigInteger("251", 10) equals 251', () => {
 //  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
@@ -183,7 +180,6 @@ TEST(csBISerializeTests, ConstructorS255_Equals_255)
    EXPECT_EQ(big.toInt(), 255);
 }
 
-
 //test('constructor csBigInteger("256", 10) equals 256', () => {
 //  expect(new csBigInteger("256", 10).valueOf()).toBe(256);
 //});
@@ -193,7 +189,6 @@ TEST(csBISerializeTests, ConstructorS256_Equals_256)
    BigInteger big("256", 10);
    EXPECT_EQ(big.toInt(), 256);
 }
-
 
 //test('constructor csBigInteger("-256", 10) equals -256', () => {
 //  expect(new csBigInteger("-256", 10).valueOf()).toBe(-256);
@@ -205,37 +200,80 @@ TEST(csBISerializeTests, ConstructorSM256_Equals_M256)
    EXPECT_EQ(big.toInt(), -256);
 }
 
+//test('constructor csBigInteger("1", 10) equals 1', () => {
+//  expect(new csBigInteger("1", 10).valueOf()).toBe(1);
+//});
+
+TEST(csBISerializeTests, ConstructorS1_Equals_1)
+{
+   BigInteger big("1", 10);
+   EXPECT_EQ(big.toInt(), 1);
+}
+
+//test('constructor csBigInteger("-1", 10) equals -1', () => {
+//  expect(new csBigInteger("-1", 10).valueOf()).toBe(-1);
+//});
+
+TEST(csBISerializeTests, ConstructorSM1_Equals_M1)
+{
+   BigInteger big("-1", 10);
+   EXPECT_EQ(big.toInt(), -1);
+}
+
+//test('constructor csBigInteger("0", 10) equals 0', () => {
+//  expect(new csBigInteger("0", 10).valueOf()).toBe(0);
+//});
+
+TEST(csBISerializeTests, ConstructorS0_Equals_0)
+{
+   BigInteger big("0", 10);
+   EXPECT_EQ(big.toInt(), 0);
+}
+
+//test('constructor csBigInteger("-0", 10) equals 0', () => {
+//  expect(new csBigInteger("-0", 10).valueOf()).toBe(0);
+//});
+
+TEST(csBISerializeTests, ConstructorSM0_Equals_0)
+{
+   BigInteger big("-0", 10);
+   EXPECT_EQ(big.toInt(), 0);
+}
+
+//test('constructor csBigInteger(5).toHexString() equals "05"', () => {
+//  var b = new csBigInteger(5);
+//  expect(b.toHexString()).toBe("05");
+//});
+
+TEST(csBISerializeTests, BigInteger5_toHexStr_S05)
+{
+   BigInteger big(5);
+   EXPECT_EQ(big.toHexStr(), "05");
+}
+
+//test('constructor csBigInteger(1).toHexString() equals "01"', () => {
+//  expect(new csBigInteger(1).toHexString()).toBe("01");
+//});
+
+TEST(csBISerializeTests, BigInteger1_toHexStr_S01)
+{
+   BigInteger big(1);
+   EXPECT_EQ(big.toHexStr(), "01");
+}
 
 /*
-test('constructor csBigInteger("1", 10) equals 1', () => {
-  expect(new csBigInteger("1", 10).valueOf()).toBe(1);
-});
+//test('constructor csBigInteger([]).toHexString() equals "00"', () => {
+//  expect(new csBigInteger([]).toHexString()).toBe("00");
+//});
 
-test('constructor csBigInteger("-1", 10) equals -1', () => {
-  expect(new csBigInteger("-1", 10).valueOf()).toBe(-1);
-});
+TEST(csBISerializeTests, BigIntegerEmptyByteArray_toHexStr_S00)
+{
+   BigInteger big(vbyte(0));
+   EXPECT_EQ(big.toHexStr(), "00");
+}
+*/
 
-test('constructor csBigInteger("0", 10) equals 0', () => {
-  expect(new csBigInteger("0", 10).valueOf()).toBe(0);
-});
-
-test('constructor csBigInteger("-0", 10) equals 0', () => {
-  expect(new csBigInteger("-0", 10).valueOf()).toBe(0);
-});
-
-test('constructor csBigInteger(5).toHexString() equals "05"', () => {
-  var b = new csBigInteger(5);
-  expect(b.toHexString()).toBe("05");
-});
-
-test('constructor csBigInteger(1).toHexString() equals "01"', () => {
-  expect(new csBigInteger(1).toHexString()).toBe("01");
-});
-
-test('constructor csBigInteger([]).toHexString() equals "00"', () => {
-  expect(new csBigInteger([]).toHexString()).toBe("00");
-});
-
+/*
 test('constructor csBigInteger(0).toHexString() equals "00"', () => {
   expect(new csBigInteger(0).toHexString()).toBe("00");
 });
