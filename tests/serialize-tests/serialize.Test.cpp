@@ -813,16 +813,27 @@ TEST(csBISerializeTests, BigIntegerM259_ToString_S0xfefd)
    EXPECT_EQ(big.ToString(), "0xfefd");
 }
 
+//test('constructor csBigInteger(-1000000).toString(16) equals "0xf0bdc0"', () => {
+//  expect(new csBigInteger(-1000000).toString(16)).toBe("0xf0bdc0");
+//});
+
+TEST(csBISerializeTests, BigIntegerM1000000_ToString_S0xf0bdc0)
+{
+   BigInteger big(-1000000);
+   EXPECT_EQ(big.ToString(), "0xf0bdc0");
+}
+
+//test('constructor csBigInteger(1000000).toString(16) equals "0x0f4240"', () => {
+//  expect(new csBigInteger(1000000).toString(16)).toBe("0x0f4240");
+//});
+
+TEST(csBISerializeTests, BigInteger1000000_ToString_S0x0f4240)
+{
+   BigInteger big(1000000);
+   EXPECT_EQ(big.ToString(), "0x0f4240");
+}
+
 /*
-
-test('constructor csBigInteger(-1000000).toString(16) equals "0xf0bdc0"', () => {
-  expect(new csBigInteger(-1000000).toString(16)).toBe("0xf0bdc0");
-});
-
-test('constructor csBigInteger(1000000).toString(16) equals "0x0f4240"', () => {
-  expect(new csBigInteger(1000000).toString(16)).toBe("0x0f4240");
-});
-
 // ================================================================
 //                  comparing with Python
 // ================================================================
