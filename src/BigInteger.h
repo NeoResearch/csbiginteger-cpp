@@ -72,6 +72,7 @@ public:
    BigInteger(std::string str, int base = 10);
 
    BigInteger(int32 value);
+   BigInteger(int64 value);
    BigInteger(const BigInteger& value);
 
    // byte data in little-endian format

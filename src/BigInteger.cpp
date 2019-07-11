@@ -229,10 +229,20 @@ BigInteger::BigInteger(string str, int base)
 
 BigInteger::BigInteger(int32 val)
 {
-   cout << "WILL WORK WITH val=" << val << endl;
+   cout << "WILL WORK WITH int32 val=" << val << endl;
    mpz_class a = val;
    _data = csBigIntegerGetBytesFromMPZ(a);
-   cout << "int " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
+   cout << "int32 " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
+   //int x;
+   //cin >> x;
+}
+
+BigInteger::BigInteger(int64 val)
+{
+   cout << "WILL WORK WITH int64 val=" << val << endl;
+   mpz_class a = val;
+   _data = csBigIntegerGetBytesFromMPZ(a);
+   cout << "int64 " << val << " -> hexbig: " << BigInteger::toHexString(_data) << endl;
    //int x;
    //cin >> x;
 }
