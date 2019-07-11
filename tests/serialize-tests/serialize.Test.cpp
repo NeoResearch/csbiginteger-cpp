@@ -1,5 +1,8 @@
 #include <gtest/gtest.h>
 
+// system
+#include <limits>
+
 // core includes
 #include <BigInteger.h>
 
@@ -541,7 +544,6 @@ TEST(csBISerializeTests, BigInteger0p00000255MUL100000000_toHexStr_Sff00)
    EXPECT_EQ(big.toHexStr(), "ff00");
 }
 
-
 // =========================================
 // toString()
 
@@ -1069,8 +1071,6 @@ toEqual(new BN('1797693134862315907729305190789024733617976978942306572734300811
 });
 */
 
-
-
 //test('csBigInteger(big).sub(1).ToHexString equals hexbig', () => {
 //  expect(new csBigInteger(new csBigInteger('17976931348623159077293051907890247336179769789423065727343008115773267580550096313270847\
 732240753602112011387987139335765878976881441662249284743063947412437776789342486548527630221960124609411945308295208\
@@ -1090,6 +1090,6 @@ TEST(csBISerializeTests, BigInteger_big_minus_1_equals_hex)
    BigInteger bigFinal = big - big1;
 
    EXPECT_EQ(bigFinal.toHexStr(), "fefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                             "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                             "fffffffffffffffffffffff00");
+                                  "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                                  "fffffffffffffffffffffff00");
 }
