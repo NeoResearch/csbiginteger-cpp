@@ -82,19 +82,34 @@ csbiginteger_to_long(byte* vb, int sz_vb)
    return x;
 }
 
-
-/*
-
 // =======================
 // csbiginteger operations
 // =======================
 
 // perform big1 + big2 and return its size (in bytes). output vr must be pre-allocated
 extern "C" int32
-csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr)
+{
+   BigInteger b1(vbyte(big1, big1 + sz_big1));
+   BigInteger b2(vbyte(big2, big2 + sz_big2));
+   BigInteger b3 = b1 + b2;
+   if (b3.Length() == 0)
+      return 0; // error
+   if (!b3.CopyTo(vr, sz_vr))
+      return 0; // error
+   return b3.Length();
+}
 
 // perform big1 - big2 and return its size (in bytes). output vr must be pre-allocated
 extern "C" int32
-csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
-
-*/
+csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr)
+{
+   BigInteger b1(vbyte(big1, big1 + sz_big1));
+   BigInteger b2(vbyte(big2, big2 + sz_big2));
+   BigInteger b3 = b1 + b2;
+   if (b3.Length() == 0)
+      return 0; // error
+   if (!b3.CopyTo(vr, sz_vr))
+      return 0; // error
+   return b3.Length();
+}
