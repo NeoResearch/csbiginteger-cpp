@@ -34,6 +34,13 @@ csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big);
 vbyte
 csBigIntegerGetBytesFromMPZ(mpz_class big);
 
+// ==================== END MPZ =======================
+
+const BigInteger BigInteger::Zero = BigInteger(0);
+const BigInteger BigInteger::One = BigInteger(1);
+const BigInteger BigInteger::MinusOne = BigInteger(-1);
+const BigInteger BigInteger::Error = BigInteger(vbyte(0)); // empty array is error
+
 // nothing to initialize on empty constructor ('_data' is already empty)
 BigInteger::BigInteger()
   : _data(vbyte(1, 0x00))
@@ -106,17 +113,11 @@ BigInteger::toLong() const
 }
 
 BigInteger
-BigInteger::operator+(long l2)
+BigInteger::operator+(const BigInteger& big2) const
 {
-   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
-   BigInteger r;                                                // result
-   r._data = csBigIntegerGetBytesFromMPZ(bThis + l2);           // get big-endian
-   return std::move(r);
-}
+   if (this->IsError() || big2.IsError())
+      return Error;
 
-BigInteger
-BigInteger::operator+(const BigInteger& big2)
-{
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
    mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                // result
@@ -125,12 +126,53 @@ BigInteger::operator+(const BigInteger& big2)
 }
 
 BigInteger
-BigInteger::operator-(const BigInteger& big2)
+BigInteger::operator-(const BigInteger& big2) const
 {
+   if (this->IsError() || big2.IsError())
+      return Error;
+
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
    mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                // result
    r._data = csBigIntegerGetBytesFromMPZ(bThis - bOther);       // get big-endian
+   return std::move(r);
+}
+
+BigInteger
+  BigInteger::operator*(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError())
+      return Error;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis * bOther);       // get big-endian
+   return std::move(r);
+}
+
+BigInteger
+BigInteger::operator/(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError() || big2.IsZero())
+      return Error;
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis / bOther);       // get big-endian
+   return std::move(r);
+}
+
+BigInteger
+BigInteger::operator%(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError() || big2.IsZero())
+      return Error;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis % bOther);       // get big-endian
    return std::move(r);
 }
 

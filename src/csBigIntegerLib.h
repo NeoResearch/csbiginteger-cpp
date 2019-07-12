@@ -49,4 +49,16 @@ csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
 extern "C" int32
 csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
 
+// perform big1 * big2 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+
+// perform big1 / big2 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+
+// perform big1 % big2 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+
 #endif // CSBIGINTEGER_LIB_H

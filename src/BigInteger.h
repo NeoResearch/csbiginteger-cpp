@@ -51,6 +51,8 @@ public:
    const static BigInteger Zero;
    const static BigInteger MinusOne;
 
+   const static BigInteger Error; // error biginteger (empty internal bytearray)
+
    // zero
    BigInteger();
 
@@ -74,16 +76,42 @@ public:
    // byte data in little-endian format
    BigInteger(vbyte data);
 
-   bool operator==(const BigInteger& big);
-   bool operator!=(const BigInteger& big);
+   // BigInteger is the same when _data is the same
+   // _data must be always in its most compressed format (except by zero)
+   bool operator==(const BigInteger& big) const
+   {
+      return this->_data == big._data;
+   }
 
-   bool operator<=(const BigInteger& big);
-   bool operator<(const BigInteger& big);
+   bool operator!=(const BigInteger& big) const
+   {
+      return !((*this) == big);
+   }
 
-   bool operator>=(const BigInteger& big);
-   bool operator>(const BigInteger& big);
+   // depends on external implementation
+   bool operator<(const BigInteger& big) const;
+   bool operator<=(const BigInteger& big) const
+   {
+      return ((*this) == big) || ((*this) < big); // where is spaceship operator??
+   }
 
-   bool IsZero() const;
+   // depends on external implementation
+   bool operator>(const BigInteger& big) const;
+   bool operator>=(const BigInteger& big) const
+   {
+      return ((*this) == big) || ((*this) > big); // where is spaceship operator??
+   }
+
+   bool IsZero() const
+   {
+      return (*this) == Zero;
+   }
+
+   // TODO: expose or not to expose this? make it private?
+   bool IsError() const
+   {
+      return (*this) == Error;
+   }
 
    // this one is little-endian
    vbyte ToByteArray() const
@@ -112,7 +140,7 @@ public:
       }
 
       std::cout << "NOT IMPLEMENTED ToString() for base = " << base << std::endl;
-      exit(1);
+      //exit(1);
 
       return "";
    }
@@ -142,27 +170,62 @@ public:
 
    BigInteger operator^(BigInteger& big2);
 
-   BigInteger operator+(const BigInteger& big2);
-   BigInteger operator+(long l2);
+   // depends on external implementation
+   BigInteger operator+(const BigInteger& big2) const;
+   BigInteger operator+(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) + other;
+   }
 
+   // immutable??
    BigInteger& operator+=(int i2);
 
-   BigInteger operator-(const BigInteger& big2);
+   // depends on external implementation
+   BigInteger operator-(const BigInteger& big2) const;
+   BigInteger operator-(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) - other;
+   }
 
+   // immutable ??
    BigInteger& operator-=(int i2);
 
    // negate (unary)
-   BigInteger operator-();
+   BigInteger operator-() const
+   {
+      return BigInteger::Zero - (*this);
+   }
 
-   BigInteger operator*(BigInteger& big2);
-   BigInteger operator*(long l2);
+   // depends on external implementation
+   BigInteger operator*(const BigInteger& big2) const;
+   BigInteger operator*(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) * other;
+   }
 
-   BigInteger operator/(BigInteger& big2);
+   // depends on external implementation
+   BigInteger operator/(const BigInteger& big2) const;
+   BigInteger operator/(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) / other;
+   }
 
-   BigInteger operator%(BigInteger& big2);
+   // depends on external implementation
+   BigInteger operator%(const BigInteger& big2) const;
+   BigInteger operator%(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) / other;
+   }
 
+   // immutable??
    BigInteger& operator<<=(int i2);
 
+   // immutable??
    BigInteger& operator>>=(int i2);
 
    // what else is needed here?
