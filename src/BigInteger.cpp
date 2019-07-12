@@ -115,6 +115,16 @@ BigInteger::operator+(long l2)
 }
 
 BigInteger
+BigInteger::operator+(const BigInteger& big2)
+{
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+   BigInteger r;                                                // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis + bOther);       // get big-endian
+   return std::move(r);
+}
+
+BigInteger
 BigInteger::operator-(const BigInteger& big2)
 {
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian

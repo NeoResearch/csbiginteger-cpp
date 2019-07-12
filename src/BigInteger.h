@@ -142,7 +142,7 @@ public:
 
    BigInteger operator^(BigInteger& big2);
 
-   BigInteger operator+(BigInteger& big2);
+   BigInteger operator+(const BigInteger& big2);
    BigInteger operator+(long l2);
 
    BigInteger& operator+=(int i2);
