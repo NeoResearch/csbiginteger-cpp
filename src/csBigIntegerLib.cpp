@@ -106,7 +106,7 @@ csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
 {
    BigInteger b1(vbyte(big1, big1 + sz_big1));
    BigInteger b2(vbyte(big2, big2 + sz_big2));
-   BigInteger b3 = b1 + b2;
+   BigInteger b3 = b1 - b2;
    if (b3.Length() == 0)
       return 0; // error
    if (!b3.CopyTo(vr, sz_vr))
