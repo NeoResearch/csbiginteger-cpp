@@ -66,6 +66,14 @@ csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr)
    return true;
 }
 
+extern "C" int
+csbiginteger_to_int(byte* vb, int sz_vb)
+{
+   BigInteger big(vbyte(vb, vb + sz_vb));
+   return big.toInt();
+}
+
+
 /*
 
 // =======================

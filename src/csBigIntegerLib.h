@@ -29,6 +29,10 @@ csbiginteger_init_s(char* value, int base, byte* vr, int sz_vr);
 extern "C" bool
 csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
 
+// toInt(). input vb must be pre-allocated
+extern "C" int
+csbiginteger_to_int(byte* vb, int sz_vb);
+
 // =======================
 // csbiginteger operations
 // =======================
