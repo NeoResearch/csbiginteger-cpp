@@ -7,7 +7,48 @@
 #include <BigInteger.h>
 
 using namespace std;
-using namespace csBigInteger;
+using namespace csbiginteger;
+
+// basics
+
+// =======================
+// memory management tests
+// =======================
+
+TEST(csBIMemoryTests, BigInteger_Length_zero_is_one)
+{
+   BigInteger big;
+   EXPECT_EQ(big.Length(), 1);
+}
+
+TEST(csBIMemoryTests, BigInteger_CopyTo_Good_0x010203)
+{
+   byte b[4];
+   b[0] = 0;
+   b[1] = 0;
+   b[2] = 0;
+   b[3] = 0;
+   vbyte vb = { 0x01, 0x02, 0x03 };
+   BigInteger big(vb);
+   EXPECT_EQ(big.Length(), 3);
+   EXPECT_EQ(big.CopyTo(b, 4), true);
+   EXPECT_EQ(b[0], 0x01);
+   EXPECT_EQ(b[1], 0x02);
+   EXPECT_EQ(b[2], 0x03);
+   EXPECT_EQ(b[3], 0x00);
+}
+
+TEST(csBIMemoryTests, BigInteger_CopyTo_Bad)
+{
+   byte b[1];
+   b[0] = 0;
+   vbyte vb = { 0x01, 0x02, 0x03 };
+   BigInteger big(vb);
+   EXPECT_EQ(big.Length(), 3);
+   EXPECT_EQ(big.CopyTo(b, 1), false);
+}
+
+// ===========================
 
 // from csBigInteger.js
 

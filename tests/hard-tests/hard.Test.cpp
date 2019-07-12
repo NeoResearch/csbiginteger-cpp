@@ -7,7 +7,7 @@
 #include <BigInteger.h>
 
 using namespace std;
-using namespace csBigInteger;
+using namespace csbiginteger;
 
 // ============================================
 // BIG LOOP TEST: ALL NUMBERS FROM -INT TO +INT

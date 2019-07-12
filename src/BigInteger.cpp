@@ -16,7 +16,7 @@
 // - https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
 
 using namespace std;
-using namespace csBigInteger;
+using namespace csbiginteger;
 
 // input is raw little-endian format
 mpz_class
@@ -36,6 +36,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big);
 
 // nothing to initialize on empty constructor ('_data' is already empty)
 BigInteger::BigInteger()
+  : _data(vbyte(1, 0x00))
 {
 }
 

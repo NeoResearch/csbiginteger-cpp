@@ -11,9 +11,9 @@
 // c++ standard part
 // ... none
 
-typedef int int32;
-typedef long int64;
-typedef unsigned char byte;
+#include "types.h"
+
+// c++ types
 typedef std::vector<byte> vbyte;
 
 // original specification:
@@ -23,7 +23,7 @@ typedef std::vector<byte> vbyte;
 // This class is intended to be immutable
 // ======================================
 
-namespace csBigInteger {
+namespace csbiginteger {
 class Helper
 {
 public:

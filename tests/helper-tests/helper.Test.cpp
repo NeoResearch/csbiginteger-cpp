@@ -4,7 +4,7 @@
 #include <Helper.hpp>
 
 using namespace std;
-using namespace csBigInteger;
+using namespace csbiginteger;
 
 TEST(csBigIntegerHelperTests, RevertHexString8000_0080)
 {
@@ -67,3 +67,4 @@ TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S8000_is_false)
 {
    EXPECT_EQ(Helper::checkNegativeBit("8000"), false);
 }
+

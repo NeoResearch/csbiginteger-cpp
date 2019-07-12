@@ -18,7 +18,7 @@
 // This class is intended to be immutable
 // ======================================
 
-namespace csBigInteger {
+namespace csbiginteger {
 class BigInteger
 {
 private:
@@ -28,6 +28,24 @@ private:
    vbyte _data;
 
 public:
+   // size in bytes
+   int Length() const
+   {
+      return _data.size();
+   }
+
+   // copy internal bytes (in little-endian) to external array vr. returns 'true' if ok, 'false' if problems.
+   bool CopyTo(byte* vr, int sz_vr) const
+   {
+      // check if size is enough
+      if (sz_vr < Length())
+         return false;
+      vbyte data = _data;                     // big-endian
+      std::reverse(data.begin(), data.end()); // to little-endian
+      std::copy(data.begin(), data.end(), vr);
+      return true;
+   }
+
    const static BigInteger getMin; // get?
    const static BigInteger One;
    const static BigInteger Zero;
