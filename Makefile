@@ -1,9 +1,5 @@
 all:
-	g++ --shared src/csBigIntegerLib.cpp -o build/csbiginteger.so -fPIC
-
-# test python
-#run:
-#	export LD_LIBRARY_PATH=. && ./test.py
+	g++ --shared src/csBigIntegerLib.cpp src/BigInteger.cpp -lgmp -lgmpxx -o build/csbiginteger.so -fPIC
 
 clean:
-	rm *.so
+	rm build/*.so 
