@@ -69,11 +69,16 @@ csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr)
 extern "C" int
 csbiginteger_to_int(byte* vb, int sz_vb)
 {
-   std::cout  << "library::toInt() received " << sz_vb << " bytes" << std::endl;
    BigInteger big(vbyte(vb, vb + sz_vb));
-   std::cout  << "library::toInt() => string " << big.ToString() << std::endl;
    int x = big.toInt();
-   std::cout  << "library::toInt() => " << x << std::endl;
+   return x;
+}
+
+extern "C" long
+csbiginteger_to_long(byte* vb, int sz_vb)
+{
+   BigInteger big(vbyte(vb, vb + sz_vb));
+   long x = big.toLong();
    return x;
 }
 
