@@ -225,8 +225,24 @@ public:
    // immutable??
    BigInteger& operator<<=(int i2);
 
+   // depends on external implementation
+   BigInteger operator<<(const BigInteger& big2) const;
+   BigInteger operator<<(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) << other;
+   }
+
    // immutable??
    BigInteger& operator>>=(int i2);
+
+   // depends on external implementation
+   BigInteger operator>>(const BigInteger& big2) const;
+   BigInteger operator>>(long l2) const
+   {
+      BigInteger other(l2);
+      return (*this) >> other;
+   }
 
    // what else is needed here?
 

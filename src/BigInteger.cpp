@@ -112,6 +112,32 @@ BigInteger::toLong() const
    return i;
 }
 
+bool
+BigInteger::operator>(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError())
+      return false;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+
+   return (bThis > bOther); // result
+}
+
+bool
+BigInteger::operator<(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError())
+      return false;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
+
+   return (bThis < bOther); // result
+}
+
+// ----------------- arithmetic ---------------------
+
 BigInteger
 BigInteger::operator+(const BigInteger& big2) const
 {
@@ -176,11 +202,42 @@ BigInteger::operator%(const BigInteger& big2) const
    return std::move(r);
 }
 
+BigInteger
+BigInteger::operator<<(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError())
+      return Error;
+   if (big2 < Zero)
+      return (*this) >> -big2;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray());  // parse from little-endian
+   BigInteger r;                                                 // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis << big2.toInt()); // get big-endian
+   return std::move(r);
+}
+
+BigInteger
+BigInteger::operator>>(const BigInteger& big2) const
+{
+   if (this->IsError() || big2.IsError())
+      return Error;
+   if (big2 < Zero)
+      return (*this) << -big2;
+
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray());  // parse from little-endian
+   BigInteger r;                                                 // result
+   r._data = csBigIntegerGetBytesFromMPZ(bThis >> big2.toInt()); // get big-endian
+   return std::move(r);
+}
+
+// =================== BEGIN MPZ AGAIN =======================
+
 string
 csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big)
 {
    if (big < 0) {
       cout << "NOT IMPLEMENTED FOR BIT NEGATIVE MPZ!" << endl;
+      // TODO: should never error! fix this
       exit(1);
    }
 

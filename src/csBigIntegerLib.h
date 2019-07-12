@@ -41,6 +41,20 @@ csbiginteger_to_long(byte* vb, int sz_vb);
 // csbiginteger operations
 // =======================
 
+// perform big1 == big2
+extern "C" bool
+csbiginteger_eq(byte* big1, int sz_big1, byte* big2, int sz_big2);
+
+// perform big1 > big2
+extern "C" bool
+csbiginteger_gt(byte* big1, int sz_big1, byte* big2, int sz_big2);
+
+// perform big1 < big2
+extern "C" bool
+csbiginteger_lt(byte* big1, int sz_big1, byte* big2, int sz_big2);
+
+// ------------------- arithmetic ---------------------
+
 // perform big1 + big2 and return its size (in bytes). output vr must be pre-allocated
 extern "C" int32
 csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -60,5 +74,13 @@ csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
 // perform big1 % big2 and return its size (in bytes). output vr must be pre-allocated
 extern "C" int32
 csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+
+// perform big1 >> big2 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+
+// perform big1 << big2 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
 
 #endif // CSBIGINTEGER_LIB_H
