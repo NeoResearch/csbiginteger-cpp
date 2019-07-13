@@ -51,7 +51,7 @@ public:
    const static BigInteger Zero;
    const static BigInteger MinusOne;
 
-   const static BigInteger Error; // error biginteger (empty internal bytearray)
+public:
 
    // zero
    BigInteger();
@@ -255,6 +255,12 @@ public:
       std::string s = Helper::toHexString(data);
       return s;
    }
+
+private:
+   const static BigInteger error();
+
+public:
+   const static BigInteger Error; // error biginteger (empty internal bytearray)
 };
 }
 

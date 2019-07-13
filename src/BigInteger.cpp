@@ -39,7 +39,15 @@ csBigIntegerGetBytesFromMPZ(mpz_class big);
 const BigInteger BigInteger::Zero = BigInteger(0);
 const BigInteger BigInteger::One = BigInteger(1);
 const BigInteger BigInteger::MinusOne = BigInteger(-1);
-const BigInteger BigInteger::Error = BigInteger(vbyte(0)); // empty array is error
+const BigInteger BigInteger::Error = error();
+
+const BigInteger
+BigInteger::error()
+{
+   BigInteger big;
+   big._data = vbyte(0); // empty array is error
+   return big;
+}
 
 // nothing to initialize on empty constructor ('_data' is already empty)
 BigInteger::BigInteger()
@@ -68,6 +76,8 @@ BigInteger::~BigInteger()
 BigInteger::BigInteger(vbyte data)
   : _data(data)
 {
+   if (_data.size() == 0)
+      _data.push_back(0x00);            // default is zero, not Error
    reverse(_data.begin(), _data.end()); // to big-endian
 }
 
