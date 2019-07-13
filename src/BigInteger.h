@@ -116,8 +116,6 @@ public:
    // this one is little-endian
    vbyte ToByteArray() const
    {
-      if (this->_data.size() == 0)
-         return vbyte(1, 0x00);
       vbyte data = this->_data; // copy
       std::reverse(data.begin(), data.end());
       return std::move(data); // move

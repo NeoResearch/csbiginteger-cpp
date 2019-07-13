@@ -1134,3 +1134,11 @@ TEST(csBISerializeTests, BigInteger_big_minus_1_equals_hex)
                                   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
                                   "fffffffffffffffffffffff00");
 }
+
+// ==================== special ================
+
+TEST(csBISerializeTests, BigInteger_0_padding_hex)
+{
+   BigInteger big("0", 16);
+   EXPECT_EQ(big.toHexStr(), "00");
+}

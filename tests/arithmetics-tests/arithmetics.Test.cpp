@@ -94,6 +94,17 @@ TEST(csBIArithmeticsTests, EightMinusSHRIsSixteen)
    EXPECT_EQ(BigInteger(8) >> -1, BigInteger(16));
 }
 
+TEST(csBIArithmeticsTests, TenSHRZeroIsTen)
+{
+   EXPECT_EQ(BigInteger(10) >> 0, BigInteger(10));
+}
+
+TEST(csBIArithmeticsTests, TenSHLZeroIsTen)
+{
+   EXPECT_EQ(BigInteger(10) << 0, BigInteger(10));
+}
+
+
 // ---------- error
 TEST(csBIArithmeticsTests, ZeroAddErrorIsError)
 {
@@ -119,6 +130,17 @@ TEST(csBIArithmeticsTests, ZeroModErrorIsError)
 {
    EXPECT_EQ(BigInteger(0) % BigInteger::Error, BigInteger::Error);
 }
+
+TEST(csBIArithmeticsTests, ZeroSHLErrorIsError)
+{
+   EXPECT_EQ(BigInteger(0) << BigInteger::Error, BigInteger::Error);
+}
+
+TEST(csBIArithmeticsTests, ZeroSHRErrorIsError)
+{
+   EXPECT_EQ(BigInteger(0) >> BigInteger::Error, BigInteger::Error);
+}
+
 
 // ========= compare
 
