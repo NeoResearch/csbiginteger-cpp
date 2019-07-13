@@ -19,7 +19,7 @@
 // ======================================
 
 namespace csbiginteger {
-class BigInteger
+class BigInteger final
 {
 private:
    // internal data (vector of bytes) in big-endian format (for readability)
@@ -63,7 +63,7 @@ public:
    BigInteger(BigInteger&& corpse);
 
    // destructor
-   virtual ~BigInteger();
+   //virtual ~BigInteger();
 
    // default is base 10
    // allowed base 2

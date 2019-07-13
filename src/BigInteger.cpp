@@ -67,10 +67,11 @@ BigInteger::BigInteger(BigInteger&& corpse)
 {
 }
 
+// final class, not needed
 // destructor (nothing to do)
-BigInteger::~BigInteger()
-{
-}
+//BigInteger::~BigInteger()
+//{
+//}
 
 // input byte data in little-endian format
 BigInteger::BigInteger(vbyte data)
@@ -328,14 +329,14 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // convert to binary again
       std::string y4 = csBigIntegerGetBitsFromNonNegativeMPZ(bby3);
 
-      //guarantee length must be at least 8, or add padding!
-      while (y4.length() < 8) {
-         y4.insert(0, "0"); // prepend
-      }
+      //guarantee length must be at least 8, or add padding! (guaranteed by bby3, never empty)
+      //while (y4.length() < 8) {
+      //   y4.insert(0, "0"); // prepend
+      //}
       // get in bytes
       vbyte v = Helper::BinToBytes(y4);
-      if (v.size() == 0)
-         v.push_back(0x00);
+      //if (v.size() == 0)
+      //   v.push_back(0x00); // guaranteed by 'y4' (never empty)
 
       // finished
       return std::move(v);
@@ -365,8 +366,8 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
 mpz_class
 csBigIntegerMPZparse(vbyte n)
 {
-   if (n.size() == 0)
-      return mpz_class(0);
+   //if (n.size() == 0)
+   //   return mpz_class(0); // never invoked
 
    std::string s = Helper::toHexString(n);
 
@@ -402,21 +403,23 @@ mpz_class
 csBigIntegerMPZparses(string n, int base)
 {
    if (base == 10) {
-      if (n.length() == 0)
-         n = "0";
+      //if (n.length() == 0)
+      //   n = "0"; // not necessary
       return mpz_class(n, base);
    }
 
-   if (base == 2) {
-      if (n.length() == 0)
-         n = "0";
-      return mpz_class(n, base);
-   }
+   // never used! internal function only
+   //if (base == 2) {
+   //   if (n.length() == 0)
+   //      n = "0";
+   //   return mpz_class(n, base);
+   //}
 
-   if (base != 16) {
-      cout << "UNSUPPORTED BASE! " << base << endl;
-      exit(1);
-   }
+   // never used! internal function only
+   //if (base != 16) {
+   //   cout << "UNSUPPORTED BASE! " << base << endl;
+   //   exit(1);
+   //}
 
    // zero padding
    while (n.length() < 2)
