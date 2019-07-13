@@ -167,3 +167,5 @@ TEST(csBIArithmeticsTests, SpecialModNeg)
 {
    EXPECT_EQ(BigInteger(860593) % BigInteger(-201), BigInteger(112));
 }
+
+// TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
