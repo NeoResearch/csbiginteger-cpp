@@ -309,10 +309,12 @@ TEST(csBISerializeTests, BigInteger1_toHexStr_S01)
 //  expect(new csBigInteger([]).toHexString()).toBe("00");
 //});
 
+// empty bytearray initialization is considered error
 TEST(csBISerializeTests, BigIntegerEmptyByteArray_toHexStr_S00)
 {
    BigInteger big(vbyte(0));
-   EXPECT_EQ(big.toHexStr(), "00");
+   EXPECT_EQ(big, BigInteger::Error);
+   EXPECT_EQ(big.toHexStr(), "");
 }
 
 //test('constructor csBigInteger(0).toHexString() equals "00"', () => {
@@ -613,10 +615,12 @@ TEST(csBISerializeTests, BigInteger1_ToString_S0x01)
 //  expect(new csBigInteger([]).toString(16)).toBe("0x00");
 //});
 
+// empty byte array is considered error here
 TEST(csBISerializeTests, BigIntegerEmptyByteArray_ToString_S0x00)
 {
    BigInteger big(vbyte(0));
-   EXPECT_EQ(big.ToString(), "0x00");
+   EXPECT_EQ(big, BigInteger::Error);
+   EXPECT_EQ(big.ToString(), "0x");
 }
 
 //test('constructor csBigInteger(0).toString(16) equals "0x00"', () => {
@@ -827,6 +831,14 @@ TEST(csBISerializeTests, BigInteger1000000_ToString_S0x0f4240)
 {
    BigInteger big(1000000);
    EXPECT_EQ(big.ToString(), "0x0f4240");
+}
+
+// BASE 10 test!
+
+TEST(csBISerializeTests, BigIntegerM1_ToString10_SM1)
+{
+   BigInteger big(-1);
+   EXPECT_EQ(big.ToString(10), "-1");
 }
 
 // ================================================================

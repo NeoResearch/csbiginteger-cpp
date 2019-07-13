@@ -236,14 +236,16 @@ BigInteger::operator>>(const BigInteger& big2) const
 // =================== BEGIN MPZ AGAIN =======================
 
 string
+BigInteger::toStringBase10() const
+{
+   mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
+   return bThis.get_str(10);
+}
+
+// assumes big >= 0
+string
 csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big)
 {
-   if (big < 0) {
-      cout << "NOT IMPLEMENTED FOR BIT NEGATIVE MPZ!" << endl;
-      // TODO: should never error! fix this
-      exit(1);
-   }
-
    string sbin;
    while (big > 0) {
       mpz_class rest = (big % 2);

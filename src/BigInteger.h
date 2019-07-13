@@ -137,12 +137,14 @@ public:
          return ss.str();
       }
 
-      std::cout << "NOT IMPLEMENTED ToString() for base = " << base << std::endl;
-      //exit(1);
-
-      return "";
+      // base 10
+      return toStringBase10();
    }
 
+private:
+   std::string toStringBase10() const;
+
+public:
    // native int32 format
    int32 toInt() const;
 
@@ -249,11 +251,9 @@ public:
    // hex string is returned on little-endian
    std::string toHexStr() const
    {
-      vbyte data = this->_data;               // from big-endian
-      std::reverse(data.begin(), data.end()); // to little-endian
+      vbyte data = this->ToByteArray(); // little-endian
       std::string s = Helper::toHexString(data);
-      // TODO: why not just return 's' here? some strange dependency exists between ToByteArray method...
-      return s.length() == 0 ? "00" : s;
+      return s;
    }
 };
 }

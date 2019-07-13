@@ -18,8 +18,6 @@ TEST(csBigIntegerHelperTests, HexToBytes0001)
    EXPECT_EQ(vb[1], 0x01);
 }
 
-
-
 // =================================================
 //  checkNegativeBit
 
@@ -68,3 +66,7 @@ TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S8000_is_false)
    EXPECT_EQ(Helper::checkNegativeBit("8000"), false);
 }
 
+TEST(csBigIntegerHelperTests, BigInteger_revert_hex_0)
+{
+   EXPECT_EQ(Helper::revertHexString("0"), "00");
+}
