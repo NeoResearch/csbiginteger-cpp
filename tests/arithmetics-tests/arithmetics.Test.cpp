@@ -159,3 +159,11 @@ TEST(csBIArithmeticsTests, ZeroGreaterThanErrorIsFalse)
 {
    EXPECT_EQ(BigInteger(0) > BigInteger::Error, false);
 }
+
+// ============ special
+
+// 860593 % -201 is 112
+TEST(csBIArithmeticsTests, SpecialModNeg)
+{
+   EXPECT_EQ(BigInteger(860593) % BigInteger(-201), BigInteger(112));
+}
