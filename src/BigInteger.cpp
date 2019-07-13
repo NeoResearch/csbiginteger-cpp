@@ -121,19 +121,22 @@ BigInteger::operator>(const BigInteger& big2) const
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
    mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
 
-   return (bThis > bOther); // result
+   bool r = (bThis > bOther); // result
+   return r;
 }
 
 bool
 BigInteger::operator<(const BigInteger& big2) const
 {
-   if (this->IsError() || big2.IsError())
+   if (this->IsError() || big2.IsError()) {
       return false;
+   }
 
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
    mpz_class bOther = csBigIntegerMPZparse(big2.ToByteArray()); // parse from little-endian
 
-   return (bThis < bOther); // result
+   bool r = (bThis < bOther); // result
+   return r;
 }
 
 // ----------------- arithmetic ---------------------
@@ -276,6 +279,8 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
 
       // v is added backwards (little-endian), must reverse (to big-endian)
       reverse(v.begin(), v.end());
+      if (v.size() == 0)
+         v.push_back(0x00);
       // finished
       return std::move(v);
    } else {
@@ -317,6 +322,9 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       }
       // get in bytes
       vbyte v = Helper::BinToBytes(y4);
+      if (v.size() == 0)
+         v.push_back(0x00);
+
       // finished
       return std::move(v);
    }
