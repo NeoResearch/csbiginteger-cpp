@@ -226,6 +226,11 @@ TEST(csBIArithmeticsTests, Pow3_0_9)
    EXPECT_EQ(BigInteger::Pow(BigInteger(3), 0), BigInteger::One);
 }
 
+TEST(csBIArithmeticsTests, Pow3_0_Negative_Error)
+{
+   EXPECT_EQ(BigInteger::Pow(BigInteger(3), -2), BigInteger::Error);
+}
+
 // ======================= Online tests =======================
 
 // from: https://docs.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.divide?view=netframework-4.8
