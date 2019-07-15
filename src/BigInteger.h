@@ -52,7 +52,6 @@ public:
    const static BigInteger MinusOne;
 
 public:
-
    // zero
    BigInteger();
 
@@ -72,6 +71,8 @@ public:
 
    BigInteger(int32 value);
    BigInteger(int64 value);
+   // from single-precision
+   BigInteger(float f);
 
    // byte data in little-endian format
    BigInteger(vbyte data);
@@ -245,6 +246,14 @@ public:
    }
 
    // what else is needed here?
+
+   // Utils
+
+   static BigInteger Pow(BigInteger value, unsigned long exponent);
+   static BigInteger Multiply(BigInteger value1, BigInteger value2)
+   {
+      return value1 * value2;
+   }
 
 public:
    // object accessible helper method

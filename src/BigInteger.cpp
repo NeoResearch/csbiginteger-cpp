@@ -49,6 +49,17 @@ BigInteger::error()
    return big;
 }
 
+BigInteger
+BigInteger::Pow(BigInteger value, unsigned long exponent)
+{
+   mpz_class big1 = csBigIntegerMPZparse(value.ToByteArray());
+   mpz_class r;
+   mpz_pow_ui(r.get_mpz_t(), big1.get_mpz_t(), exponent);
+   vbyte vr = csBigIntegerGetBytesFromMPZ(r);
+   reverse(vr.begin(), vr.end()); // to little-endian
+   return BigInteger(vr);
+}
+
 // nothing to initialize on empty constructor ('_data' is already empty)
 BigInteger::BigInteger()
   : _data(vbyte(1, 0x00))
@@ -100,6 +111,13 @@ BigInteger::BigInteger(int32 val)
 BigInteger::BigInteger(int64 val)
 {
    mpz_class a = val;
+   _data = csBigIntegerGetBytesFromMPZ(a);
+}
+
+BigInteger::BigInteger(float val)
+{
+   mpz_class a = val;
+
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 

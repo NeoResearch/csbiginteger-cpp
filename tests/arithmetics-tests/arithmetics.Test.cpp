@@ -104,7 +104,6 @@ TEST(csBIArithmeticsTests, TenSHLZeroIsTen)
    EXPECT_EQ(BigInteger(10) << 0, BigInteger(10));
 }
 
-
 // ---------- error
 TEST(csBIArithmeticsTests, ZeroAddErrorIsError)
 {
@@ -140,7 +139,6 @@ TEST(csBIArithmeticsTests, ZeroSHRErrorIsError)
 {
    EXPECT_EQ(BigInteger(0) >> BigInteger::Error, BigInteger::Error);
 }
-
 
 // ========= compare
 
@@ -205,7 +203,6 @@ TEST(csBIArithmeticsTests, SpecialMod)
    EXPECT_EQ(b1 % b2, BigInteger("888269"));
 }
 
-
 // 860593 % -201 is 112
 TEST(csBIArithmeticsTests, SpecialModNeg)
 {
@@ -214,7 +211,67 @@ TEST(csBIArithmeticsTests, SpecialModNeg)
 
 TEST(csBIArithmeticsTests, SpecialModNeg2)
 {
-   EXPECT_EQ(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017"), BigInteger("-3100049211437790421"));  
+   EXPECT_EQ(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017"), BigInteger("-3100049211437790421"));
+}
+
+// ======================= Pow =======================
+
+TEST(csBIArithmeticsTests, Pow3_2_9)
+{
+   EXPECT_EQ(BigInteger::Pow(BigInteger(3), 2), BigInteger(9));
+}
+
+TEST(csBIArithmeticsTests, Pow3_0_9)
+{
+   EXPECT_EQ(BigInteger::Pow(BigInteger(3), 0), BigInteger::One);
+}
+
+// ======================= Online tests =======================
+
+// from: https://docs.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.divide?view=netframework-4.8
+
+TEST(csBIArithmeticsTests, Online_Pack_Divisor)
+{
+   BigInteger big64max(std::numeric_limits<long>::max());
+   EXPECT_EQ(big64max.ToString(10), "9223372036854775807");
+   BigInteger divisor = BigInteger::Pow(big64max, 2);
+   EXPECT_EQ(divisor.ToString(10), "85070591730234615847396907784232501249");
+   //Divisor:  85,070,591,730,234,615,847,396,907,784,232,501,249
+
+   BigInteger dividends[] = { BigInteger::Multiply(BigInteger(std::numeric_limits<float>::max()), 2),
+                              BigInteger("90612345123875509091827560007100099", 10),
+                              BigInteger::One,
+                              BigInteger::Multiply(BigInteger(std::numeric_limits<int>::max()), BigInteger(std::numeric_limits<long>::max())),
+                              divisor + BigInteger::One };
+
+   // Divide each dividend by divisor in three different ways.
+
+   BigInteger quotient;
+   BigInteger remainder = 0;
+
+   // Console.WriteLine("Dividend: {0:N0}", dividend);
+   // Dividend: 680,564,693,277,057,719,623,408,366,969,033,850,880
+   EXPECT_EQ(dividends[0].ToString(10), "680564693277057719623408366969033850880");
+
+   // 0: Divide 7 remainder 85,070,551,165,415,408,691,630,012,479,406,342,137
+   EXPECT_EQ((dividends[0] / divisor).ToString(10), "7");
+   EXPECT_EQ((dividends[0] % divisor).ToString(10), "85070551165415408691630012479406342137");
+
+   // 1: Divide 0 remainder 90,612,345,123,875,509,091,827,560,007,100,099
+   EXPECT_EQ((dividends[1] / divisor).ToString(10), "0");
+   EXPECT_EQ((dividends[1] % divisor).ToString(10), "90612345123875509091827560007100099");
+
+   // 2: Divide 0 remainder 1
+   EXPECT_EQ((dividends[2] / divisor).ToString(10), "0");
+   EXPECT_EQ((dividends[2] % divisor).ToString(10), "1");
+
+   // 3: Divide 0 remainder 19,807,040,619,342,712,359,383,728,129
+   EXPECT_EQ((dividends[3] / divisor).ToString(10), "0");
+   EXPECT_EQ((dividends[3] % divisor).ToString(10), "19807040619342712359383728129");
+
+   // 4: Divide 1 remainder 1
+   EXPECT_EQ((dividends[4] / divisor).ToString(10), "1");
+   EXPECT_EQ((dividends[4] % divisor).ToString(10), "1");
 }
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
