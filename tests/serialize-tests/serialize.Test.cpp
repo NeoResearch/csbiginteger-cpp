@@ -1159,3 +1159,33 @@ TEST(csBISerializeTests, BigInteger_0_padding_hex)
    BigInteger big("0", 16);
    EXPECT_EQ(big.toHexStr(), "00");
 }
+
+TEST(csBISerializeTests, BigInteger_Special1)
+{
+   BigInteger big(128);
+   EXPECT_EQ(big.toHexStr(), "8000");
+}
+
+TEST(csBISerializeTests, BigInteger_Special2)
+{
+   BigInteger big("-48335248028225339427907476932896373492484053930");
+   EXPECT_EQ(big.toHexStr().length() / 2, 20);
+}
+
+TEST(csBISerializeTests, BigInteger_Special3)
+{
+   BigInteger big("-399990000");
+   EXPECT_EQ(big.toHexStr(), "10a328e8");
+}
+
+//negative left shift should be positive right shift
+TEST(csBISerializeTests, BigInteger_Special4)
+{
+   EXPECT_EQ(BigInteger(8) << BigInteger(-3), 1);
+}
+
+//negative right shift should be positive left shift
+TEST(csBISerializeTests, BigInteger_Special5)
+{
+   EXPECT_EQ(BigInteger(8) >> BigInteger(-3), 64);
+}

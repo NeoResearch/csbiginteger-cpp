@@ -184,10 +184,37 @@ TEST(csBIArithmeticsTests, ZeroGreaterThanErrorIsFalse)
 
 // ============ special
 
+TEST(csBIArithmeticsTests, SpecialDiv)
+{
+   BigInteger b1 = BigInteger("41483775933600000000");
+   BigInteger b2 = BigInteger("414937759336");
+   EXPECT_EQ(b1 / b2, BigInteger("99975899"));
+}
+
+TEST(csBIArithmeticsTests, SpecialDiv2)
+{
+   BigInteger b1 = BigInteger("-11001000000");
+   BigInteger b2 = BigInteger(86400);
+   EXPECT_EQ(b1 / b2, BigInteger(-127326));
+}
+
+TEST(csBIArithmeticsTests, SpecialMod)
+{
+   BigInteger b1 = BigInteger("20195283520469175757");
+   BigInteger b2 = BigInteger("1048576");
+   EXPECT_EQ(b1 % b2, BigInteger("888269"));
+}
+
+
 // 860593 % -201 is 112
 TEST(csBIArithmeticsTests, SpecialModNeg)
 {
    EXPECT_EQ(BigInteger(860593) % BigInteger(-201), BigInteger(112));
+}
+
+TEST(csBIArithmeticsTests, SpecialModNeg2)
+{
+   EXPECT_EQ(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017"), BigInteger("-3100049211437790421"));  
 }
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
