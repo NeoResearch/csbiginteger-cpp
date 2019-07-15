@@ -17,13 +17,13 @@ reused on other projects (on other languages too).
 
 ## Build Instructions
 You will need GNU GMP library for `BigInteger.cpp` implementation of `BigInteger.h`.
-On debian-based systems (or ubuntu), just type `make vendor`. 
+On debian-based systems (or ubuntu), just type `make vendor` (it will install `libgmp-dev` package). 
 
 It will also configure test library (as long as you cloned this project with `--submodules` too).
 To test, just run `make test`.
 
 
-#### C++ Standard
+### C++ Standard
 Currently, C++11 is adopted, in order to keep the best compatibility between conversors and compilers. However, it is recommended to migrate to C++17 as soon as possible, if this does not break compatibility with any existing modules and tools.
 
 Let's please follow the [CppCoreGuidelines](https://github.com/isocpp/CppCoreGuidelines).
