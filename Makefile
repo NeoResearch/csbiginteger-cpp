@@ -15,11 +15,11 @@ test:
 	@echo
 	@echo "Generating coverage (see tests/reports/)"
 	@echo
-	(cd tests && make test-coverage)
+	#(cd tests && make test-coverage)
 
 	@echo
 	@echo "Performing hard tests now... this will take a while!"
 	@echo
-	(cd tests && make test-hard)
+	#(cd tests && make test-hard)
 clean:
 	rm build/*.so 

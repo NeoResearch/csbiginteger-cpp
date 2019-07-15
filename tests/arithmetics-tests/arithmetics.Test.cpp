@@ -301,6 +301,12 @@ TEST(csBIArithmeticsTests, FiveDivides2Equals2)
    EXPECT_EQ(BigInteger(5) / BigInteger(2), BigInteger(2));
 }
 
+TEST(csBIArithmeticsTests, MinusFiveDividesMinus2Equals2)
+{
+   EXPECT_EQ(-5 / -2, 2); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(-5) / BigInteger(-2), BigInteger(2));
+}
+
 // three basic mod
 
 TEST(csBIArithmeticsTests, Minus10Mod3EqualsMinus1)
@@ -320,6 +326,12 @@ TEST(csBIArithmeticsTests, TenModMinus3Equals1)
 {
    EXPECT_EQ(10 % -3, 1); // c++ standard, same thing
    EXPECT_EQ(BigInteger(10) % BigInteger(-3), BigInteger(1));
+}
+
+TEST(csBIArithmeticsTests, MinusTenModMinus3EqualsMinus1)
+{
+   EXPECT_EQ(-10 % -3, -1); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(-10) % BigInteger(-3), BigInteger(-1));
 }
 
 TEST(csBIArithmeticsTests, TenModMinus5Equals0)
