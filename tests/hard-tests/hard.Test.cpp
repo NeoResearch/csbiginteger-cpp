@@ -79,12 +79,20 @@ TEST(csBIHardTests, BigInteger_big_loop_1)
 
 // ------------------------------------------- MODS ----------------
 
-// TESTING NEGATIVE MODS... SHOULD BE THE SAME AS POSITIVES!  x % -b === x % b
-TEST(csBIHardTests, BigInteger_big_loop_10000_mod_negative)
+// TESTING NEGATIVE MODS... SHOULD BE THE SAME AS POSITIVES (Why?)!  x % -b === x % b
+TEST(csBIHardTests, BigInteger_big_loop_99999_mod_negative)
 {
    BigInteger bigRandom(123456789);
-   for (long i = std::numeric_limits<int>::min(); i <= std::numeric_limits<int>::max(); i += 10000) {
+   for (long i = std::numeric_limits<int>::min(); i <= std::numeric_limits<int>::max(); i += 99999) {
       BigInteger big((int)i);
       EXPECT_EQ(bigRandom % big, bigRandom % -big);
+      EXPECT_EQ((bigRandom / big) * big + bigRandom % big, bigRandom);
+   }
+
+   BigInteger bigRandom2(-123456789);
+   for (long i = std::numeric_limits<int>::min(); i <= std::numeric_limits<int>::max(); i += 99999) {
+      BigInteger big((int)i);
+      EXPECT_EQ(bigRandom2 % big, bigRandom2 % -big);
+      EXPECT_EQ((bigRandom2 / big) * big + bigRandom2 % big, bigRandom2);
    }
 }
