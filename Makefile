@@ -1,5 +1,5 @@
 all:
-	g++ --shared src/csBigIntegerLib.cpp src/BigInteger.cpp -lgmp -lgmpxx -o build/csbiginteger.so -fPIC
+	g++ -std=c++11 -Ofast --shared src/csBigIntegerLib.cpp src/BigInteger.cpp -lgmp -lgmpxx -o build/csbiginteger.so -fPIC
 
 
 vendor:
