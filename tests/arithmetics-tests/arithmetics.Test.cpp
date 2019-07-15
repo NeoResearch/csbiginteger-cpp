@@ -275,3 +275,21 @@ TEST(csBIArithmeticsTests, Online_Pack_Divisor)
 }
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
+
+TEST(csBIArithmeticsTests, Minus5Divides2EqualsMinus2)
+{
+   EXPECT_EQ(-5 / 2, -2); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(-5) / BigInteger(2), BigInteger(-2));
+}
+
+TEST(csBIArithmeticsTests, FiveDividesMinus2EqualsMinus2)
+{
+   EXPECT_EQ(5 / -2, -2); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(5) / BigInteger(-2), BigInteger(-2));
+}
+
+TEST(csBIArithmeticsTests, FiveDivides2Equals2)
+{
+   EXPECT_EQ(5 / 2, 2); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(5) / BigInteger(2), BigInteger(2));
+}
