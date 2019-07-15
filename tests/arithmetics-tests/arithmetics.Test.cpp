@@ -276,6 +276,8 @@ TEST(csBIArithmeticsTests, Online_Pack_Divisor)
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
 
+// three basic div
+
 TEST(csBIArithmeticsTests, Minus5Divides2EqualsMinus2)
 {
    EXPECT_EQ(-5 / 2, -2); // c++ standard, same thing
@@ -292,4 +294,31 @@ TEST(csBIArithmeticsTests, FiveDivides2Equals2)
 {
    EXPECT_EQ(5 / 2, 2); // c++ standard, same thing
    EXPECT_EQ(BigInteger(5) / BigInteger(2), BigInteger(2));
+}
+
+// three basic mod
+
+TEST(csBIArithmeticsTests, Minus10Mod3EqualsMinus1)
+{
+   EXPECT_EQ(-10 % 3, -1); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(-10) % BigInteger(3), BigInteger(-1));
+}
+
+TEST(csBIArithmeticsTests, TenMod3Equals1)
+{
+   EXPECT_EQ(10 % 3, 1); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(10) % BigInteger(3), BigInteger(1));
+}
+
+// This test is very strange, but it is correct according to C++ and C#
+TEST(csBIArithmeticsTests, TenModMinus3Equals1)
+{
+   EXPECT_EQ(10 % -3, 1); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(10) % BigInteger(-3), BigInteger(1));
+}
+
+TEST(csBIArithmeticsTests, TenModMinus5Equals0)
+{
+   EXPECT_EQ(10 % -5, 0); // c++ standard, same thing
+   EXPECT_EQ(BigInteger(10) % BigInteger(-5), BigInteger(0));
 }
