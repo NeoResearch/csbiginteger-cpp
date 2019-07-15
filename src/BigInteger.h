@@ -249,7 +249,8 @@ public:
 
    // Utils
 
-   static BigInteger Pow(BigInteger value, unsigned long exponent);
+   // pow allows int32 positive exponent (negative will generate BigInteger::Error)
+   static BigInteger Pow(BigInteger value, int exponent);
    static BigInteger Multiply(BigInteger value1, BigInteger value2)
    {
       return value1 * value2;

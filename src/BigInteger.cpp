@@ -50,11 +50,15 @@ BigInteger::error()
 }
 
 BigInteger
-BigInteger::Pow(BigInteger value, unsigned long exponent)
+BigInteger::Pow(BigInteger value, int exponent)
 {
+   // according to C# spec, only non-negative int32 values accepted here
+   if (exponent < 0)
+      return BigInteger::Error;
    mpz_class big1 = csBigIntegerMPZparse(value.ToByteArray());
    mpz_class r;
-   mpz_pow_ui(r.get_mpz_t(), big1.get_mpz_t(), exponent);
+   unsigned long _exp = exponent;
+   mpz_pow_ui(r.get_mpz_t(), big1.get_mpz_t(), _exp);
    vbyte vr = csBigIntegerGetBytesFromMPZ(r);
    reverse(vr.begin(), vr.end()); // to little-endian
    return BigInteger(vr);
