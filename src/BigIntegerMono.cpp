@@ -104,7 +104,9 @@ BigInteger::error()
 BigInteger
 BigInteger::Pow(BigInteger value, int exponent)
 {
-    MonoObject* bigLib = mono_object_new(domain, biglibclass);
+   if (exponent < 0)
+      return BigInteger::Error;
+   MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
    string sMyMethodStr = "BigIntegerLib:pow(byte[],int)";
