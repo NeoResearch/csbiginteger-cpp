@@ -64,38 +64,6 @@ BigInteger::Pow(BigInteger value, int exponent)
    return BigInteger(vr);
 }
 
-// nothing to initialize on empty constructor ('_data' is already empty)
-BigInteger::BigInteger()
-  : _data(vbyte(1, 0x00))
-{
-}
-
-// copy
-BigInteger::BigInteger(const BigInteger& copy)
-  : _data(copy._data)
-{
-}
-
-// move
-BigInteger::BigInteger(BigInteger&& corpse)
-  : _data(std::move(corpse._data))
-{
-}
-
-// final class, not needed
-// destructor (nothing to do)
-//BigInteger::~BigInteger()
-//{
-//}
-
-// input byte data in little-endian format
-BigInteger::BigInteger(vbyte data)
-  : _data(data)
-{
-   if (_data.size() == 0)
-      _data.push_back(0x00);            // default is zero, not Error
-   reverse(_data.begin(), _data.end()); // to big-endian
-}
 
 // default is base 10
 // allows base 2
@@ -106,17 +74,6 @@ BigInteger::BigInteger(string str, int base)
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 
-BigInteger::BigInteger(int32 val)
-{
-   mpz_class a = val;
-   _data = csBigIntegerGetBytesFromMPZ(a);
-}
-
-BigInteger::BigInteger(int64 val)
-{
-   mpz_class a = val;
-   _data = csBigIntegerGetBytesFromMPZ(a);
-}
 
 BigInteger::BigInteger(float val)
 {
@@ -124,6 +81,7 @@ BigInteger::BigInteger(float val)
 
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
+
 
 int32
 BigInteger::toInt() const

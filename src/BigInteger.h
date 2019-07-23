@@ -53,13 +53,22 @@ public:
 
 public:
    // zero
-   BigInteger();
+   BigInteger()
+     : _data(vbyte(1, 0x00))
+   {
+   }
 
    // copy constructor
-   BigInteger(const BigInteger& value);
+   BigInteger(const BigInteger& copy)
+     : _data(copy._data)
+   {
+   }
 
    // move constructor
-   BigInteger(BigInteger&& corpse);
+   BigInteger(BigInteger&& corpse)
+     : _data(std::move(corpse._data))
+   {
+   }
 
    // destructor
    //virtual ~BigInteger();
@@ -69,13 +78,31 @@ public:
    // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
    BigInteger(std::string str, int base = 10);
 
-   BigInteger(int32 value);
-   BigInteger(int64 value);
+   BigInteger(int32 value)
+     : BigInteger(std::to_string(value), 10)
+   {
+   }
+
+   BigInteger(int64 value)
+     : BigInteger(std::to_string(value), 10)
+   {
+   }
+
    // from single-precision
    BigInteger(float f);
+   //BigInteger(float f) :
+   //BigInteger(std::to_string((int)f), 10)
+   //{
+   //}
 
    // byte data in little-endian format
-   BigInteger(vbyte data);
+   BigInteger(vbyte data)
+     : _data(data)
+   {
+      if (_data.size() == 0)
+         _data.push_back(0x00);            // default is zero, not Error
+      reverse(_data.begin(), _data.end()); // to big-endian
+   }
 
    // BigInteger is the same when _data is the same
    // _data must be always in its most compressed format (except by zero)
@@ -272,6 +299,7 @@ private:
 public:
    const static BigInteger Error; // error biginteger (empty internal bytearray)
 };
-}
+
+} // namespace
 
 #endif // CS_BIGINTEGER_BIGINTEGER_H

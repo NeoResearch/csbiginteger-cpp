@@ -3,6 +3,11 @@ all:  gmp
 gmp:
 	g++ -std=c++11 -Ofast --shared src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o build/csbiginteger_gmp.so -fPIC
 
+dotnet:
+	dotnet build src/dotnet/ -c Release
+	cp src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll build/
+	g++ -std=c++11 -Ofast --shared src/BigIntegerMono.cpp src/csBigIntegerLib.cpp `pkg-config --cflags --libs mono-2` -o build/csbiginteger_mono.so -fPIC
+
 
 vendor:
 	@echo "trying to install GNU lgmp library (debian-based systems)"
