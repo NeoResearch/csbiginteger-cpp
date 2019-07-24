@@ -16,7 +16,7 @@ C/C++ is interoperable with nearly all existing languages, so the idea is to pro
 reused on other projects (on other languages too).
 
 ## Build Instructions
-You will need GNU GMP library for `BigIntegerGMP.cpp` or `BigIntegerMono.cpp` implementations of `BigInteger.h`.
+There are currently two implementations for `BigInteger.h`: `BigIntegerGMP.cpp` or `BigIntegerMono.cpp`.
 
 ### GNU MP implementation
 On debian-based systems (or ubuntu), just type `make vendor` (it will install `libgmp-dev` package). 
