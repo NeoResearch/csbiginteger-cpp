@@ -72,7 +72,7 @@ executeOp(std::string op, vbyte bytes1, vbyte bytes2)
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image ::executeOp() failed" << std::endl;
       exit(1);
    }
 
@@ -118,7 +118,7 @@ BigInteger::Pow(BigInteger value, int exponent)
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image Pow() failed" << std::endl;
       exit(1);
    }
 
@@ -138,6 +138,7 @@ BigInteger::Pow(BigInteger value, int exponent)
 // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
 BigInteger::BigInteger(string str, int base)
 {
+   cout << "building BigInteger std=" << str << " base=" << base << endl;
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
@@ -150,7 +151,7 @@ BigInteger::BigInteger(string str, int base)
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image BigInteger(str,int) failed" << std::endl;
       exit(1);
    }
 
@@ -163,14 +164,18 @@ BigInteger::BigInteger(string str, int base)
 
    MonoArray* arr = (MonoArray*)retarr;
    _data = mono_bytearray_to_bytearray(arr);
+   //cout << Helper::toHexString(_data) << endl;
+   std::reverse(_data.begin(), _data.end()); // to big-endian (internal)
+   //cout << Helper::toHexString(_data) << endl;
 }
 
 BigInteger::BigInteger(float x)
 {
+   
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
-   string sMyMethodStr = "BigIntegerLib:from_float(float)";
+   string sMyMethodStr = "BigIntegerLib:from_float(single)";
    MonoMethodDesc* MyMethod = mono_method_desc_new(sMyMethodStr.c_str(), false);
    if (!MyMethod) {
       std::cout << "mono_method_desc_new failed" << std::endl;
@@ -179,17 +184,22 @@ BigInteger::BigInteger(float x)
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image (float) failed" << std::endl;
       exit(1);
    }
 
    void* args[1];
-   args[1] = &x;
+   float z = x;
+   args[1] = &z;
+
+   MonoClass* single  = mono_get_single_class();
 
    MonoObject* retarr = mono_runtime_invoke(method, bigLib, args, nullptr);
 
    MonoArray* arr = (MonoArray*)retarr;
    _data = mono_bytearray_to_bytearray(arr);
+   std::reverse(_data.begin(), _data.end()); // to big-endian (internal)
+   
 }
 
 string
@@ -207,11 +217,11 @@ BigInteger::toStringBase10() const
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image toStringBase10 failed" << std::endl;
       exit(1);
    }
 
-   MonoArray* byteArray = ::CreateByteArray(this->_data);
+   MonoArray* byteArray = ::CreateByteArray(this->ToByteArray());
    //MonoString* monostr = mono_string_new(domain, str.c_str());
    void* args[2];
    int base = 10;
@@ -241,11 +251,11 @@ BigInteger::toInt() const
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image toInt() failed" << std::endl;
       exit(1);
    }
 
-   MonoArray* byteArray = ::CreateByteArray(this->_data);
+   MonoArray* byteArray = ::CreateByteArray(this->ToByteArray());
    void* args[1];
    args[0] = byteArray;
 
@@ -270,11 +280,11 @@ BigInteger::toLong() const
 
    MonoMethod* method = mono_method_desc_search_in_image(MyMethod, image);
    if (!method) {
-      std::cout << "mono_method_desc_search_in_image failed" << std::endl;
+      std::cout << "mono_method_desc_search_in_image toLong() failed" << std::endl;
       exit(1);
    }
 
-   MonoArray* byteArray = ::CreateByteArray(this->_data);
+   MonoArray* byteArray = ::CreateByteArray(this->ToByteArray());
    void* args[1];
    args[0] = byteArray;
 
@@ -352,6 +362,8 @@ BigInteger::operator/(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError() || big2.IsZero())
       return Error;
+   //cout << "dividing " << this->toInt() << " / " << big2.toInt() << " " << endl;
+   //cout << "dividing " << this->ToString(16) << " / " << big2.ToString(16) << " " << endl;
    string op = "BigIntegerLib:div(byte[],byte[])";
    MonoObject* retarr = ::executeOp(op, this->ToByteArray(), big2.ToByteArray());
    MonoArray* arr = (MonoArray*)retarr;

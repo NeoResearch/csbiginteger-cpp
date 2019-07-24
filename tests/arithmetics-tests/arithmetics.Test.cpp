@@ -60,6 +60,17 @@ TEST(csBIArithmeticsTests, TenDivZeroEqualsError)
    EXPECT_EQ(BigInteger(10) / BigInteger(0), BigInteger::Error);
 }
 
+TEST(csBIArithmeticsTests, _255DivOneEquals255)
+{
+   EXPECT_EQ(BigInteger(255) / BigInteger(1), BigInteger(255));
+}
+
+TEST(csBIArithmeticsTests, _255DivMinusOneEqualsM255)
+{
+   EXPECT_EQ(BigInteger(255) / BigInteger(-1), BigInteger(-255));
+}
+
+
 TEST(csBIArithmeticsTests, OnePlusErrorEqualsError)
 {
    EXPECT_EQ(BigInteger(1) + BigInteger::Error, BigInteger::Error);
@@ -184,9 +195,16 @@ TEST(csBIArithmeticsTests, ZeroGreaterThanErrorIsFalse)
 
 TEST(csBIArithmeticsTests, SpecialDiv)
 {
+   cout << "oi" << endl;
    BigInteger b1 = BigInteger("41483775933600000000");
+   //EXPECT_EQ(b1.ToString(10), "41483775933600000000");
+   //EXPECT_EQ(b1.ToString(16), "0x023fb3fa6bd0206800");
    BigInteger b2 = BigInteger("414937759336");
-   EXPECT_EQ(b1 / b2, BigInteger("99975899"));
+   //EXPECT_EQ(b2.ToString(10), "414937759336");
+   //EXPECT_EQ(b2.ToString(16), "0x609c37be68");
+   BigInteger b3 = b1 / b2;
+   EXPECT_EQ(b3.ToString(10), "99975899");
+   //EXPECT_EQ(b1 / b2, BigInteger("99975899"));
 }
 
 TEST(csBIArithmeticsTests, SpecialDiv2)

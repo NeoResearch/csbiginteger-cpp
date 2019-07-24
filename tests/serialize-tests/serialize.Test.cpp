@@ -431,10 +431,10 @@ TEST(csBISerializeTests, BigIntegerM127_toHexStr_S81)
 //  expect(new csBigInteger(-128).toHexString()).toBe("80ff");
 //});
 
-TEST(csBISerializeTests, BigIntegerM128_toHexStr_S80ff)
+TEST(csBISerializeTests, BigIntegerM128_toHexStr_S80)
 {
    BigInteger big(-128);
-   EXPECT_EQ(big.toHexStr(), "80ff");
+   EXPECT_EQ(big.toHexStr(), "80");
 }
 
 //test('constructor csBigInteger(-129).toHexString() equals "7fff"', () => {
@@ -737,10 +737,10 @@ TEST(csBISerializeTests, BigIntegerM127_ToString_S0x81)
 //  expect(new csBigInteger(-128).toString(16)).toBe("0xff80");
 //});
 
-TEST(csBISerializeTests, BigIntegerM128_ToString_S0xff80)
+TEST(csBISerializeTests, BigIntegerM128_ToString_S0x80)
 {
    BigInteger big(-128);
-   EXPECT_EQ(big.ToString(), "0xff80");
+   EXPECT_EQ(big.ToString(), "0x80");
 }
 
 //test('constructor csBigInteger(-129).toString(16) equals "0xff7f"', () => {

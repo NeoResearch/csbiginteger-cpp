@@ -54,6 +54,7 @@ namespace csbiglib
 
         public BigInteger from_string(string x, int b)
         {
+            Console.WriteLine($"from_string {x} base={b}");
             if (b == 10)
                 return BigInteger.Parse(x);
             // assuming base 16 (bigendian '0x prefixed')
@@ -69,7 +70,11 @@ namespace csbiglib
 
         public byte[] from_string_to_bytes(string x, int b)
         {
-            return from_string(x, b).ToByteArray();
+            BigInteger big = from_string(x, b);
+            Console.WriteLine(big.ToString());
+            byte[] r = big.ToByteArray();
+            Console.WriteLine(BitConverter.ToString(r));
+            return r;
         }
 
         public string to_string16(object big1, int b)
@@ -117,11 +122,25 @@ namespace csbiglib
 
         public byte[] div(byte[] big1, byte[] big2)
         {
+            Console.WriteLine("  ------> div()");
+            /*
+            BigInteger _big1 = new BigInteger(big1);
+            Console.WriteLine(BitConverter.ToString(big1));
+            Console.WriteLine(_big1.ToString());
+            BigInteger _big2 = new BigInteger(big2);
+            Console.WriteLine(BitConverter.ToString(big2));
+            Console.WriteLine(_big2.ToString());
+            BigInteger big3 = _big1 / _big2;
+            Console.WriteLine(big3.ToString());
+            return big3.ToByteArray();
+            */
+            Console.WriteLine("will divide");
             return BigInteger.Divide(new BigInteger(big1), new BigInteger(big2)).ToByteArray();
         }
 
         public byte[] mod(byte[] big1, byte[] big2)
         {
+            Console.WriteLine("  ------> mod()");
             BigInteger _big1 = new BigInteger(big1);
             BigInteger _big2 = new BigInteger(big2);
             return (_big1 % _big2).ToByteArray();
