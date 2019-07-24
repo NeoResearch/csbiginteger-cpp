@@ -1214,3 +1214,23 @@ TEST(csBISerializeTests, BigInteger_Special5)
 {
    EXPECT_EQ(BigInteger(8) >> BigInteger(-3), 64);
 }
+
+// limits (2^31-1): max int positive
+TEST(csBISerializeTests, BigInteger_Limit2147483647)
+{
+   BigInteger big0;
+   BigInteger big1(2147483647);
+   EXPECT_EQ(big1.ToString(10), "2147483647");
+   EXPECT_EQ(big1.ToString(16), "0x7fffffff");
+   EXPECT_EQ(big0 < big1, true);
+   EXPECT_EQ(big0 > big1, false);
+   EXPECT_EQ(big1 < big0, false);
+   EXPECT_EQ(big1 > big0, true);
+   // variants
+   EXPECT_EQ(big0 < (big1-1), true);
+   EXPECT_EQ(big0 < (big1-2), true);
+   EXPECT_EQ(big0 < (big1+0), true);
+   EXPECT_EQ(big0 < (big1+1), true);
+   EXPECT_EQ(big0 < (big1+2), true);
+}
+

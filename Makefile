@@ -1,4 +1,4 @@
-all:  gmp
+all:  gmp dotnet
 
 gmp:
 	g++ -std=c++11 -Ofast --shared src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o build/csbiginteger_gmp.so -fPIC
