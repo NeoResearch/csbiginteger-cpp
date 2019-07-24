@@ -138,7 +138,6 @@ BigInteger::Pow(BigInteger value, int exponent)
 // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
 BigInteger::BigInteger(string str, int base)
 {
-   cout << "building BigInteger std=" << str << " base=" << base << endl;
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
@@ -164,14 +163,12 @@ BigInteger::BigInteger(string str, int base)
 
    MonoArray* arr = (MonoArray*)retarr;
    _data = mono_bytearray_to_bytearray(arr);
-   //cout << Helper::toHexString(_data) << endl;
    std::reverse(_data.begin(), _data.end()); // to big-endian (internal)
-   //cout << Helper::toHexString(_data) << endl;
 }
 
 BigInteger::BigInteger(float x)
 {
-   
+
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
@@ -189,17 +186,13 @@ BigInteger::BigInteger(float x)
    }
 
    void* args[1];
-   float z = x;
-   args[1] = &z;
-
-   MonoClass* single  = mono_get_single_class();
+   args[0] = &x;
 
    MonoObject* retarr = mono_runtime_invoke(method, bigLib, args, nullptr);
 
    MonoArray* arr = (MonoArray*)retarr;
    _data = mono_bytearray_to_bytearray(arr);
    std::reverse(_data.begin(), _data.end()); // to big-endian (internal)
-   
 }
 
 string

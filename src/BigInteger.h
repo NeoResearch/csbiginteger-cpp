@@ -75,7 +75,7 @@ public:
 
    // default is base 10
    // allowed base 2
-   // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
+   // if base 16, prefix '0x' is optional. input always big-endian
    BigInteger(std::string str, int base = 10);
 
    BigInteger(int32 value)

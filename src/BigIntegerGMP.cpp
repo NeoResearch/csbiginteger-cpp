@@ -449,15 +449,17 @@ csBigIntegerMPZparses(string n, int base)
 
    // return bytearray initialized
    vbyte vb;
-   // prefix '0x' indicates big-endian, otherwise is little-endian
+   // prefix '0x' optional. input always big-endian
    if ((n[0] == '0') && (n[1] == 'x')) {
       // removing '0x'
       n = n.substr(2, n.length() - 2);
       vb = Helper::HexToBytes(n);
-      reverse(vb.begin(), vb.end()); // to little-endian
+      
    } else {
-      vb = Helper::HexToBytes(n); // directly reading little-endian byte array
+      vb = Helper::HexToBytes(n); // directly reading big-endian byte array
    }
+
+   reverse(vb.begin(), vb.end()); // to little-endian
 
    // base 16
    return csBigIntegerMPZparse(vb); // vb is little-endian byte array

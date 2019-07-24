@@ -183,6 +183,13 @@ TEST(csBISerializeTests, ConstructorSfb_Equals_M5)
    EXPECT_EQ(big.toInt(), -5);
 }
 
+TEST(csBISerializeTests, ConstructorS0xfb_Equals_M5)
+{
+   BigInteger big("0xfb", 16);
+   EXPECT_EQ(big.toInt(), -5);
+}
+
+
 //test('constructor csBigInteger([251, 0]) equals 251', () => {
 //  expect(new csBigInteger([251, 0]).valueOf()).toBe(251);
 //});
@@ -198,11 +205,18 @@ TEST(csBISerializeTests, Constructorv251v0_Equals_251)
 //  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
 //});
 
-TEST(csBISerializeTests, ConstructorSfb00_Equals_251)
+TEST(csBISerializeTests, ConstructorS00fb_Equals_251)
 {
-   BigInteger big("fb00", 16);
+   BigInteger big("00fb", 16);
    EXPECT_EQ(big.toInt(), 251);
 }
+
+TEST(csBISerializeTests, ConstructorS0x00fb_Equals_251)
+{
+   BigInteger big("0x00fb", 16);
+   EXPECT_EQ(big.toInt(), 251);
+}
+
 
 //test('constructor csBigInteger("251", 10) equals 251', () => {
 //  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
@@ -888,7 +902,16 @@ TEST(csBISerializeTests, BigInteger15777216_toHexStr_Sc0bdf000_Py)
 TEST(csBISerializeTests, BigIntegerM1000000_toHexStr_Sc0bdf0_Py)
 {
    BigInteger big(-1000000);
+   // toHexStr() is little-endian (helper function, remove later)
    EXPECT_EQ(big.toHexStr(), "c0bdf0");
+   // ToString() is big-endian
+   EXPECT_EQ(big.ToString(), "0xf0bdc0");
+}
+
+TEST(csBISerializeTests, BigIntegerS0xf0bdc0_16_toInt_M1000000_Py)
+{
+   BigInteger big("0xf0bdc0", 16);
+   EXPECT_EQ(big.toInt(), -1000000);
 }
 
 // Python needs to specify precision on twos-complement
@@ -901,9 +924,9 @@ TEST(csBISerializeTests, BigIntegerM1000000_toHexStr_Sc0bdf0_Py)
 //  expect(new csBigInteger("c0bdf0ff",16).valueOf()).toBe(-1000000);
 //});
 
-TEST(csBISerializeTests, BigIntegerSc0bdf0ff_16_toInt_M1000000_Py)
+TEST(csBISerializeTests, BigIntegerS0xfff0bdc0_16_toInt_M1000000_Py)
 {
-   BigInteger big("c0bdf0ff", 16);
+   BigInteger big("0xfff0bdc0", 16);
    EXPECT_EQ(big.toInt(), -1000000);
 }
 
@@ -917,7 +940,8 @@ TEST(csBISerializeTests, BigIntegerSc0bdf0ff_16_toInt_M1000000_Py)
 
 TEST(csBISerializeTests, BigIntegerSc0bdf0ffffff_16_toInt_M1000000_Py)
 {
-   BigInteger big("c0bdf0ffffff", 16);
+   BigInteger big("0xfffffff0bdc0", 16); // big-endian input
+   EXPECT_EQ(big.toHexStr(), "c0bdf0"); // little-endian (Helper)
    EXPECT_EQ(big.toInt(), -1000000);
 }
 
@@ -988,9 +1012,10 @@ TEST(csBISerializeTests, BigIntegerS0xfb_16_toInt_M5)
 //  expect(new csBigInteger("fb00", 16).valueOf()).toBe(251);
 //});
 
-TEST(csBISerializeTests, BigIntegerSfb00_16_toInt_251)
+TEST(csBISerializeTests, BigIntegerS00fb_16_toInt_251)
 {
-   BigInteger big("fb00", 16);
+   // input is big-endian (always)
+   BigInteger big("00fb", 16);
    EXPECT_EQ(big.toInt(), 251);
 }
 
