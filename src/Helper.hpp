@@ -60,7 +60,7 @@ public: // helper
       return reverthex;
    }
 
-   // crazy method from csBigInteger.js
+   // crazy method from csBigInteger.js: input is little-endian
    static bool checkNegativeBit(const std::string leHexStr)
    {
       //std::cout << "begin checkNegativeBit(" << leHexStr << ")" << std::endl;

@@ -282,39 +282,81 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // -------------------
       // turn into positive
       mpz_class x = big * (-1);
+      //cout << "x positive " << x << endl;
       // ========================
       // perform two's complement
       // ========================
       // convert to binary
       vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
+      //cout << Helper::toHexString(vx) << endl;
       mpz_class bx(Helper::toHexString(vx), 16);
       // get binary representation
       std::string y = bx.get_str(2);
+      //cout << "bits: " << y << endl;
+      //cout << "direct bits: " << csBigIntegerGetBitsFromNonNegativeMPZ(x) << endl;
+      
+      
       // extra padding for limit cases (avoid overflow)
-      y.insert(0, "0"); // prepend
+      bool needExtra = true;
+      for(unsigned i=0; i<y.length(); i++)
+         if(y[i] == '0')
+         {
+            needExtra = false;
+            break;
+         }
+      //if((y.length() > 0) && (y[0]=='1'))
+      //   needExtra = true;
+      if(needExtra)
+         y.insert(0, "0"); // prepend
+      // TODO: perhaps this should be used only on extreme cases... all zero?
 
       //guarantee length must be at least 8, or add padding!
       while ((y.length() < 8) || (y.length() % 8 != 0)) {
          y.insert(0, "0"); // prepend
       }
+      
       // invert bits
       std::string y2 = "";
       for (int i = 0; i < y.length(); i++)
          y2 += (y[i] == '0' ? '1' : '0');
+      
       // go back to bigint
       //BigInteger by3(y2, 2); // recursive behavior
       mpz_class by3(y2, 2);
       // sum 1
       mpz_class bby3 = by3 + 1;
+
       // convert to binary again
       std::string y4 = csBigIntegerGetBitsFromNonNegativeMPZ(bby3);
+
+      // TODO: is it useful??:
+      while ((y4.length() < 8) || (y4.length() % 8 != 0)) {
+         y4.insert(0, "0"); // prepend
+      }
 
       //guarantee length must be at least 8, or add padding! (guaranteed by bby3, never empty)
       //while (y4.length() < 8) {
       //   y4.insert(0, "0"); // prepend
       //}
+      
       // get in bytes
       vbyte v = Helper::BinToBytes(y4);
+      
+      // convert to little-endian
+      reverse(v.begin(), v.end()); // to little-endian
+      std::string lehex = Helper::toHexString(v);
+
+      // verify if number is negative (most significant bit)
+      if (!Helper::checkNegativeBit(lehex)) {
+         //cout << "SHOULD BE NEGATIVE, BUT ITS POSITIVE!" << endl;
+         // add 'ff'
+         //v.insert(v.begin()+0, 0xff); // big-endian
+         v.push_back(0xff);
+      }
+
+      // convert to big-endian
+      reverse(v.begin(), v.end()); // to big-endian
+   
       //if (v.size() == 0)
       //   v.push_back(0x00); // guaranteed by 'y4' (never empty)
 
