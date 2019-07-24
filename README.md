@@ -16,14 +16,33 @@ C/C++ is interoperable with nearly all existing languages, so the idea is to pro
 reused on other projects (on other languages too).
 
 ## Build Instructions
-You will need GNU GMP library for `BigInteger.cpp` implementation of `BigInteger.h`.
+You will need GNU GMP library for `BigIntegerGMP.cpp` or `BigIntegerMono.cpp` implementations of `BigInteger.h`.
+
+### GNU MP implementation
 On debian-based systems (or ubuntu), just type `make vendor` (it will install `libgmp-dev` package). 
+
+### Mono implementation
+
+Mono implementation will generate a `csbiginteger_dotnet.dll` and load it through `csbiginteger_mono.so`. It is much more complex process, but it guarantees that __original__ BigInteger C# library is being used. 
+Right now, tests are passing for both gmp and mono implementations, so gmp C++ native implementation is much preferred (and more lightweight) on practice.
+
+If you want to go this way, you will need mono:
+
+```
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+sudo apt install apt-transport-https ca-certificates
+echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+sudo apt update
+sudo apt install mono-complete
+```
+
+### tests
 
 It will also configure test library (as long as you cloned this project with `--submodules` too).
 To test, just run `make test`.
 
 
-### C++ Standard
+## C++ Standard
 Currently, C++11 is adopted, in order to keep the best compatibility between conversors and compilers. However, it is recommended to migrate to C++17 as soon as possible, if this does not break compatibility with any existing modules and tools.
 
 Let's please follow the [CppCoreGuidelines](https://github.com/isocpp/CppCoreGuidelines).
