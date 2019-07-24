@@ -3,3 +3,4 @@
 *.gcno
 reports/
 *.dll
+*.dll.so

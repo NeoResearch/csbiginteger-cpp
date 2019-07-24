@@ -24,6 +24,7 @@ csBigIntegerGMP.test : csBigInteger.Test.cpp
 csBigIntegerMono.test : csBigInteger.Test.cpp
 	dotnet build ../src/dotnet/ -c Release
 	cp ../src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll .
+	mono --aot -O=all csbiginteger_dotnet.dll
 	g++ --coverage -g -O0 --std=c++11 `pkg-config --cflags --libs mono-2` -I$(SRC_PATH) -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerMono.cpp -lgmp -lgmpxx -lpthread -ldl
 
 

@@ -16,7 +16,8 @@ using namespace csbiginteger;
 
 MonoDomain* domain = mono_jit_init("MonoScriptTry");
 
-string asmPath = "csbiginteger_dotnet.dll";
+// TODO: use AOT (ahead-of-time compilation) on csbiginteger_dotnet.dll.so
+string asmPath = "csbiginteger_dotnet.dll"; 
 
 MonoAssembly* assembly = mono_domain_assembly_open(domain, asmPath.c_str());
 

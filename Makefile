@@ -6,6 +6,7 @@ gmp:
 dotnet:
 	dotnet build src/dotnet/ -c Release
 	cp src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll build/
+	mono --aot -O=all build/csbiginteger_dotnet.dll
 	g++ -std=c++11 -Ofast --shared src/BigIntegerMono.cpp src/csBigIntegerLib.cpp `pkg-config --cflags --libs mono-2` -o build/csbiginteger_mono.so -fPIC
 
 
