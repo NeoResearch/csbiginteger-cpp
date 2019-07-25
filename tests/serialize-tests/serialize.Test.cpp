@@ -189,7 +189,6 @@ TEST(csBISerializeTests, ConstructorS0xfb_Equals_M5)
    EXPECT_EQ(big.toInt(), -5);
 }
 
-
 //test('constructor csBigInteger([251, 0]) equals 251', () => {
 //  expect(new csBigInteger([251, 0]).valueOf()).toBe(251);
 //});
@@ -216,7 +215,6 @@ TEST(csBISerializeTests, ConstructorS0x00fb_Equals_251)
    BigInteger big("0x00fb", 16);
    EXPECT_EQ(big.toInt(), 251);
 }
-
 
 //test('constructor csBigInteger("251", 10) equals 251', () => {
 //  expect(new csBigInteger("251", 10).valueOf()).toBe(251);
@@ -941,7 +939,7 @@ TEST(csBISerializeTests, BigIntegerS0xfff0bdc0_16_toInt_M1000000_Py)
 TEST(csBISerializeTests, BigIntegerSc0bdf0ffffff_16_toInt_M1000000_Py)
 {
    BigInteger big("0xfffffff0bdc0", 16); // big-endian input
-   EXPECT_EQ(big.toHexStr(), "c0bdf0"); // little-endian (Helper)
+   EXPECT_EQ(big.toHexStr(), "c0bdf0");  // little-endian (Helper)
    EXPECT_EQ(big.toInt(), -1000000);
 }
 
@@ -1227,11 +1225,11 @@ TEST(csBISerializeTests, BigInteger_Limit2147483647)
    EXPECT_EQ(big1 < big0, false);
    EXPECT_EQ(big1 > big0, true);
    // variants
-   EXPECT_EQ(big0 < (big1-1), true);
-   EXPECT_EQ(big0 < (big1-2), true);
-   EXPECT_EQ(big0 < (big1+0), true);
-   EXPECT_EQ(big0 < (big1+1), true);
-   EXPECT_EQ(big0 < (big1+2), true);
+   EXPECT_EQ(big0 < (big1 - 1), true);
+   EXPECT_EQ(big0 < (big1 - 2), true);
+   EXPECT_EQ(big0 < (big1 + 0), true);
+   EXPECT_EQ(big0 < (big1 + 1), true);
+   EXPECT_EQ(big0 < (big1 + 2), true);
 }
 
 TEST(csBISerializeTests, BigInteger_StrangeM61968)
@@ -1244,4 +1242,5 @@ TEST(csBISerializeTests, BigInteger_StrangeM16773648)
 {
    BigInteger big(-16773648);
    EXPECT_EQ(big.toInt(), -16773648);
+   EXPECT_EQ(big.ToString(), "0xff000df0");
 }

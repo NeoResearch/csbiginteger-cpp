@@ -64,7 +64,6 @@ BigInteger::Pow(BigInteger value, int exponent)
    return BigInteger(vr);
 }
 
-
 // default is base 10
 // allows base 2
 // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
@@ -74,14 +73,12 @@ BigInteger::BigInteger(string str, int base)
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 
-
 BigInteger::BigInteger(float val)
 {
    mpz_class a = val;
 
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
-
 
 int32
 BigInteger::toInt() const
@@ -283,6 +280,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // turn into positive
       mpz_class x = big * (-1);
       //cout << "x positive " << x << endl;
+
       // ========================
       // perform two's complement
       // ========================
@@ -292,73 +290,67 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       mpz_class bx(Helper::toHexString(vx), 16);
       // get binary representation
       std::string y = bx.get_str(2);
-      //cout << "bits: " << y << endl;
-      //cout << "direct bits: " << csBigIntegerGetBitsFromNonNegativeMPZ(x) << endl;
-      
-      
+      //cout << "numbits: " << y.length() << endl;
+      //cout << "ybits: " << y << endl;
+      //cout << "dbits: " << csBigIntegerGetBitsFromNonNegativeMPZ(x) << endl;
+
       // extra padding for limit cases (avoid overflow)
-      bool needExtra = true;
-      for(unsigned i=0; i<y.length(); i++)
-         if(y[i] == '0')
-         {
-            needExtra = false;
-            break;
-         }
-      //if((y.length() > 0) && (y[0]=='1'))
-      //   needExtra = true;
-      if(needExtra)
-         y.insert(0, "0"); // prepend
-      // TODO: perhaps this should be used only on extreme cases... all zero?
+      y.insert(0, "0"); // prepend
 
       //guarantee length must be at least 8, or add padding!
       while ((y.length() < 8) || (y.length() % 8 != 0)) {
          y.insert(0, "0"); // prepend
       }
-      
+
       // invert bits
       std::string y2 = "";
       for (int i = 0; i < y.length(); i++)
          y2 += (y[i] == '0' ? '1' : '0');
-      
+      //cout << "rbits: " << y2 << endl;
+
       // go back to bigint
       //BigInteger by3(y2, 2); // recursive behavior
       mpz_class by3(y2, 2);
       // sum 1
       mpz_class bby3 = by3 + 1;
 
+      //cout << "(~y)+1: " << bby3 << endl;
+
       // convert to binary again
       std::string y4 = csBigIntegerGetBitsFromNonNegativeMPZ(bby3);
+      //cout << "y4bits: " << y4 << endl;
 
-      // TODO: is it useful??:
+      // padding
       while ((y4.length() < 8) || (y4.length() % 8 != 0)) {
          y4.insert(0, "0"); // prepend
       }
 
-      //guarantee length must be at least 8, or add padding! (guaranteed by bby3, never empty)
-      //while (y4.length() < 8) {
-      //   y4.insert(0, "0"); // prepend
-      //}
-      
+      //cout << "y4bits: " << y4 << endl;
+
       // get in bytes
       vbyte v = Helper::BinToBytes(y4);
-      
+
+      //cout << "v: " << Helper::toHexString(v) << endl;
+
       // convert to little-endian
       reverse(v.begin(), v.end()); // to little-endian
-      std::string lehex = Helper::toHexString(v);
 
-      // verify if number is negative (most significant bit)
-      if (!Helper::checkNegativeBit(lehex)) {
-         //cout << "SHOULD BE NEGATIVE, BUT ITS POSITIVE!" << endl;
-         // add 'ff'
-         //v.insert(v.begin()+0, 0xff); // big-endian
-         v.push_back(0xff);
+      // will add extra ff to guarantee its negative, and simplify later (remove extra ff)
+      v.push_back(0xff);
+
+      vbyte vsimple = v;
+      while ((vsimple.size() > 1) && (vsimple.at(((int)vsimple.size()) - 1) == 0xff)) {
+         vsimple.pop_back();
+         std::string lehex = Helper::toHexString(vsimple);
+         if (Helper::checkNegativeBit(lehex)) {
+            // still negative! can keep removal
+            v = vsimple;
+         } else
+            break;
       }
 
       // convert to big-endian
       reverse(v.begin(), v.end()); // to big-endian
-   
-      //if (v.size() == 0)
-      //   v.push_back(0x00); // guaranteed by 'y4' (never empty)
 
       // finished
       return std::move(v);
@@ -454,7 +446,7 @@ csBigIntegerMPZparses(string n, int base)
       // removing '0x'
       n = n.substr(2, n.length() - 2);
       vb = Helper::HexToBytes(n);
-      
+
    } else {
       vb = Helper::HexToBytes(n); // directly reading big-endian byte array
    }
