@@ -1234,3 +1234,14 @@ TEST(csBISerializeTests, BigInteger_Limit2147483647)
    EXPECT_EQ(big0 < (big1+2), true);
 }
 
+TEST(csBISerializeTests, BigInteger_StrangeM61968)
+{
+   BigInteger big(-61968);
+   EXPECT_EQ(big.toInt(), -61968);
+}
+
+TEST(csBISerializeTests, BigInteger_StrangeM16773648)
+{
+   BigInteger big(-16773648);
+   EXPECT_EQ(big.toInt(), -16773648);
+}
