@@ -18,6 +18,8 @@ reused on other projects (on other languages too).
 ## Build Instructions
 There are currently two implementations for `BigInteger.h`: `BigIntegerGMP.cpp` or `BigIntegerMono.cpp`.
 
+Getting submodules: `git submodule update --init --recursive` and `git pull --recurse-submodules`
+
 ### GNU MP implementation
 On debian-based systems (or ubuntu), just type `make vendor` (it will install `libgmp-dev` package). 
 
