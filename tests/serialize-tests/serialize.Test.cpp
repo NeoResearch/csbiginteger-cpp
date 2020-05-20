@@ -5,7 +5,7 @@
 
 // core includes
 #ifdef TEST_CSBIGINTEGER_LIB
-#include <csBigIntegerLib.hpp>
+#include <csBigIntegerLibClass.hpp>
 using namespace csbigintegerlib;
 #else 
 #include <BigInteger.h>
