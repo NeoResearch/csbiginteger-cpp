@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 
 // system
 #include <limits>
@@ -9,191 +9,191 @@
 using namespace std;
 using namespace csbiginteger;
 
-TEST(csBIArithmeticsTests, ZeroNotError)
+TEST_CASE("csBIArithmeticsTests:  ZeroNotError")
 {
    BigInteger big0(0);
-   EXPECT_EQ(big0 != BigInteger::Error, true);
+   REQUIRE(big0 != BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, OnePlusOneEqualsTwo)
+TEST_CASE("csBIArithmeticsTests:  OnePlusOneEqualsTwo")
 {
-   EXPECT_EQ(BigInteger::One + BigInteger::One, BigInteger(2));
+   REQUIRE(BigInteger::One + BigInteger::One == BigInteger(2));
 }
 
-TEST(csBIArithmeticsTests, OneTimesZeroEqualsZero)
+TEST_CASE("csBIArithmeticsTests:  OneTimesZeroEqualsZero")
 {
-   EXPECT_EQ(BigInteger::One * BigInteger::Zero, BigInteger::Zero);
+   REQUIRE(BigInteger::One * BigInteger::Zero == BigInteger::Zero);
 }
 
-TEST(csBIArithmeticsTests, OneTimesMinusOneEqualsMinusOne)
+TEST_CASE("csBIArithmeticsTests:  OneTimesMinusOneEqualsMinusOne")
 {
-   EXPECT_EQ(BigInteger::One * BigInteger::MinusOne, BigInteger::MinusOne);
+   REQUIRE(BigInteger::One * BigInteger::MinusOne == BigInteger::MinusOne);
 }
 
-TEST(csBIArithmeticsTests, OnePlusMinusOneEqualsZero)
+TEST_CASE("csBIArithmeticsTests:  OnePlusMinusOneEqualsZero")
 {
-   EXPECT_EQ(BigInteger::One + BigInteger::MinusOne, BigInteger::Zero);
+   REQUIRE(BigInteger::One + BigInteger::MinusOne == BigInteger::Zero);
 }
 
-TEST(csBIArithmeticsTests, TenDivTwoEqualsFive)
+TEST_CASE("csBIArithmeticsTests:  TenDivTwoEqualsFive")
 {
-   EXPECT_EQ(BigInteger(10) / BigInteger(2), BigInteger(5));
+   REQUIRE(BigInteger(10) / BigInteger(2) == BigInteger(5));
 }
 
-TEST(csBIArithmeticsTests, TenModTwoEqualsZero)
+TEST_CASE("csBIArithmeticsTests:  TenModTwoEqualsZero")
 {
-   EXPECT_EQ(BigInteger(10) % BigInteger(2), BigInteger(0));
+   REQUIRE(BigInteger(10) % BigInteger(2) == BigInteger(0));
 }
 
-TEST(csBIArithmeticsTests, TenDivThreeEqualsThree)
+TEST_CASE("csBIArithmeticsTests:  TenDivThreeEqualsThree")
 {
-   EXPECT_EQ(BigInteger(10) / BigInteger(3), BigInteger(3));
+   REQUIRE(BigInteger(10) / BigInteger(3) == BigInteger(3));
 }
 
-TEST(csBIArithmeticsTests, TenModThreeEqualsOne)
+TEST_CASE("csBIArithmeticsTests:  TenModThreeEqualsOne")
 {
-   EXPECT_EQ(BigInteger(10) % BigInteger(3), BigInteger(1));
+   REQUIRE(BigInteger(10) % BigInteger(3) == BigInteger(1));
 }
 
-TEST(csBIArithmeticsTests, TenDivZeroEqualsError)
+TEST_CASE("csBIArithmeticsTests:  TenDivZeroEqualsError")
 {
-   EXPECT_EQ(BigInteger(10) / BigInteger(0), BigInteger::Error);
+   REQUIRE(BigInteger(10) / BigInteger(0) == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, _255DivOneEquals255)
+TEST_CASE("csBIArithmeticsTests:  _255DivOneEquals255")
 {
-   EXPECT_EQ(BigInteger(255) / BigInteger(1), BigInteger(255));
+   REQUIRE(BigInteger(255) / BigInteger(1) == BigInteger(255));
 }
 
-TEST(csBIArithmeticsTests, _255DivMinusOneEqualsM255)
+TEST_CASE("csBIArithmeticsTests:  _255DivMinusOneEqualsM255")
 {
-   EXPECT_EQ(BigInteger(255) / BigInteger(-1), BigInteger(-255));
+   REQUIRE(BigInteger(255) / BigInteger(-1) == BigInteger(-255));
 }
 
 
-TEST(csBIArithmeticsTests, OnePlusErrorEqualsError)
+TEST_CASE("csBIArithmeticsTests:  OnePlusErrorEqualsError")
 {
-   EXPECT_EQ(BigInteger(1) + BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(1) + BigInteger::Error == BigInteger::Error);
 }
 
 // operator- unary
 
-TEST(csBIArithmeticsTests, Minus10IsMinus10)
+TEST_CASE("csBIArithmeticsTests:  Minus10IsMinus10")
 {
-   EXPECT_EQ(-BigInteger(10), BigInteger(-10));
+   REQUIRE(-BigInteger(10) == BigInteger(-10));
 }
 
 // SHL SHR
 
-TEST(csBIArithmeticsTests, EightSHLIsSixteen)
+TEST_CASE("csBIArithmeticsTests:  EightSHLIsSixteen")
 {
-   EXPECT_EQ(BigInteger(8) << 1, BigInteger(16));
+   REQUIRE(BigInteger(8) << 1 == BigInteger(16));
 }
 
-TEST(csBIArithmeticsTests, EightSHRIsFour)
+TEST_CASE("csBIArithmeticsTests:  EightSHRIsFour")
 {
-   EXPECT_EQ(BigInteger(8) >> 1, BigInteger(4));
+   REQUIRE(BigInteger(8) >> 1 == BigInteger(4));
 }
 
-TEST(csBIArithmeticsTests, EightMinusSHLIsFour)
+TEST_CASE("csBIArithmeticsTests:  EightMinusSHLIsFour")
 {
-   EXPECT_EQ(BigInteger(8) << -1, BigInteger(4));
+   REQUIRE(BigInteger(8) << -1 == BigInteger(4));
 }
 
-TEST(csBIArithmeticsTests, EightMinusSHRIsSixteen)
+TEST_CASE("csBIArithmeticsTests:  EightMinusSHRIsSixteen")
 {
-   EXPECT_EQ(BigInteger(8) >> -1, BigInteger(16));
+   REQUIRE(BigInteger(8) >> -1 == BigInteger(16));
 }
 
-TEST(csBIArithmeticsTests, TenSHRZeroIsTen)
+TEST_CASE("csBIArithmeticsTests:  TenSHRZeroIsTen")
 {
-   EXPECT_EQ(BigInteger(10) >> 0, BigInteger(10));
+   REQUIRE(BigInteger(10) >> 0 == BigInteger(10));
 }
 
-TEST(csBIArithmeticsTests, TenSHLZeroIsTen)
+TEST_CASE("csBIArithmeticsTests:  TenSHLZeroIsTen")
 {
-   EXPECT_EQ(BigInteger(10) << 0, BigInteger(10));
+   REQUIRE(BigInteger(10) << 0 == BigInteger(10));
 }
 
 // ---------- error
-TEST(csBIArithmeticsTests, ZeroAddErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroAddErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) + BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) + BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroMinusErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroMinusErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) - BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) - BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroMulErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroMulErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) * BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) * BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroDivErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroDivErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) / BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) / BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroModErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroModErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) % BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) % BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroSHLErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroSHLErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) << BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) << BigInteger::Error == BigInteger::Error);
 }
 
-TEST(csBIArithmeticsTests, ZeroSHRErrorIsError)
+TEST_CASE("csBIArithmeticsTests:  ZeroSHRErrorIsError")
 {
-   EXPECT_EQ(BigInteger(0) >> BigInteger::Error, BigInteger::Error);
+   REQUIRE(BigInteger(0) >> BigInteger::Error == BigInteger::Error);
 }
 
 // ========= compare
 
-TEST(csBIArithmeticsTests, ZeroLessThanOne)
+TEST_CASE("csBIArithmeticsTests:  ZeroLessThanOne")
 {
    cout << "will compare 0 and 1" << endl;
    BigInteger big0(0);
    BigInteger big1(1);
-   EXPECT_EQ(big0.operator<(big1), true);
+   REQUIRE(big0.operator<(big1));
 }
 
-TEST(csBIArithmeticsTests, OneGreaterThanZero)
+TEST_CASE("csBIArithmeticsTests:  OneGreaterThanZero")
 {
-   EXPECT_EQ(BigInteger(1) > BigInteger(0), true);
+   REQUIRE(BigInteger(1) > BigInteger(0));
 }
 
-TEST(csBIArithmeticsTests, NotZeroGreaterThanOne)
+TEST_CASE("csBIArithmeticsTests:  NotZeroGreaterThanOne")
 {
-   EXPECT_EQ(BigInteger(0) > BigInteger(1), false);
+   REQUIRE(!(BigInteger(0) > BigInteger(1)));
 }
 
-TEST(csBIArithmeticsTests, ZeroLeqOne)
+TEST_CASE("csBIArithmeticsTests:  ZeroLeqOne")
 {
-   EXPECT_EQ(BigInteger(0) <= BigInteger(1), true);
+   REQUIRE(BigInteger(0) <= BigInteger(1));
 }
 
-TEST(csBIArithmeticsTests, NotZeroGeqOne)
+TEST_CASE("csBIArithmeticsTests:  NotZeroGeqOne")
 {
-   EXPECT_EQ(BigInteger(0) >= BigInteger(1), false);
+   REQUIRE(!(BigInteger(0) >= BigInteger(1)));
 }
 
-TEST(csBIArithmeticsTests, ZeroLessThanErrorIsFalse)
+TEST_CASE("csBIArithmeticsTests:  ZeroLessThanErrorIsFalse")
 {
-   EXPECT_EQ(BigInteger(0) < BigInteger::Error, false);
+   REQUIRE(!(BigInteger(0) < BigInteger::Error));
 }
 
-TEST(csBIArithmeticsTests, ZeroGreaterThanErrorIsFalse)
+TEST_CASE("csBIArithmeticsTests:  ZeroGreaterThanErrorIsFalse")
 {
-   EXPECT_EQ(BigInteger(0) > BigInteger::Error, false);
+   REQUIRE(!(BigInteger(0) > BigInteger::Error));
 }
 
 // ============ special
 
-TEST(csBIArithmeticsTests, SpecialDiv)
+TEST_CASE("csBIArithmeticsTests:  SpecialDiv")
 {
    cout << "oi" << endl;
    BigInteger b1 = BigInteger("41483775933600000000");
@@ -203,62 +203,62 @@ TEST(csBIArithmeticsTests, SpecialDiv)
    //EXPECT_EQ(b2.ToString(10), "414937759336");
    //EXPECT_EQ(b2.ToString(16), "0x609c37be68");
    BigInteger b3 = b1 / b2;
-   EXPECT_EQ(b3.ToString(10), "99975899");
+   REQUIRE(b3.ToString(10) == "99975899");
    //EXPECT_EQ(b1 / b2, BigInteger("99975899"));
 }
 
-TEST(csBIArithmeticsTests, SpecialDiv2)
+TEST_CASE("csBIArithmeticsTests:  SpecialDiv2")
 {
    BigInteger b1 = BigInteger("-11001000000");
    BigInteger b2 = BigInteger(86400);
-   EXPECT_EQ(b1 / b2, BigInteger(-127326));
+   REQUIRE(b1 / b2 == BigInteger(-127326));
 }
 
-TEST(csBIArithmeticsTests, SpecialMod)
+TEST_CASE("csBIArithmeticsTests:  SpecialMod")
 {
    BigInteger b1 = BigInteger("20195283520469175757");
    BigInteger b2 = BigInteger("1048576");
-   EXPECT_EQ(b1 % b2, BigInteger("888269"));
+   REQUIRE(b1 % b2 == BigInteger("888269"));
 }
 
 // 860593 % -201 is 112
-TEST(csBIArithmeticsTests, SpecialModNeg)
+TEST_CASE("csBIArithmeticsTests:  SpecialModNeg")
 {
-   EXPECT_EQ(BigInteger(860593) % BigInteger(-201), BigInteger(112));
+   REQUIRE(BigInteger(860593) % BigInteger(-201) == BigInteger(112));
 }
 
-TEST(csBIArithmeticsTests, SpecialModNeg2)
+TEST_CASE("csBIArithmeticsTests:  SpecialModNeg2")
 {
-   EXPECT_EQ(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017"), BigInteger("-3100049211437790421"));
+   REQUIRE(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017") == BigInteger("-3100049211437790421"));
 }
 
 // ======================= Pow =======================
 
-TEST(csBIArithmeticsTests, Pow3_2_9)
+TEST_CASE("csBIArithmeticsTests:  Pow3_2_9")
 {
-   EXPECT_EQ(BigInteger::Pow(BigInteger(3), 2), BigInteger(9));
+   REQUIRE(BigInteger::Pow(BigInteger(3), 2) == BigInteger(9));
 }
 
-TEST(csBIArithmeticsTests, Pow3_0_9)
+TEST_CASE("csBIArithmeticsTests:  Pow3_0_9")
 {
-   EXPECT_EQ(BigInteger::Pow(BigInteger(3), 0), BigInteger::One);
+   REQUIRE(BigInteger::Pow(BigInteger(3), 0) == BigInteger::One);
 }
 
-TEST(csBIArithmeticsTests, Pow3_0_Negative_Error)
+TEST_CASE("csBIArithmeticsTests:  Pow3_0_Negative_Error")
 {
-   EXPECT_EQ(BigInteger::Pow(BigInteger(3), -2), BigInteger::Error);
+   REQUIRE(BigInteger::Pow(BigInteger(3), -2) == BigInteger::Error);
 }
 
 // ======================= Online tests =======================
 
 // from: https://docs.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.divide?view=netframework-4.8
 
-TEST(csBIArithmeticsTests, Online_Pack_Divisor)
+TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
 {
    BigInteger big64max(std::numeric_limits<long>::max());
-   EXPECT_EQ(big64max.ToString(10), "9223372036854775807");
+   REQUIRE(big64max.ToString(10) == "9223372036854775807");
    BigInteger divisor = BigInteger::Pow(big64max, 2);
-   EXPECT_EQ(divisor.ToString(10), "85070591730234615847396907784232501249");
+   REQUIRE(divisor.ToString(10) == "85070591730234615847396907784232501249");
    //Divisor:  85,070,591,730,234,615,847,396,907,784,232,501,249
 
    BigInteger dividends[] = { BigInteger::Multiply(BigInteger(std::numeric_limits<float>::max()), 2),
@@ -274,86 +274,86 @@ TEST(csBIArithmeticsTests, Online_Pack_Divisor)
 
    // Console.WriteLine("Dividend: {0:N0}", dividend);
    // Dividend: 680,564,693,277,057,719,623,408,366,969,033,850,880
-   EXPECT_EQ(dividends[0].ToString(10), "680564693277057719623408366969033850880");
+   REQUIRE(dividends[0].ToString(10) == "680564693277057719623408366969033850880");
 
    // 0: Divide 7 remainder 85,070,551,165,415,408,691,630,012,479,406,342,137
-   EXPECT_EQ((dividends[0] / divisor).ToString(10), "7");
-   EXPECT_EQ((dividends[0] % divisor).ToString(10), "85070551165415408691630012479406342137");
+   REQUIRE((dividends[0] / divisor).ToString(10) == "7");
+   REQUIRE((dividends[0] % divisor).ToString(10) == "85070551165415408691630012479406342137");
 
    // 1: Divide 0 remainder 90,612,345,123,875,509,091,827,560,007,100,099
-   EXPECT_EQ((dividends[1] / divisor).ToString(10), "0");
-   EXPECT_EQ((dividends[1] % divisor).ToString(10), "90612345123875509091827560007100099");
+   REQUIRE((dividends[1] / divisor).ToString(10) == "0");
+   REQUIRE((dividends[1] % divisor).ToString(10) == "90612345123875509091827560007100099");
 
    // 2: Divide 0 remainder 1
-   EXPECT_EQ((dividends[2] / divisor).ToString(10), "0");
-   EXPECT_EQ((dividends[2] % divisor).ToString(10), "1");
+   REQUIRE((dividends[2] / divisor).ToString(10) == "0");
+   REQUIRE((dividends[2] % divisor).ToString(10) == "1");
 
    // 3: Divide 0 remainder 19,807,040,619,342,712,359,383,728,129
-   EXPECT_EQ((dividends[3] / divisor).ToString(10), "0");
-   EXPECT_EQ((dividends[3] % divisor).ToString(10), "19807040619342712359383728129");
+   REQUIRE((dividends[3] / divisor).ToString(10) == "0");
+   REQUIRE((dividends[3] % divisor).ToString(10) == "19807040619342712359383728129");
 
    // 4: Divide 1 remainder 1
-   EXPECT_EQ((dividends[4] / divisor).ToString(10), "1");
-   EXPECT_EQ((dividends[4] % divisor).ToString(10), "1");
+   REQUIRE((dividends[4] / divisor).ToString(10) == "1");
+   REQUIRE((dividends[4] % divisor).ToString(10) == "1");
 }
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
 
 // three basic div
 
-TEST(csBIArithmeticsTests, Minus5Divides2EqualsMinus2)
+TEST_CASE("csBIArithmeticsTests:  Minus5Divides2EqualsMinus2")
 {
-   EXPECT_EQ(-5 / 2, -2); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(-5) / BigInteger(2), BigInteger(-2));
+   REQUIRE(-5 / 2 == -2); // c++ standard, same thing
+   REQUIRE(BigInteger(-5) / BigInteger(2) == BigInteger(-2));
 }
 
-TEST(csBIArithmeticsTests, FiveDividesMinus2EqualsMinus2)
+TEST_CASE("csBIArithmeticsTests:  FiveDividesMinus2EqualsMinus2")
 {
-   EXPECT_EQ(5 / -2, -2); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(5) / BigInteger(-2), BigInteger(-2));
+   REQUIRE(5 / -2 == -2); // c++ standard, same thing
+   REQUIRE(BigInteger(5) / BigInteger(-2) == BigInteger(-2));
 }
 
-TEST(csBIArithmeticsTests, FiveDivides2Equals2)
+TEST_CASE("csBIArithmeticsTests:  FiveDivides2Equals2")
 {
-   EXPECT_EQ(5 / 2, 2); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(5) / BigInteger(2), BigInteger(2));
+   REQUIRE(5 / 2 == 2); // c++ standard, same thing
+   REQUIRE(BigInteger(5) / BigInteger(2) == BigInteger(2));
 }
 
-TEST(csBIArithmeticsTests, MinusFiveDividesMinus2Equals2)
+TEST_CASE("csBIArithmeticsTests:  MinusFiveDividesMinus2Equals2")
 {
-   EXPECT_EQ(-5 / -2, 2); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(-5) / BigInteger(-2), BigInteger(2));
+   REQUIRE(-5 / -2 == 2); // c++ standard, same thing
+   REQUIRE(BigInteger(-5) / BigInteger(-2) == BigInteger(2));
 }
 
 // three basic mod
 
-TEST(csBIArithmeticsTests, Minus10Mod3EqualsMinus1)
+TEST_CASE("csBIArithmeticsTests:  Minus10Mod3EqualsMinus1")
 {
-   EXPECT_EQ(-10 % 3, -1); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(-10) % BigInteger(3), BigInteger(-1));
+   REQUIRE(-10 % 3 == -1); // c++ standard, same thing
+   REQUIRE(BigInteger(-10) % BigInteger(3) == BigInteger(-1));
 }
 
-TEST(csBIArithmeticsTests, TenMod3Equals1)
+TEST_CASE("csBIArithmeticsTests:  TenMod3Equals1")
 {
-   EXPECT_EQ(10 % 3, 1); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(10) % BigInteger(3), BigInteger(1));
+   REQUIRE(10 % 3 == 1); // c++ standard, same thing
+   REQUIRE(BigInteger(10) % BigInteger(3) == BigInteger(1));
 }
 
 // This test is very strange, but it is correct according to C++ and C#
-TEST(csBIArithmeticsTests, TenModMinus3Equals1)
+TEST_CASE("csBIArithmeticsTests:  TenModMinus3Equals1")
 {
-   EXPECT_EQ(10 % -3, 1); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(10) % BigInteger(-3), BigInteger(1));
+   REQUIRE(10 % -3 == 1); // c++ standard, same thing
+   REQUIRE(BigInteger(10) % BigInteger(-3) == BigInteger(1));
 }
 
-TEST(csBIArithmeticsTests, MinusTenModMinus3EqualsMinus1)
+TEST_CASE("csBIArithmeticsTests:  MinusTenModMinus3EqualsMinus1")
 {
-   EXPECT_EQ(-10 % -3, -1); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(-10) % BigInteger(-3), BigInteger(-1));
+   REQUIRE(-10 % -3 == -1); // c++ standard, same thing
+   REQUIRE(BigInteger(-10) % BigInteger(-3) == BigInteger(-1));
 }
 
-TEST(csBIArithmeticsTests, TenModMinus5Equals0)
+TEST_CASE("csBIArithmeticsTests:  TenModMinus5Equals0")
 {
-   EXPECT_EQ(10 % -5, 0); // c++ standard, same thing
-   EXPECT_EQ(BigInteger(10) % BigInteger(-5), BigInteger(0));
+   REQUIRE(10 % -5 == 0); // c++ standard, same thing
+   REQUIRE(BigInteger(10) % BigInteger(-5) == BigInteger(0));
 }

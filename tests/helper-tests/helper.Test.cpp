@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 
 // core includes
 #include <Helper.hpp>
@@ -6,16 +6,16 @@
 using namespace std;
 using namespace csbiginteger;
 
-TEST(csBigIntegerHelperTests, RevertHexString8000_0080)
+TEST_CASE("csBigIntegerHelperTests:  RevertHexString8000_0080")
 {
-   EXPECT_EQ(Helper::revertHexString("8000"), "0080");
+   REQUIRE(Helper::revertHexString("8000") == "0080");
 }
 
-TEST(csBigIntegerHelperTests, HexToBytes0001)
+TEST_CASE("csBigIntegerHelperTests:  HexToBytes0001")
 {
    vbyte vb = Helper::HexToBytes("0001");
-   EXPECT_EQ(vb[0], 0x00);
-   EXPECT_EQ(vb[1], 0x01);
+   REQUIRE(vb[0] == 0x00);
+   REQUIRE(vb[1] == 0x01);
 }
 
 // =================================================
@@ -25,48 +25,48 @@ TEST(csBigIntegerHelperTests, HexToBytes0001)
 //  expect(csBigInteger.checkNegativeBit("ff")).toBe(true);
 //});
 
-TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_Sff_is_true)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_checkNegativeBit_Sff_is_true")
 {
-   EXPECT_EQ(Helper::checkNegativeBit("ff"), true);
+   REQUIRE(Helper::checkNegativeBit("ff"));
 }
 
 //test('constructor csBigInteger.checkNegativeBit("7f") is false', () => {
 //  expect(csBigInteger.checkNegativeBit("7f")).toBe(false);
 //});
 
-TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S7f_is_false)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_checkNegativeBit_S7f_is_false")
 {
-   EXPECT_EQ(Helper::checkNegativeBit("7f"), false);
+   REQUIRE(!Helper::checkNegativeBit("7f"));
 }
 
 //test('constructor csBigInteger.checkNegativeBit("80") is true', () => {
 //  expect(csBigInteger.checkNegativeBit("80")).toBe(true);
 //});
 
-TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S80_is_true)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_checkNegativeBit_S80_is_true")
 {
-   EXPECT_EQ(Helper::checkNegativeBit("80"), true);
+   REQUIRE(Helper::checkNegativeBit("80"));
 }
 
 //test('constructor csBigInteger.checkNegativeBit("800") is false', () => {
 //  expect(csBigInteger.checkNegativeBit("800")).toBe(false);
 //});
 
-TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S800_is_false)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_checkNegativeBit_S800_is_false")
 {
-   EXPECT_EQ(Helper::checkNegativeBit("800"), false);
+   REQUIRE(!Helper::checkNegativeBit("800"));
 }
 
 //test('constructor csBigInteger.checkNegativeBit("8000") is false', () => {
 //  expect(csBigInteger.checkNegativeBit("8000")).toBe(false);
 //});
 
-TEST(csBigIntegerHelperTests, BigInteger_checkNegativeBit_S8000_is_false)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_checkNegativeBit_S8000_is_false")
 {
-   EXPECT_EQ(Helper::checkNegativeBit("8000"), false);
+   REQUIRE(!Helper::checkNegativeBit("8000"));
 }
 
-TEST(csBigIntegerHelperTests, BigInteger_revert_hex_0)
+TEST_CASE("csBigIntegerHelperTests:  BigInteger_revert_hex_0")
 {
-   EXPECT_EQ(Helper::revertHexString("0"), "00");
+   REQUIRE(Helper::revertHexString("0") == "00");
 }
