@@ -9,7 +9,7 @@ GMOCK_INCLUDE=./libgtest/googlemock/include
 all:
 	@echo "please type 'make test'"
 
-test: clean csBigIntegerGMP.test run_test_gmp csBigIntegerMono.test run_test_mono
+test: clean csBigIntegerGMP.test run_test_gmp csBigIntegerLib.test run_test_lib csBigIntegerMono.test run_test_mono
 	@echo "Finished tests"
 
 test-hard: test csBigIntegerGMP-hard.test csBigIntegerMono-hard.test
@@ -23,6 +23,13 @@ csBigIntegerGMP.test : csBigInteger.Test.cpp
 
 run_test_gmp: csBigIntegerGMP.test
 	./csBigIntegerGMP.test -d yes
+
+csBigIntegerLib.test : csBigInteger.Test.cpp
+	@echo "Building tests using GMP library (requires 'libgmp')"
+	g++ -DCATCH_CONFIG_MAIN -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/BigIntegerGMP.cpp -lgmp -lgmpxx -lpthread -ldl
+
+run_test_lib: csBigIntegerLib.test
+	./csBigIntegerLib.test -d yes
 
 run_test_mono: csBigIntegerMono.test
 	./csBigIntegerMono.test -d yes

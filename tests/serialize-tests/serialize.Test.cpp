@@ -4,10 +4,15 @@
 #include <limits>
 
 // core includes
+#ifdef TEST_CSBIGINTEGER_LIB
+#include <csBigIntegerLib.hpp>
+using namespace csbigintegerlib;
+#else 
 #include <BigInteger.h>
+using namespace csbiginteger;
+#endif
 
 using namespace std;
-using namespace csbiginteger;
 
 // basics
 
