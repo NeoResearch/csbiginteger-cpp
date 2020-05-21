@@ -218,6 +218,18 @@ TEST_CASE("csBIArithmeticsTests:  SpecialDiv2")
    REQUIRE(b1 / b2 == BigInteger(-127326));
 }
 
+TEST_CASE("csBIArithmeticsTests:  Mod2")
+{
+   BigInteger b2 = BigInteger("2");
+   BigInteger b3 = BigInteger("3");
+   REQUIRE(b2 % b2 == BigInteger::Zero);
+   //REQUIRE(b2 % 2 == BigInteger::Zero); // TODO: verify
+   REQUIRE(b3 % b2 == BigInteger::One);
+   //REQUIRE(b3 % 2 == BigInteger::One); // TODO: verify
+   REQUIRE(BigInteger::One % b2 == BigInteger::One);
+   REQUIRE(BigInteger::Zero % b2 == BigInteger::Zero);
+}
+
 TEST_CASE("csBIArithmeticsTests:  SpecialMod")
 {
    BigInteger b1 = BigInteger("20195283520469175757");
@@ -235,6 +247,18 @@ TEST_CASE("csBIArithmeticsTests:  SpecialModNeg2")
 {
    REQUIRE(BigInteger("-18224909727634776050312394179610579601844989529623334093909233530432892596607") % BigInteger("14954691977398614017") == BigInteger("-3100049211437790421"));
 }
+
+TEST_CASE("csBIArithmeticsTests:  IsEven")
+{
+   REQUIRE(BigInteger{2}.IsEven());
+   REQUIRE(!BigInteger{1}.IsEven());
+   REQUIRE(BigInteger{0}.IsEven());
+   REQUIRE(BigInteger{4}.IsEven());
+   REQUIRE(!BigInteger{255}.IsEven());
+   REQUIRE(BigInteger{-2}.IsEven());
+   REQUIRE(!BigInteger{-1}.IsEven());
+}
+
 
 // ======================= Pow =======================
 

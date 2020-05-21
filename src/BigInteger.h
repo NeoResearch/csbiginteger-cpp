@@ -41,7 +41,7 @@ public:
       // check if size is enough
       if (sz_vr < Length())
          return false;
-      cs_vbyte data = _data;                     // big-endian
+      cs_vbyte data = _data;                  // big-endian
       std::reverse(data.begin(), data.end()); // to little-endian
       std::copy(data.begin(), data.end(), vr);
       return true;
@@ -142,12 +142,17 @@ public:
       return (*this) == Error;
    }
 
-   // this one is little-endian
-   cs_vbyte ToByteArray() const
+   // this one is little-endian by default
+   cs_vbyte ToByteArray(bool isUnsigned = false, bool isBigEndian = false) const
    {
-      cs_vbyte data = this->_data; // copy
-      std::reverse(data.begin(), data.end());
-      return std::move(data); // move
+      cs_vbyte rdata = this->_data; // big-endian
+      if (isUnsigned) {
+         while ((rdata.size() > 0) && (rdata[0] == 0))
+            rdata.erase(rdata.begin() + 0);
+      }
+      if (!isBigEndian)
+         std::reverse(rdata.begin(), rdata.end()); // little-endian
+      return std::move(rdata);                     // move
    }
 
    // this one is big-endian (prefixed 0x, to enforce hex format)
@@ -292,6 +297,12 @@ public:
       cs_vbyte data = this->ToByteArray(); // little-endian
       std::string s = Helper::toHexString(data);
       return s;
+   }
+
+   bool IsEven() const
+   {
+      BigInteger bigmod = (*this) % BigInteger{ 2 };
+      return bigmod == BigInteger::Zero;
    }
 
 private:

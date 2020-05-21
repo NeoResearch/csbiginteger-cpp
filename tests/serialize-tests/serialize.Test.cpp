@@ -1249,3 +1249,14 @@ TEST_CASE("csBISerializeTests:  BigInteger_StrangeM16773648")
    REQUIRE(big.toInt() ==  -16773648);
    REQUIRE(big.ToString() ==  "0xff000df0");
 }
+
+// isUnsigned isBigEndian
+
+TEST_CASE("csBISerializeTests: isUnsigned isBigEndian")
+{
+   BigInteger big(33022);
+   REQUIRE(big.ToByteArray(false, false) == cs_vbyte{ 0xFE, 0x80, 0x00 });
+   REQUIRE(big.ToByteArray(false, true) == cs_vbyte{ 0x00, 0x80, 0xFE });
+   REQUIRE(big.ToByteArray(true, false) == cs_vbyte{ 0xFE, 0x80 });
+   REQUIRE(big.ToByteArray(true, true) == cs_vbyte{ 0x80, 0xFE });
+}
