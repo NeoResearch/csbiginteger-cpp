@@ -25,8 +25,8 @@ run_test_gmp: csBigIntegerGMP.test
 	./csBigIntegerGMP.test -d yes
 
 csBigIntegerLib.test : csBigInteger.Test.cpp
-	@echo "Building tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/BigIntegerGMP.cpp -lgmp -lgmpxx -lpthread -ldl
+	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
+	g++ -DCATCH_CONFIG_MAIN -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/BigIntegerGMP.cpp $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx -lpthread -ldl
 
 run_test_lib: csBigIntegerLib.test
 	./csBigIntegerLib.test -d yes

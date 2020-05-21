@@ -83,4 +83,6 @@ csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
 extern "C" int32
 csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
 
+// EXTRA: Pow
+
 #endif // CSBIGINTEGER_LIB_H

@@ -8,10 +8,10 @@
 #include <sstream>
 #include <vector>
 
-#include "csBigIntegerLib.h"
+#include "csBigIntegerLib.h" // NEVER INCLUDE "BigInteger.h" HERE!
 
 // internal classes
-#include "Helper.hpp"
+#include "Helper.hpp" // from namespace 'csbiginteger'
 
 // original specification:
 // https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
@@ -20,7 +20,7 @@
 // This class is intended to be immutable
 // ======================================
 
-// Note that this class 'BigInteger' depends on 'BigIntegerLib.h', 
+// Note that this class 'BigInteger' depends on 'BigIntegerLib.h',
 //    and a possible implementation is 'BigIntegerLib.cpp'
 // This is done to use C-library style from external world.
 //
@@ -32,10 +32,10 @@
 //
 
 namespace csbigintegerlib {
-   //
-   // This class depends on 'csBigIntegerLib.h' (C-style implementation)
-   // A possible implementation (on C++) is 'BigIntegerLib.cpp', but you can use others.
-   //
+//
+// This class depends on 'csBigIntegerLib.h' (C-style implementation)
+// A possible implementation (on C++) is 'BigIntegerLib.cpp', but you can use others.
+//
 class BigInteger final
 {
 private:
@@ -73,6 +73,7 @@ public:
    BigInteger()
      : _data(vbyte(1, 0x00))
    {
+      // not using lib here
    }
 
    // copy constructor
@@ -93,7 +94,14 @@ public:
    // default is base 10
    // allowed base 2
    // if base 16, prefix '0x' is optional. input always big-endian
-   BigInteger(std::string str, int base = 10);
+   BigInteger(std::string str, int base = 10)
+   {
+      // initialize big integer and return its size (in bytes). output vr must be pre-allocated
+      // extern "C" int32 csbiginteger_init_s(char* value, int base, byte* vr, int sz_vr);
+      vbyte local_data(str.length() + 2, 0); // ESTIMATE SIZE... TODO: VERIFY!
+      int32 realSize = csbiginteger_init_s((char*)str.c_str(), base, local_data.data(), local_data.size());
+      _data = vbyte(local_data.begin(), local_data.begin() + realSize);
+   }
 
    BigInteger(int32 value)
      : BigInteger(std::to_string(value), 10)
@@ -106,7 +114,11 @@ public:
    }
 
    // from single-precision
-   BigInteger(float f);
+   BigInteger(float f)
+     : BigInteger((int64)f)
+   {
+   }
+
    //BigInteger(float f) :
    //BigInteger(std::to_string((int)f), 10)
    //{
@@ -134,14 +146,24 @@ public:
    }
 
    // depends on external implementation
-   bool operator<(const BigInteger& big) const;
+   bool operator<(const BigInteger& big) const
+   {
+      // extern "C" bool csbiginteger_lt(byte* big1, int sz_big1, byte* big2, int sz_big2);
+      return csbiginteger_lt((byte*)this->_data.data(), this->_data.size(), (byte*)big._data.data(), big._data.size());
+   }
+
    bool operator<=(const BigInteger& big) const
    {
       return ((*this) == big) || ((*this) < big); // where is spaceship operator??
    }
 
    // depends on external implementation
-   bool operator>(const BigInteger& big) const;
+   bool operator>(const BigInteger& big) const
+   {
+      // extern "C" bool csbiginteger_gt(byte* big1, int sz_big1, byte* big2, int sz_big2);
+      return csbiginteger_gt((byte*)this->_data.data(), this->_data.size(), (byte*)big._data.data(), big._data.size());
+   }
+
    bool operator>=(const BigInteger& big) const
    {
       return ((*this) == big) || ((*this) > big); // where is spaceship operator??
@@ -187,14 +209,30 @@ public:
    }
 
 private:
-   std::string toStringBase10() const;
+   std::string toStringBase10() const
+   {
+      // ToString(base). input vb and output sr must be pre-allocated (return indicates failure, 'true' is fine)
+      //extern "C" bool csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
+      std::string s(this->_data.size() * 4, ' '); // TODO: CHECK IF IT'S ENOUGH!
+
+      return s;
+   }
 
 public:
    // native int32 format
-   int32 toInt() const;
+   int32 toInt() const
+   {
+      // toInt(). input vb must be pre-allocated
+      //extern "C" int csbiginteger_to_int(byte* vb, int sz_vb);
+      return csbiginteger_to_int((byte*)this->_data.data(), this->_data.size());
+   }
 
    // native int64 format
-   int64 toLong() const;
+   int64 toLong() const
+   {
+      //extern "C" long csbiginteger_to_long(byte* vb, int sz_vb);
+      return csbiginteger_to_long((byte*)this->_data.data(), this->_data.size());
+   }
 
    int Sign() const;
 
@@ -216,7 +254,18 @@ public:
    BigInteger operator^(BigInteger& big2);
 
    // depends on external implementation
-   BigInteger operator+(const BigInteger& big2) const;
+   BigInteger operator+(const BigInteger& big2) const
+   {
+      // perform big1 + big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_add((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator+(long l2) const
    {
       BigInteger other(l2);
@@ -227,7 +276,18 @@ public:
    BigInteger& operator+=(int i2);
 
    // depends on external implementation
-   BigInteger operator-(const BigInteger& big2) const;
+   BigInteger operator-(const BigInteger& big2) const
+   {
+      // perform big1 - big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_sub((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator-(long l2) const
    {
       BigInteger other(l2);
@@ -244,7 +304,18 @@ public:
    }
 
    // depends on external implementation
-   BigInteger operator*(const BigInteger& big2) const;
+   BigInteger operator*(const BigInteger& big2) const
+   {
+      // perform big1 * big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_mul((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator*(long l2) const
    {
       BigInteger other(l2);
@@ -252,7 +323,18 @@ public:
    }
 
    // depends on external implementation
-   BigInteger operator/(const BigInteger& big2) const;
+   BigInteger operator/(const BigInteger& big2) const
+   {
+      // perform big1 / big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_div((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator/(long l2) const
    {
       BigInteger other(l2);
@@ -260,7 +342,18 @@ public:
    }
 
    // depends on external implementation
-   BigInteger operator%(const BigInteger& big2) const;
+   BigInteger operator%(const BigInteger& big2) const
+   {
+      // perform big1 % big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_mod((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator%(long l2) const
    {
       BigInteger other(l2);
@@ -271,7 +364,18 @@ public:
    BigInteger& operator<<=(int i2);
 
    // depends on external implementation
-   BigInteger operator<<(const BigInteger& big2) const;
+   BigInteger operator<<(const BigInteger& big2) const
+   {
+      // perform big1 << big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_shl((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
+
    BigInteger operator<<(long l2) const
    {
       BigInteger other(l2);
@@ -282,7 +386,17 @@ public:
    BigInteger& operator>>=(int i2);
 
    // depends on external implementation
-   BigInteger operator>>(const BigInteger& big2) const;
+   BigInteger operator>>(const BigInteger& big2) const
+   {
+      // perform big1 >> big2 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      int32 realSize = csbiginteger_shr((byte*)this->_data.data(), this->_data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
+   }
    BigInteger operator>>(long l2) const
    {
       BigInteger other(l2);
@@ -294,7 +408,11 @@ public:
    // Utils
 
    // pow allows int32 positive exponent (negative will generate BigInteger::Error)
-   static BigInteger Pow(BigInteger value, int exponent);
+   static BigInteger Pow(BigInteger value, int exponent)
+   {
+
+   }
+   
    static BigInteger Multiply(BigInteger value1, BigInteger value2)
    {
       return value1 * value2;
@@ -305,7 +423,7 @@ public:
    // hex string is returned on little-endian
    std::string toHexStr() const
    {
-      vbyte data = this->ToByteArray(); // little-endian
+      vbyte data = this->ToByteArray();                        // little-endian
       std::string s = csbiginteger::Helper::toHexString(data); // TODO: take from C
       return s;
    }
@@ -316,6 +434,18 @@ private:
 public:
    const static BigInteger Error; // error biginteger (empty internal bytearray)
 };
+
+const BigInteger BigInteger::Zero = BigInteger(0);
+const BigInteger BigInteger::One = BigInteger(1);
+const BigInteger BigInteger::MinusOne = BigInteger(-1);
+const BigInteger
+BigInteger::error()
+{
+   BigInteger big;
+   big._data = vbyte(0); // empty array is error
+   return big;
+}
+const BigInteger BigInteger::Error = error();
 
 } // namespace csbigintegerlib
 
