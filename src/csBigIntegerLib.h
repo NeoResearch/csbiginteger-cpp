@@ -83,6 +83,8 @@ csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
 extern "C" int32
 csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
 
-// EXTRA: Pow
+// perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
 
 #endif // CSBIGINTEGER_LIB_H

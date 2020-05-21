@@ -410,9 +410,16 @@ public:
    // pow allows int32 positive exponent (negative will generate BigInteger::Error)
    static BigInteger Pow(BigInteger value, int exponent)
    {
-
+      // perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
+      //extern "C" int32
+      //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
+      vbyte local_data(value._data.size()*exponent, 0);
+      int32 realSize = csbiginteger_pow((byte*)value._data.data(), value._data.size(), exponent, (byte*)local_data.data(), local_data.size());
+      BigInteger bigNew;
+      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      return bigNew;
    }
-   
+
    static BigInteger Multiply(BigInteger value1, BigInteger value2)
    {
       return value1 * value2;

@@ -210,3 +210,16 @@ csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int
       return 0; // error
    return b3.Length();
 }
+
+// perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
+extern "C" int32
+csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr)
+{
+   csbiginteger::BigInteger b1(vbyte(big, big + sz_big));
+   csbiginteger::BigInteger b3 = csbiginteger::BigInteger::Pow(b1, exp);
+   if (b3 == csbiginteger::BigInteger::Error)
+      return 0; // error
+   if (!b3.CopyTo(vr, sz_vr))
+      return 0; // error
+   return b3.Length();
+}
