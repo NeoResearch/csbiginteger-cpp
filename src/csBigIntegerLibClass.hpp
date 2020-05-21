@@ -436,7 +436,7 @@ public:
       // perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
-      vbyte local_data(value._data.size() * exponent, 0);
+      vbyte local_data(value._data.size() * ::abs(exponent), 0);
       int32 realSize = csbiginteger_pow((byte*)value._data.data(), value._data.size(), exponent, (byte*)local_data.data(), local_data.size());
       BigInteger bigNew;
       bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
