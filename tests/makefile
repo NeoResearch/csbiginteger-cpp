@@ -9,10 +9,11 @@ GMOCK_INCLUDE=./libgtest/googlemock/include
 all:
 	@echo "please type 'make test'"
 
-test: clean csBigIntegerGMP.test run_test_gmp csBigIntegerLib.test run_test_lib csBigIntegerMono.test run_test_mono
+test: clean csBigIntegerGMP.test run_test_gmp csBigIntegerLib.test run_test_lib #csBigIntegerMono.test run_test_mono
 	@echo "Finished tests"
 
-test-hard: test csBigIntegerGMP-hard.test csBigIntegerMono-hard.test
+# only run Mono tests in 'hard' mode
+test-hard: test csBigIntegerMono.test run_test_mono csBigIntegerGMP-hard.test csBigIntegerMono-hard.test
 	@echo "Executing hard tests"
 	./csBigIntegerGMP-hard.test
 	./csBigIntegerMono-hard.test

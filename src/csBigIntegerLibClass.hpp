@@ -114,9 +114,19 @@ public:
    {
    }
 
+private:
+   std::string float_to_string(float f)
+   {
+      std::stringstream ss;
+      ss << std::fixed << std::setprecision(0)  << f;
+      std::string s(ss.str());
+      return s;
+   }
+
+public:
    // from single-precision
    BigInteger(float f)
-     : BigInteger((int64)f)
+     : BigInteger(float_to_string(f), 10)
    {
    }
 
@@ -222,7 +232,7 @@ private:
    {
       // ToString(base). input vb and output sr must be pre-allocated (return indicates failure, 'true' is fine)
       //extern "C" bool csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
-      std::string s(this->_data.size() * 4, ' '); // TODO: CHECK IF IT'S ENOUGH!
+      std::string s(this->_data.size() * 5, ' '); // TODO: CHECK IF IT'S ENOUGH!
       //
       // ToString(base). input vb and output sr must be pre-allocated (return indicates failure, 'true' is fine)
       //extern "C" bool
@@ -345,7 +355,7 @@ public:
       // perform big1 * big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
-      vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
+      vbyte local_data(this->_data.size() * big2._data.size() + 2, 0);
       vbyte data = this->_data;                 // copy
       std::reverse(data.begin(), data.end());   // to little endian
       vbyte data2 = big2._data;                 // copy
@@ -475,12 +485,11 @@ public:
       // perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
-      vbyte local_data(value._data.size() * (::abs(exponent) + 2), 0);
+      vbyte local_data(value._data.size() * (2*::abs(exponent) + 2), 0);
       vbyte data = value._data;               // copy
       std::reverse(data.begin(), data.end()); // to little endian
       int32 realSize = csbiginteger_pow((byte*)data.data(), data.size(), exponent, (byte*)local_data.data(), local_data.size());
-      BigInteger bigNew;
-      bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
+      BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
 

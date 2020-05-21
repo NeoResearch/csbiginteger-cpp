@@ -160,7 +160,7 @@ TEST_CASE("csBIArithmeticsTests:  ZeroSHRErrorIsError")
 
 TEST_CASE("csBIArithmeticsTests:  ZeroLessThanOne")
 {
-   cout << "will compare 0 and 1" << endl;
+   //cout << "will compare 0 and 1" << endl;
    BigInteger big0(0);
    BigInteger big1(1);
    REQUIRE(big0.operator<(big1));
