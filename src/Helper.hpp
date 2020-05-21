@@ -27,6 +27,12 @@ namespace csbiginteger {
 class Helper
 {
 public:
+   // right trim
+   static inline void rtrim(std::string& s)
+   {
+      s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+   }
+
    // from neopt // helper
    static std::string toHexString(const vbyte& v)
    {
@@ -119,6 +125,7 @@ public: // helper
       return bytes;
    }
 };
-}
+
+} // namespace csbiginteger
 
 #endif // CS_BIGINTEGER_HELPER_HPP
