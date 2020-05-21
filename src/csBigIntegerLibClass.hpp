@@ -350,7 +350,7 @@ public:
    // depends on external implementation
    BigInteger operator/(const BigInteger& big2) const
    {
-      if (this->IsError() || big2.IsError())
+      if (this->IsError() || big2.IsError() || big2.IsZero())
          return Error;
       // perform big1 / big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32

@@ -200,7 +200,6 @@ TEST_CASE("csBIArithmeticsTests:  ZeroGreaterThanErrorIsFalse")
 
 TEST_CASE("csBIArithmeticsTests:  SpecialDiv")
 {
-   cout << "oi" << endl;
    BigInteger b1 = BigInteger("41483775933600000000");
    //EXPECT_EQ(b1.ToString(10), "41483775933600000000");
    //EXPECT_EQ(b1.ToString(16), "0x023fb3fa6bd0206800");
@@ -209,7 +208,6 @@ TEST_CASE("csBIArithmeticsTests:  SpecialDiv")
    //EXPECT_EQ(b2.ToString(16), "0x609c37be68");
    BigInteger b3 = b1 / b2;
    REQUIRE(b3.ToString(10) == "99975899");
-   //EXPECT_EQ(b1 / b2, BigInteger("99975899"));
 }
 
 TEST_CASE("csBIArithmeticsTests:  SpecialDiv2")
