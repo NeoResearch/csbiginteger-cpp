@@ -11,10 +11,9 @@ dotnet:
 
 
 vendor:
-	@echo "trying to install GNU lgmp library (debian-based systems)"
-	sudo apt-get install libgmp-dev
-	@echo "trying to configure libgtest on tests/"
-	(cd tests/libgtest && mkdir -p build && cd build && cmake .. && make)
+	@echo "verifying GNU lgmp library (debian-based systems)"
+	./get_libgmp.sh
+	@echo "============ finished 'make vendor' ============"
 
 test:
 	@echo "Performing basic tests now"
