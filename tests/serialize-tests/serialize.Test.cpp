@@ -28,12 +28,12 @@ TEST_CASE("csBIMemoryTests:  BigInteger_Length_zero_is_one")
 
 TEST_CASE("csBIMemoryTests:  BigInteger_CopyTo_Good_0x010203")
 {
-   byte b[4];
+   cs_byte b[4];
    b[0] = 0;
    b[1] = 0;
    b[2] = 0;
    b[3] = 0;
-   vbyte vb = { 0x01, 0x02, 0x03 };
+   cs_vbyte vb = { 0x01, 0x02, 0x03 };
    BigInteger big(vb);
    REQUIRE(big.Length() == 3);
    REQUIRE(big.CopyTo(b, 4));
@@ -45,9 +45,9 @@ TEST_CASE("csBIMemoryTests:  BigInteger_CopyTo_Good_0x010203")
 
 TEST_CASE("csBIMemoryTests:  BigInteger_CopyTo_Bad")
 {
-   byte b[1];
+   cs_byte b[1];
    b[0] = 0;
-   vbyte vb = { 0x01, 0x02, 0x03 };
+   cs_vbyte vb = { 0x01, 0x02, 0x03 };
    BigInteger big(vb);
    REQUIRE(big.Length() == 3);
    REQUIRE(big.CopyTo(b, 1) == false);
@@ -144,7 +144,7 @@ TEST_CASE("csBISerializeTests:  Constructor10_Equals_10")
 
 TEST_CASE("csBISerializeTests:  Constructorv5_Equals_5")
 {
-   BigInteger big(vbyte(1, 0x05));
+   BigInteger big(cs_vbyte(1, 0x05));
    REQUIRE(big.toInt() ==  5);
 }
 
@@ -154,7 +154,7 @@ TEST_CASE("csBISerializeTests:  Constructorv5_Equals_5")
 
 TEST_CASE("csBISerializeTests:  Constructorv127_Equals_127")
 {
-   BigInteger big(vbyte(1, 127));
+   BigInteger big(cs_vbyte(1, 127));
    REQUIRE(big.toInt() ==  127);
 }
 
@@ -164,7 +164,7 @@ TEST_CASE("csBISerializeTests:  Constructorv127_Equals_127")
 
 TEST_CASE("csBISerializeTests:  Constructorv128_Equals_M128")
 {
-   BigInteger big(vbyte(1, 128));
+   BigInteger big(cs_vbyte(1, 128));
    REQUIRE(big.toInt() ==  -128);
 }
 
@@ -174,7 +174,7 @@ TEST_CASE("csBISerializeTests:  Constructorv128_Equals_M128")
 
 TEST_CASE("csBISerializeTests:  Constructorv251_Equals_M5")
 {
-   BigInteger big(vbyte(1, 251));
+   BigInteger big(cs_vbyte(1, 251));
    REQUIRE(big.toInt() ==  -5);
 }
 
@@ -200,7 +200,7 @@ TEST_CASE("csBISerializeTests:  ConstructorS0xfb_Equals_M5")
 
 TEST_CASE("csBISerializeTests:  Constructorv251v0_Equals_251")
 {
-   vbyte v = { 251, 0 };
+   cs_vbyte v = { 251, 0 };
    BigInteger big(v);
    REQUIRE(big.toInt() ==  251);
 }
@@ -329,7 +329,7 @@ TEST_CASE("csBISerializeTests:  BigInteger1_toHexStr_S01")
 // empty bytearray initialization is not considered error (but is zero as default)
 TEST_CASE("csBISerializeTests:  BigIntegerEmptyByteArray_toHexStr_S00")
 {
-   BigInteger big(vbyte(0));
+   BigInteger big(cs_vbyte(0));
    REQUIRE(big != BigInteger::Error);
    REQUIRE(big.toHexStr() ==  "00");
 }
@@ -561,7 +561,7 @@ TEST_CASE("csBISerializeTests:  BigInteger4293967296_toHexStr_Sc0bdf0ff00")
 TEST_CASE("csBISerializeTests:  BigInteger10_ToByteArray_v10")
 {
    BigInteger big(10);
-   REQUIRE(big.ToByteArray() == vbyte(1, 10));
+   REQUIRE(big.ToByteArray() == cs_vbyte(1, 10));
 }
 
 //test('constructor csBigInteger(-1).toHexString() equals [255]', () => {
@@ -571,7 +571,7 @@ TEST_CASE("csBISerializeTests:  BigInteger10_ToByteArray_v10")
 TEST_CASE("csBISerializeTests:  BigIntegerM1_ToByteArray_v255")
 {
    BigInteger big(-1);
-   REQUIRE(big.ToByteArray() == vbyte(1, 255));
+   REQUIRE(big.ToByteArray() == cs_vbyte(1, 255));
 }
 
 //test('constructor csBigInteger(0).toHexString() equals [0]', () => {
@@ -581,7 +581,7 @@ TEST_CASE("csBISerializeTests:  BigIntegerM1_ToByteArray_v255")
 TEST_CASE("csBISerializeTests:  BigInteger0_ToByteArray_v0")
 {
    BigInteger big(0);
-   REQUIRE(big.ToByteArray() == vbyte(1, 0));
+   REQUIRE(big.ToByteArray() == cs_vbyte(1, 0));
 }
 
 //test('csBigInteger(100000000).toHexString() equals "00e1f505"', () => {
@@ -600,7 +600,7 @@ TEST_CASE("csBISerializeTests:  BigInteger100000000_toHexStr_S00e1f505")
 
 TEST_CASE("csBISerializeTests:  BigInteger0p00000255MUL100000000_toHexStr_Sff00")
 {
-   BigInteger big((int64)(0.00000255 * 100000000));
+   BigInteger big((cs_int64)(0.00000255 * 100000000));
    REQUIRE(big.toHexStr() ==  "ff00");
 }
 
@@ -635,7 +635,7 @@ TEST_CASE("csBISerializeTests:  BigInteger1_ToString_S0x01")
 // empty byte array is not considered error here (default is zero value)
 TEST_CASE("csBISerializeTests:  BigIntegerEmptyByteArray_ToString_S0x00")
 {
-   BigInteger big(vbyte(0));
+   BigInteger big(cs_vbyte(0));
    REQUIRE(big != BigInteger::Error);
    REQUIRE(big.ToString() ==  "0x00");
 }

@@ -19,13 +19,14 @@
 // ======================================
 
 namespace csbiginteger {
+
 class BigInteger final
 {
 private:
    // internal data (vector of bytes) in big-endian format (for readability)
    // efficiency is not important at this moment, correctness and portability is!
    // TODO: perhaps it's better to store in little-endian format... see which methods are affected.
-   vbyte _data;
+   cs_vbyte _data;
 
 public:
    // size in bytes
@@ -35,12 +36,12 @@ public:
    }
 
    // copy internal bytes (in little-endian) to external array vr. returns 'true' if ok, 'false' if problems.
-   bool CopyTo(byte* vr, int sz_vr) const
+   bool CopyTo(cs_byte* vr, int sz_vr) const
    {
       // check if size is enough
       if (sz_vr < Length())
          return false;
-      vbyte data = _data;                     // big-endian
+      cs_vbyte data = _data;                     // big-endian
       std::reverse(data.begin(), data.end()); // to little-endian
       std::copy(data.begin(), data.end(), vr);
       return true;
@@ -54,7 +55,7 @@ public:
 public:
    // zero
    BigInteger()
-     : _data(vbyte(1, 0x00))
+     : _data(cs_vbyte(1, 0x00))
    {
    }
 
@@ -78,12 +79,12 @@ public:
    // if base 16, prefix '0x' is optional. input always big-endian
    BigInteger(std::string str, int base = 10);
 
-   BigInteger(int32 value)
+   BigInteger(cs_int32 value)
      : BigInteger(std::to_string(value), 10)
    {
    }
 
-   BigInteger(int64 value)
+   BigInteger(cs_int64 value)
      : BigInteger(std::to_string(value), 10)
    {
    }
@@ -96,7 +97,7 @@ public:
    //}
 
    // byte data in little-endian format
-   BigInteger(vbyte data)
+   BigInteger(cs_vbyte data)
      : _data(data)
    {
       if (_data.size() == 0)
@@ -142,9 +143,9 @@ public:
    }
 
    // this one is little-endian
-   vbyte ToByteArray() const
+   cs_vbyte ToByteArray() const
    {
-      vbyte data = this->_data; // copy
+      cs_vbyte data = this->_data; // copy
       std::reverse(data.begin(), data.end());
       return std::move(data); // move
    }
@@ -174,10 +175,10 @@ private:
 
 public:
    // native int32 format
-   int32 toInt() const;
+   cs_int32 toInt() const;
 
    // native int64 format
-   int64 toLong() const;
+   cs_int64 toLong() const;
 
    int Sign() const;
 
@@ -288,7 +289,7 @@ public:
    // hex string is returned on little-endian
    std::string toHexStr() const
    {
-      vbyte data = this->ToByteArray(); // little-endian
+      cs_vbyte data = this->ToByteArray(); // little-endian
       std::string s = Helper::toHexString(data);
       return s;
    }

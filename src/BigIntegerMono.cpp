@@ -36,7 +36,7 @@ mono_string_to_string(MonoString* str)
    return out;
 };
 
-vbyte
+cs_vbyte
 mono_bytearray_to_bytearray(MonoArray* arr)
 {
    unsigned int size = mono_array_length(arr);
@@ -47,7 +47,7 @@ mono_bytearray_to_bytearray(MonoArray* arr)
 };
 
 MonoArray*
-CreateByteArray(vbyte bytes)
+CreateByteArray(cs_vbyte bytes)
 {
    MonoArray* data;
 
@@ -59,7 +59,7 @@ CreateByteArray(vbyte bytes)
 }
 
 MonoObject*
-executeOp(std::string op, vbyte bytes1, vbyte bytes2)
+executeOp(std::string op, cs_vbyte bytes1, cs_vbyte bytes2)
 {
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
@@ -98,7 +98,7 @@ const BigInteger
 BigInteger::error()
 {
    BigInteger big;
-   big._data = vbyte(0); // empty array is error
+   big._data = cs_vbyte(0); // empty array is error
    return big;
 }
 
@@ -230,7 +230,7 @@ BigInteger::toStringBase10() const
    return sstr;
 }
 
-int32
+cs_int32
 BigInteger::toInt() const
 {
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
@@ -259,7 +259,7 @@ BigInteger::toInt() const
    return int_result;
 }
 
-int64
+cs_int64
 BigInteger::toLong() const
 {
    MonoObject* bigLib = mono_object_new(domain, biglibclass);

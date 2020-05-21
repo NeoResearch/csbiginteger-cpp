@@ -13,9 +13,6 @@
 
 #include "types.h"
 
-// c++ types
-typedef std::vector<byte> vbyte;
-
 // original specification:
 // https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
 
@@ -24,6 +21,10 @@ typedef std::vector<byte> vbyte;
 // ======================================
 
 namespace csbiginteger {
+
+// c++ types
+using cs_vbyte = std::vector<csbiginteger::cs_byte>;
+
 class Helper
 {
 public:
@@ -34,7 +35,7 @@ public:
    }
 
    // from neopt // helper
-   static std::string toHexString(const vbyte& v)
+   static std::string toHexString(const cs_vbyte& v)
    {
       std::stringstream ss;
       for (unsigned i = 0; i < v.size(); i++) // TODO: use foreach
@@ -43,9 +44,9 @@ public:
    }
 
    // from neopt // helper
-   static std::string toHexString(const byte& b)
+   static std::string toHexString(const cs_byte& b)
    {
-      return toHexString(vbyte(1, b));
+      return toHexString(cs_vbyte(1, b));
    }
 
 public: // helper
@@ -75,7 +76,7 @@ public: // helper
       std::string y = leHexStr.substr(leHexStr.length() - 2, 2);
       //console.log("base="+y);
       // detect negative values
-      byte b = std::stol(y, nullptr, 16);       // parseInt(y,16)
+      cs_byte b = std::stol(y, nullptr, 16);       // parseInt(y,16)
       std::string bitnum = Helper::parseBin(b); //parseInt(y, 16).toString(2);
       //console.log("bitnum="+bitnum);
       // -1389293829382
@@ -84,7 +85,7 @@ public: // helper
    }
 
    // TODO: test
-   static std::string parseBin(byte n)
+   static std::string parseBin(cs_byte n)
    {
       std::string result;
 
@@ -98,28 +99,28 @@ public: // helper
 
 public: // helper
    // TODO: from neopt
-   static vbyte HexToBytes(const std::string& hex)
+   static cs_vbyte HexToBytes(const std::string& hex)
    {
       // TODO: implement (begin 0x)
       //NEOPT_EXCEPTION("Not implemented yet: HexToBytes");
-      vbyte bytes(hex.length() / 2);
+      cs_vbyte bytes(hex.length() / 2);
 
       for (uint i = 0; i < hex.length(); i += 2) {
          std::string byteString = hex.substr(i, 2);
-         byte b = (byte)strtol(byteString.c_str(), NULL, 16);
+         cs_byte b = (cs_byte)strtol(byteString.c_str(), NULL, 16);
          bytes[i / 2] = b;
       }
       return bytes;
    }
 
    // binary format to bytes (must be 8-bit padded)
-   static vbyte BinToBytes(const std::string& sbin)
+   static cs_vbyte BinToBytes(const std::string& sbin)
    {
-      vbyte bytes(sbin.length() / 8);
+      cs_vbyte bytes(sbin.length() / 8);
 
       for (uint i = 0; i < sbin.length(); i += 8) {
          std::string bitString = sbin.substr(i, 8);
-         byte b = (byte)strtol(bitString.c_str(), NULL, 2);
+         cs_byte b = (cs_byte)strtol(bitString.c_str(), NULL, 2);
          bytes[i / 8] = b;
       }
       return bytes;

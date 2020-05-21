@@ -3,8 +3,13 @@
 
 // only c types here (not vector)
 
-typedef int int32;
-typedef long int64;
-typedef unsigned char byte;
+namespace csbiginteger
+{
+
+typedef int cs_int32;
+typedef long cs_int64;
+typedef unsigned char cs_byte;
+
+} // namespace csbiginteger
 
 #endif // CSBIGINTEGER_TYPES_H

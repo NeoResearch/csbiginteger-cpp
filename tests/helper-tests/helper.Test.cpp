@@ -13,7 +13,7 @@ TEST_CASE("csBigIntegerHelperTests:  RevertHexString8000_0080")
 
 TEST_CASE("csBigIntegerHelperTests:  HexToBytes0001")
 {
-   vbyte vb = Helper::HexToBytes("0001");
+   cs_vbyte vb = Helper::HexToBytes("0001");
    REQUIRE(vb[0] == 0x00);
    REQUIRE(vb[1] == 0x01);
 }

@@ -15,23 +15,23 @@
 // Ported from
 // - https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
 
-using namespace std;
+//using namespace std;
 using namespace csbiginteger;
 
 // input is raw little-endian format
 mpz_class
-csBigIntegerMPZparse(vbyte n);
+csBigIntegerMPZparse(cs_vbyte n);
 
 // string parse
 mpz_class
-csBigIntegerMPZparses(string n, int base);
+csBigIntegerMPZparses(std::string n, int base);
 
 // get bitstring from mpz bignum non-negative object
-string
+std::string
 csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big);
 
 // get big-endian bytearray from mpz bignum (positive or negative)
-vbyte
+cs_vbyte
 csBigIntegerGetBytesFromMPZ(mpz_class big);
 
 // ==================== END MPZ =======================
@@ -45,7 +45,7 @@ const BigInteger
 BigInteger::error()
 {
    BigInteger big;
-   big._data = vbyte(0); // empty array is error
+   big._data = cs_vbyte(0); // empty array is error
    return big;
 }
 
@@ -59,7 +59,7 @@ BigInteger::Pow(BigInteger value, int exponent)
    mpz_class r;
    unsigned long _exp = exponent;
    mpz_pow_ui(r.get_mpz_t(), big1.get_mpz_t(), _exp);
-   vbyte vr = csBigIntegerGetBytesFromMPZ(r);
+   cs_vbyte vr = csBigIntegerGetBytesFromMPZ(r);
    reverse(vr.begin(), vr.end()); // to little-endian
    return BigInteger(vr);
 }
@@ -67,7 +67,7 @@ BigInteger::Pow(BigInteger value, int exponent)
 // default is base 10
 // allows base 2
 // if base 16, prefix '0x' indicates big-endian, otherwise is little-endian
-BigInteger::BigInteger(string str, int base)
+BigInteger::BigInteger(std::string str, int base)
 {
    mpz_class a = csBigIntegerMPZparses(str, base);
    _data = csBigIntegerGetBytesFromMPZ(a);
@@ -80,23 +80,23 @@ BigInteger::BigInteger(float val)
    _data = csBigIntegerGetBytesFromMPZ(a);
 }
 
-int32
+cs_int32
 BigInteger::toInt() const
 {
-   vbyte vb = this->ToByteArray(); // little-endian
+   cs_vbyte vb = this->ToByteArray(); // little-endian
    mpz_class a = csBigIntegerMPZparse(vb);
-   int32 i = a.get_ui(); // unsigned int
+   cs_int32 i = a.get_ui(); // unsigned int
    if (a < 0)
       i *= -1;
    return i;
 }
 
-int64
+cs_int64
 BigInteger::toLong() const
 {
-   vbyte vb = this->ToByteArray(); // little-endian
+   cs_vbyte vb = this->ToByteArray(); // little-endian
    mpz_class a = csBigIntegerMPZparse(vb);
-   int64 i = a.get_si(); // signed long int
+   cs_int64 i = a.get_si(); // signed long int
    return i;
 }
 
@@ -223,7 +223,7 @@ BigInteger::operator>>(const BigInteger& big2) const
 
 // =================== BEGIN MPZ AGAIN =======================
 
-string
+std::string
 BigInteger::toStringBase10() const
 {
    mpz_class bThis = csBigIntegerMPZparse(this->ToByteArray()); // parse from little-endian
@@ -231,19 +231,19 @@ BigInteger::toStringBase10() const
 }
 
 // assumes big >= 0
-string
+std::string
 csBigIntegerGetBitsFromNonNegativeMPZ(mpz_class big)
 {
-   string sbin;
+   std::string sbin;
    while (big > 0) {
       mpz_class rest = (big % 2);
-      sbin.insert(0, (rest.get_ui() == 0 ? string("0") : string("1")));
+      sbin.insert(0, (rest.get_ui() == 0 ? std::string("0") : std::string("1")));
       big = big / 2;
    }
    return sbin;
 }
 
-vbyte
+cs_vbyte
 csBigIntegerGetBytesFromMPZ(mpz_class big)
 {
    // check if positive or negative
@@ -251,15 +251,15 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // -------------------
       // positive conversion
       // -------------------
-      vbyte v;
+      cs_vbyte v;
       while (big > 0) {
          mpz_class rest = (big % 256);
-         v.push_back((byte)rest.get_ui());
+         v.push_back((cs_byte)rest.get_ui());
          big = big / 256;
       }
 
       // added in little-endian format (backwards)
-      string leHex = Helper::toHexString(v);
+      std::string leHex = Helper::toHexString(v);
       if (leHex.length() == 0)
          leHex = "00";
       // check if became negative
@@ -285,7 +285,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // perform two's complement
       // ========================
       // convert to binary
-      vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
+      cs_vbyte vx = csBigIntegerGetBytesFromMPZ(x); // positive is easy to convert
       //cout << Helper::toHexString(vx) << endl;
       mpz_class bx(Helper::toHexString(vx), 16);
       // get binary representation
@@ -328,7 +328,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       //cout << "y4bits: " << y4 << endl;
 
       // get in bytes
-      vbyte v = Helper::BinToBytes(y4);
+      cs_vbyte v = Helper::BinToBytes(y4);
 
       //cout << "v: " << Helper::toHexString(v) << endl;
 
@@ -338,7 +338,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
       // will add extra ff to guarantee its negative, and simplify later (remove extra ff)
       v.push_back(0xff);
 
-      vbyte vsimple = v;
+      cs_vbyte vsimple = v;
       while ((vsimple.size() > 1) && (vsimple.at(((int)vsimple.size()) - 1) == 0xff)) {
          vsimple.pop_back();
          std::string lehex = Helper::toHexString(vsimple);
@@ -378,7 +378,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
 
 // expects vbyte on little-endian format (raw internal format)
 mpz_class
-csBigIntegerMPZparse(vbyte n)
+csBigIntegerMPZparse(cs_vbyte n)
 {
    //if (n.size() == 0)
    //   return mpz_class(0); // never invoked
@@ -414,7 +414,7 @@ csBigIntegerMPZparse(vbyte n)
 }
 
 mpz_class
-csBigIntegerMPZparses(string n, int base)
+csBigIntegerMPZparses(std::string n, int base)
 {
    if (base == 10) {
       //if (n.length() == 0)
@@ -440,7 +440,7 @@ csBigIntegerMPZparses(string n, int base)
       n.insert(0, "0");
 
    // return bytearray initialized
-   vbyte vb;
+   cs_vbyte vb;
    // prefix '0x' optional. input always big-endian
    if ((n[0] == '0') && (n[1] == 'x')) {
       // removing '0x'
