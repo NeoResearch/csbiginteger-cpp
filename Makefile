@@ -1,5 +1,8 @@
 all:  gmp dotnet
 
+static_lib_with_gmp: # uses 'gmp' as basis
+	g++ --static -std=c++11 -Ofast lib/empty_main.cpp src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o lib/libcsbiginteger.a
+
 gmp:
 	g++ -std=c++11 -Ofast --shared src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o build/csbiginteger_gmp.so -fPIC
 
