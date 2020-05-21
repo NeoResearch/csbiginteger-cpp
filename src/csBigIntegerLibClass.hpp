@@ -150,7 +150,11 @@ public:
    bool operator<(const BigInteger& big) const
    {
       // extern "C" bool csbiginteger_lt(byte* big1, int sz_big1, byte* big2, int sz_big2);
-      return csbiginteger_lt((byte*)this->_data.data(), this->_data.size(), (byte*)big._data.data(), big._data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big._data;                  // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      return csbiginteger_lt((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size());
    }
 
    bool operator<=(const BigInteger& big) const
@@ -162,7 +166,11 @@ public:
    bool operator>(const BigInteger& big) const
    {
       // extern "C" bool csbiginteger_gt(byte* big1, int sz_big1, byte* big2, int sz_big2);
-      return csbiginteger_gt((byte*)this->_data.data(), this->_data.size(), (byte*)big._data.data(), big._data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big._data;                  // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      return csbiginteger_gt((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size());
    }
 
    bool operator>=(const BigInteger& big) const
@@ -278,9 +286,11 @@ public:
       //extern "C" int32
       //csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_add((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_add((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -303,9 +313,11 @@ public:
       //extern "C" int32
       //csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_sub((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_sub((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -334,9 +346,11 @@ public:
       //extern "C" int32
       //csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_mul((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_mul((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -356,9 +370,11 @@ public:
       //extern "C" int32
       //csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_div((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_div((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -378,9 +394,11 @@ public:
       //extern "C" int32
       //csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_mod((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_mod((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -403,9 +421,11 @@ public:
       //extern "C" int32
       //csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_shl((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_shl((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -428,9 +448,11 @@ public:
       //extern "C" int32
       //csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
-      vbyte data = this->_data;               // copy
-      std::reverse(data.begin(), data.end()); // to little endian
-      int32 realSize = csbiginteger_shr((byte*)data.data(), data.size(), (byte*)big2._data.data(), big2._data.size(), (byte*)local_data.data(), local_data.size());
+      vbyte data = this->_data;                 // copy
+      std::reverse(data.begin(), data.end());   // to little endian
+      vbyte data2 = big2._data;                 // copy
+      std::reverse(data2.begin(), data2.end()); // to little endian
+      int32 realSize = csbiginteger_shr((byte*)data.data(), data.size(), (byte*)data2.data(), data2.size(), (byte*)local_data.data(), local_data.size());
       BigInteger bigNew(vbyte(local_data.begin(), local_data.begin() + realSize));
       return bigNew;
    }
@@ -454,7 +476,9 @@ public:
       //extern "C" int32
       //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
       vbyte local_data(value._data.size() * (::abs(exponent) + 2), 0);
-      int32 realSize = csbiginteger_pow((byte*)value._data.data(), value._data.size(), exponent, (byte*)local_data.data(), local_data.size());
+      vbyte data = value._data;               // copy
+      std::reverse(data.begin(), data.end()); // to little endian
+      int32 realSize = csbiginteger_pow((byte*)data.data(), data.size(), exponent, (byte*)local_data.data(), local_data.size());
       BigInteger bigNew;
       bigNew._data = vbyte(local_data.begin(), local_data.begin() + realSize);
       return bigNew;
@@ -485,6 +509,7 @@ public:
 const BigInteger BigInteger::Zero = BigInteger(0);
 const BigInteger BigInteger::One = BigInteger(1);
 const BigInteger BigInteger::MinusOne = BigInteger(-1);
+//
 const BigInteger
 BigInteger::error()
 {
@@ -492,6 +517,7 @@ BigInteger::error()
    big._data = vbyte(0); // empty array is error
    return big;
 }
+//
 const BigInteger BigInteger::Error = error();
 
 } // namespace csbigintegerlib
