@@ -138,13 +138,19 @@ public:
    //{
    //}
 
-   // byte data in little-endian format
-   BigInteger(cs_vbyte data)
+   // byte data in little-endian format (by default).
+   BigInteger(cs_vbyte data, bool isUnsigned = false, bool isBigEndian = false)
      : _data(data)
    {
       if (_data.size() == 0)
-         _data.push_back(0x00);            // default is zero, not Error
-      reverse(_data.begin(), _data.end()); // to big-endian
+         _data.push_back(0x00); // default is zero, not Error
+
+      if (isUnsigned) {
+         while ((_data.size() > 0) && (_data[0] == 0))
+            _data.erase(_data.begin() + 0);
+      }
+      if (!isBigEndian)
+         reverse(_data.begin(), _data.end()); // to big-endian
    }
 
    // BigInteger is the same when _data is the same
