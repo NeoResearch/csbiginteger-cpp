@@ -185,7 +185,15 @@ public:
    // native int64 format
    cs_int64 toLong() const;
 
-   int Sign() const;
+   cs_int32 Sign() const
+   {
+      if ((*this) == BigInteger::Zero)
+         return 0;
+      else if ((*this) < BigInteger::Zero)
+         return -1;
+      else
+         return 1;
+   }
 
    static BigInteger Abs(const BigInteger& big);
 

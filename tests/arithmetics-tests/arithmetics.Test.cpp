@@ -7,7 +7,7 @@
 #ifdef TEST_CSBIGINTEGER_LIB
 #include <csBigIntegerLibClass.hpp>
 using namespace csbigintegerlib;
-#else 
+#else
 #include <BigInteger.h>
 using namespace csbiginteger;
 #endif
@@ -74,7 +74,6 @@ TEST_CASE("csBIArithmeticsTests:  _255DivMinusOneEqualsM255")
 {
    REQUIRE(BigInteger(255) / BigInteger(-1) == BigInteger(-255));
 }
-
 
 TEST_CASE("csBIArithmeticsTests:  OnePlusErrorEqualsError")
 {
@@ -250,15 +249,14 @@ TEST_CASE("csBIArithmeticsTests:  SpecialModNeg2")
 
 TEST_CASE("csBIArithmeticsTests:  IsEven")
 {
-   REQUIRE(BigInteger{2}.IsEven());
-   REQUIRE(!BigInteger{1}.IsEven());
-   REQUIRE(BigInteger{0}.IsEven());
-   REQUIRE(BigInteger{4}.IsEven());
-   REQUIRE(!BigInteger{255}.IsEven());
-   REQUIRE(BigInteger{-2}.IsEven());
-   REQUIRE(!BigInteger{-1}.IsEven());
+   REQUIRE(BigInteger{ 2 }.IsEven());
+   REQUIRE(!BigInteger{ 1 }.IsEven());
+   REQUIRE(BigInteger{ 0 }.IsEven());
+   REQUIRE(BigInteger{ 4 }.IsEven());
+   REQUIRE(!BigInteger{ 255 }.IsEven());
+   REQUIRE(BigInteger{ -2 }.IsEven());
+   REQUIRE(!BigInteger{ -1 }.IsEven());
 }
-
 
 // ======================= Pow =======================
 
@@ -384,4 +382,13 @@ TEST_CASE("csBIArithmeticsTests:  TenModMinus5Equals0")
 {
    REQUIRE(10 % -5 == 0); // c++ standard, same thing
    REQUIRE(BigInteger(10) % BigInteger(-5) == BigInteger(0));
+}
+
+TEST_CASE("csBIArithmeticsTests:  Sign()")
+{
+   REQUIRE(BigInteger{ 2 }.Sign() == 1);
+   REQUIRE(BigInteger{ 1 }.Sign() == 1);
+   REQUIRE(BigInteger{ 0 }.Sign() == 0);
+   REQUIRE(BigInteger{ -1 }.Sign() == -1);
+   REQUIRE(BigInteger{ -2 }.Sign() == -1);
 }

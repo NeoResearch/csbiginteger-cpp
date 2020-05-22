@@ -276,7 +276,15 @@ public:
       return csbiginteger_to_long((cs_byte*)data.data(), data.size());
    }
 
-   int Sign() const;
+   cs_int32 Sign() const
+   {
+      if ((*this) == BigInteger::Zero)
+         return 0;
+      else if ((*this) < BigInteger::Zero)
+         return -1;
+      else
+         return 1;
+   }
 
    static BigInteger Abs(const BigInteger& big);
 
