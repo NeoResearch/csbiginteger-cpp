@@ -9,13 +9,20 @@ static_lib_with_gmp: # uses 'gmp' as basis
 	ar rvs lib/libcsbiginteger.a lib/libcsbiginteger_gmp.o lib/libcsbiginteger_cpp.o
 
 gmp:
-	g++ -std=c++11 -Ofast --shared src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o build/csbiginteger_gmp.so -fPIC
+	g++ -std=c++11 -pedantic -Wall -Ofast --shared src/csBigIntegerLib.cpp src/BigIntegerGMP.cpp -lgmp -lgmpxx -o build/csbiginteger_gmp.so -fPIC
 
 dotnet:
 	dotnet build src/dotnet/ -c Release
 	cp src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll build/
 	mono --aot -O=all build/csbiginteger_dotnet.dll
 	g++ -std=c++11 -Ofast --shared src/BigIntegerMono.cpp src/csBigIntegerLib.cpp `pkg-config --cflags --libs mono-2` -o build/csbiginteger_mono.so -fPIC
+
+
+lint:
+	#clang-tidy src/*.cpp -checks=*,-fuchsia-default-arguments -- -std=c++11 -x c++ -I.
+	clang-tidy src/*.hpp -checks=*,-fuchsia-default-arguments,-llvm-header-guard,-google-runtime-references -- -I. -std=c++11 -x c++
+	#clang-tidy *.h -checks=*,-fuchsia-default-arguments,-llvm-header-guard,-google-runtime-references -- -I. -std=c++11 -x c++
+	clang-tidy src/*.cpp -checks=*,-fuchsia-default-arguments,-llvm-header-guard,-google-runtime-references -- -I. -std=c++11 -x c++
 
 
 vendor:

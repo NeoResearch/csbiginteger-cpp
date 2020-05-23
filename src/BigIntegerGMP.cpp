@@ -304,7 +304,7 @@ csBigIntegerGetBytesFromMPZ(mpz_class big)
 
       // invert bits
       std::string y2 = "";
-      for (int i = 0; i < y.length(); i++)
+      for (int i = 0; i < (int)y.length(); i++)
          y2 += (y[i] == '0' ? '1' : '0');
       //cout << "rbits: " << y2 << endl;
 
@@ -393,7 +393,7 @@ csBigIntegerMPZparse(cs_vbyte n)
       std::string rbitnum = csBigIntegerGetBitsFromNonNegativeMPZ(vint);
       // negate bits
       std::stringstream y2;
-      for (int i = 0; i < rbitnum.length(); i++)
+      for (int i = 0; i < (int)rbitnum.length(); i++)
          y2 << (rbitnum[i] == '0' ? '1' : '0');
       // to bigint again
       mpz_class by2(y2.str(), 2);

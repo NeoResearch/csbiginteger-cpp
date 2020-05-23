@@ -63,7 +63,7 @@ csbiginteger_to_string(cs_byte* vb, int sz_vb, int base, char* sr, int sz_sr)
    csbiginteger::BigInteger big(cs_vbyte(vb, vb + sz_vb));
    std::string str = big.ToString(base);
    // check memory
-   if (sz_sr < str.length())
+   if (sz_sr < (int)str.length())
       return false;
    // copy to string
    std::copy(str.begin(), str.end(), sr);

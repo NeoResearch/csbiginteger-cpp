@@ -31,7 +31,10 @@ public:
    // right trim
    static inline void rtrim(std::string& s)
    {
-      s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+      s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+                 return !std::isspace(ch);
+              }).base(),
+              s.end());
    }
 
    // from neopt // helper
@@ -76,7 +79,7 @@ public: // helper
       std::string y = leHexStr.substr(leHexStr.length() - 2, 2);
       //console.log("base="+y);
       // detect negative values
-      cs_byte b = std::stol(y, nullptr, 16);       // parseInt(y,16)
+      cs_byte b = std::stol(y, nullptr, 16);    // parseInt(y,16)
       std::string bitnum = Helper::parseBin(b); //parseInt(y, 16).toString(2);
       //console.log("bitnum="+bitnum);
       // -1389293829382
