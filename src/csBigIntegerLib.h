@@ -34,11 +34,11 @@ extern "C" bool
 csbiginteger_to_string(cs_byte* vb, int sz_vb, int base, char* sr, int sz_sr);
 
 // toInt(). input vb must be pre-allocated
-extern "C" int
+extern "C" cs_int32
 csbiginteger_to_int(cs_byte* vb, int sz_vb);
 
 // toLong(). input vb must be pre-allocated
-extern "C" long
+extern "C" cs_int64
 csbiginteger_to_long(cs_byte* vb, int sz_vb);
 
 // =======================

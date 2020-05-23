@@ -70,7 +70,7 @@ csbiginteger_to_string(cs_byte* vb, int sz_vb, int base, char* sr, int sz_sr)
    return true;
 }
 
-extern "C" int
+extern "C" cs_int32
 csbiginteger_to_int(cs_byte* vb, int sz_vb)
 {
    csbiginteger::BigInteger big(cs_vbyte(vb, vb + sz_vb));
@@ -78,7 +78,7 @@ csbiginteger_to_int(cs_byte* vb, int sz_vb)
    return x;
 }
 
-extern "C" long
+extern "C" cs_int64
 csbiginteger_to_long(cs_byte* vb, int sz_vb)
 {
    csbiginteger::BigInteger big(cs_vbyte(vb, vb + sz_vb));

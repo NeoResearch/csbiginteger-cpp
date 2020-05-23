@@ -550,7 +550,7 @@ TEST_CASE("csBISerializeTests:  BigInteger1000000_toHexStr_S40420f")
 
 TEST_CASE("csBISerializeTests:  BigInteger4293967296_toHexStr_Sc0bdf0ff00")
 {
-   BigInteger big(4293967296);
+   BigInteger big((cs_int64)4293967296);
    REQUIRE(big.toHexStr() ==  "c0bdf0ff00");
 }
 
@@ -879,7 +879,7 @@ TEST_CASE("csBISerializeTests:  BigIntegerError_ToString_S0x")
 
 TEST_CASE("csBISerializeTests:  BigInteger4293967296_toHexStr_Sc0bdf0ff00_Py")
 {
-   BigInteger big(4293967296);
+   BigInteger big((cs_int64)4293967296);
    REQUIRE(big.toHexStr() ==  "c0bdf0ff00");
 }
 
@@ -1040,7 +1040,7 @@ TEST_CASE("csBISerializeTests:  BigIntegerS0x00fb_16_toInt_251")
 
 TEST_CASE("csBISerializeTests:  BigInteger9007199254740991_toLong")
 {
-   BigInteger big(9007199254740991L);
+   BigInteger big((cs_int64)9007199254740991L);
    REQUIRE(big.toLong() ==  9007199254740991);
 }
 
@@ -1051,7 +1051,7 @@ TEST_CASE("csBISerializeTests:  BigInteger9007199254740991_toLong")
 
 TEST_CASE("csBISerializeTests:  BigInteger9007199254740992_toLong")
 {
-   BigInteger big(9007199254740992L);
+   BigInteger big((cs_int64)9007199254740992L);
    REQUIRE(big.toLong() ==  9007199254740992);
 }
 
@@ -1061,7 +1061,7 @@ TEST_CASE("csBISerializeTests:  BigInteger9007199254740992_toLong")
 
 TEST_CASE("csBISerializeTests:  BigIntegerM9007199254740991_toLong")
 {
-   BigInteger big(-9007199254740991L);
+   BigInteger big((cs_int64)-9007199254740991L);
    REQUIRE(big.toLong() ==  -9007199254740991);
 }
 
@@ -1072,7 +1072,7 @@ TEST_CASE("csBISerializeTests:  BigIntegerM9007199254740991_toLong")
 
 TEST_CASE("csBISerializeTests:  BigIntegerM9007199254740992_toLong")
 {
-   BigInteger big(-9007199254740992L);
+   BigInteger big((cs_int64)-9007199254740992L);
    REQUIRE(big.toLong() ==  -9007199254740992);
 }
 

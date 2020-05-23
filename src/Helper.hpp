@@ -108,7 +108,7 @@ public: // helper
       //NEOPT_EXCEPTION("Not implemented yet: HexToBytes");
       cs_vbyte bytes(hex.length() / 2);
 
-      for (uint i = 0; i < hex.length(); i += 2) {
+      for (cs_uint32 i = 0; i < hex.length(); i += 2) {
          std::string byteString = hex.substr(i, 2);
          cs_byte b = (cs_byte)strtol(byteString.c_str(), NULL, 16);
          bytes[i / 2] = b;
@@ -121,7 +121,7 @@ public: // helper
    {
       cs_vbyte bytes(sbin.length() / 8);
 
-      for (uint i = 0; i < sbin.length(); i += 8) {
+      for (cs_uint32 i = 0; i < sbin.length(); i += 8) {
          std::string bitString = sbin.substr(i, 8);
          cs_byte b = (cs_byte)strtol(bitString.c_str(), NULL, 2);
          bytes[i / 8] = b;

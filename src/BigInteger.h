@@ -54,19 +54,19 @@ public:
 
 public:
    // zero
-   BigInteger()
+   BigInteger() noexcept
      : _data(cs_vbyte(1, 0x00))
    {
    }
 
    // copy constructor
-   BigInteger(const BigInteger& copy)
+   BigInteger(const BigInteger& copy) noexcept
      : _data(copy._data)
    {
    }
 
    // move constructor
-   BigInteger(BigInteger&& corpse)
+   BigInteger(BigInteger&& corpse) noexcept
      : _data(std::move(corpse._data))
    {
    }
@@ -79,11 +79,13 @@ public:
    // if base 16, prefix '0x' is optional. input always big-endian
    BigInteger(std::string str, int base = 10);
 
+   // classic 'int'
    BigInteger(cs_int32 value)
      : BigInteger(std::to_string(value), 10)
    {
    }
 
+   // classic 'long long'
    BigInteger(cs_int64 value)
      : BigInteger(std::to_string(value), 10)
    {
@@ -220,25 +222,25 @@ public:
 
    // depends on external implementation
    BigInteger operator+(const BigInteger& big2) const;
-   BigInteger operator+(long l2) const
+   BigInteger operator+(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) + other;
    }
 
    // immutable??
-   BigInteger& operator+=(int i2);
+   BigInteger& operator+=(cs_int32 i2);
 
    // depends on external implementation
    BigInteger operator-(const BigInteger& big2) const;
-   BigInteger operator-(long l2) const
+   BigInteger operator-(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) - other;
    }
 
    // immutable ??
-   BigInteger& operator-=(int i2);
+   BigInteger& operator-=(cs_int32 i2);
 
    // negate (unary)
    BigInteger operator-() const
@@ -248,7 +250,7 @@ public:
 
    // depends on external implementation
    BigInteger operator*(const BigInteger& big2) const;
-   BigInteger operator*(long l2) const
+   BigInteger operator*(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) * other;
@@ -256,7 +258,7 @@ public:
 
    // depends on external implementation
    BigInteger operator/(const BigInteger& big2) const;
-   BigInteger operator/(long l2) const
+   BigInteger operator/(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) / other;
@@ -264,7 +266,7 @@ public:
 
    // depends on external implementation
    BigInteger operator%(const BigInteger& big2) const;
-   BigInteger operator%(long l2) const
+   BigInteger operator%(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) / other;
@@ -275,18 +277,18 @@ public:
 
    // depends on external implementation
    BigInteger operator<<(const BigInteger& big2) const;
-   BigInteger operator<<(long l2) const
+   BigInteger operator<<(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) << other;
    }
 
    // immutable??
-   BigInteger& operator>>=(int i2);
+   BigInteger& operator>>=(cs_int32 i2);
 
    // depends on external implementation
    BigInteger operator>>(const BigInteger& big2) const;
-   BigInteger operator>>(long l2) const
+   BigInteger operator>>(cs_int64 l2) const
    {
       BigInteger other(l2);
       return (*this) >> other;
@@ -297,7 +299,7 @@ public:
    // Utils
 
    // pow allows int32 positive exponent (negative will generate BigInteger::Error)
-   static BigInteger Pow(BigInteger value, int exponent);
+   static BigInteger Pow(BigInteger value, cs_int32 exponent);
    static BigInteger Multiply(BigInteger value1, BigInteger value2)
    {
       return value1 * value2;

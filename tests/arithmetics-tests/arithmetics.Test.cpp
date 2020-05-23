@@ -281,7 +281,7 @@ TEST_CASE("csBIArithmeticsTests:  Pow3_0_Negative_Error")
 
 TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
 {
-   BigInteger big64max(std::numeric_limits<long>::max());
+   BigInteger big64max(std::numeric_limits<cs_int64>::max());
    REQUIRE(big64max.ToString(10) == "9223372036854775807");
    BigInteger divisor = BigInteger::Pow(big64max, 2);
    REQUIRE(divisor.ToString(10) == "85070591730234615847396907784232501249");
@@ -290,7 +290,7 @@ TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
    BigInteger dividends[] = { BigInteger::Multiply(BigInteger(std::numeric_limits<float>::max()), 2),
                               BigInteger("90612345123875509091827560007100099", 10),
                               BigInteger::One,
-                              BigInteger::Multiply(BigInteger(std::numeric_limits<int>::max()), BigInteger(std::numeric_limits<long>::max())),
+                              BigInteger::Multiply(BigInteger(std::numeric_limits<int>::max()), BigInteger(std::numeric_limits<cs_int64>::max())),
                               divisor + BigInteger::One };
 
    // Divide each dividend by divisor in three different ways.
