@@ -216,9 +216,9 @@ public:
          while ((rdata.size() > 0) && (rdata[0] == 0))
             rdata.erase(rdata.begin() + 0);
       }
-      if (!isBigEndian)
-         std::reverse(rdata.begin(), rdata.end()); // little-endian
-      return std::move(rdata);                     // move
+      if (!isBigEndian) // little-endian
+         std::reverse(rdata.begin(), rdata.end());
+      return rdata; // do NOT move... may prevent "lucky" copy ellision
    }
 
    // this one is big-endian (prefixed 0x, to enforce hex format)
