@@ -330,4 +330,11 @@ public:
 
 } // namespace
 
+//
+#ifdef GMP_CSBIG
+#include "BigIntegerGMP.cpp"
+#elif MONO_CSBIG
+#include "BigIntegerMono.cpp"
+#endif
+//
 #endif // CS_BIGINTEGER_BIGINTEGER_H

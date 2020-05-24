@@ -18,16 +18,17 @@ test-hard: test csBigIntegerMono.test run_test_mono csBigIntegerGMP-hard.test cs
 	./csBigIntegerGMP-hard.test
 	./csBigIntegerMono-hard.test
 
+# $(SRC_PATH)/BigIntegerGMP.cpp
 csBigIntegerGMP.test : csBigInteger.Test.cpp
 	@echo "Building tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/BigIntegerGMP.cpp -lgmp -lgmpxx -lpthread -ldl
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ -lgmp -lgmpxx
 
 run_test_gmp: csBigIntegerGMP.test
 	./csBigIntegerGMP.test -d yes
 
 csBigIntegerLib.test : csBigInteger.Test.cpp
 	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/BigIntegerGMP.cpp $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx -lpthread -ldl
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
 
 run_test_lib: csBigIntegerLib.test
 	./csBigIntegerLib.test -d yes

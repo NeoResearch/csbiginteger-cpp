@@ -15,6 +15,43 @@ such as microcontrollers with very limited computing capabilities.
 C/C++ is interoperable with nearly all existing languages, so the idea is to provide modules that can be
 reused on other projects (on other languages too).
 
+## How to Use
+
+The project is very flexible, but still very simple to use.
+
+### Using on C++ projects
+
+If you have a C++ project and want to use csBigInteger, just:
+```cpp
+#include "BigInteger.h"
+using namespace csbiginteger;
+// ...
+BigInteger big{"123456789123456789"};
+big.ToString(); // prints '123456789123456789' in base 10
+//
+BigInteger big1{1};
+BigInteger big2{2};
+BigInteger big3 = big1 + big2;
+big3.ToString(); // prints '3' in base 10
+```
+
+To compile this using GNU MP library (install its libs `-lgmp -lgmpxx`), just include flag `GMP_CSBIG` (or link together with `BigIntegerGMP.cpp`). Example with `GCC`: `g++ -DGMP_CSBIG yourfile.cpp -o output -lgmp -lgmpxx`.
+
+Other options is to use `MONO_CSBIG` (or link against `BigIntegerMono.cpp`).
+With Mono you may have an "equivalent" version of "original" C#.
+It may be more efficient, but it's harder to build (requires `dotnet` and mono dependencies).
+
+### Using the C-library on other languages (Python, etc)
+
+To use this library on other languages, you need to build a static (`.a`) or shared library (`.dll`,`.so`). You can find some experimental versions on `build` folder, but it's safer to build by yourself.
+
+The process is similar, using C header `csBigIntegerLib.h` and also`csBigIntegerLib.cpp` (see `makefile` for an example).
+
+### One final option: using C-library to import code from other languages
+
+It may look crazy, but `csBigIntegerLib.h` is also useful to "get external implementations" from other languages (like javascript, for example). In this case, your C++ code should `#include "csBigIntegerLibClass.hpp"` and `using namespace csbigintegerlib`.
+The implementation may be provided by C++ itself (via `csBigIntegerLib.cpp`) or any other language you like.
+
 ## Build Instructions
 There are currently two implementations for `BigInteger.h`: `BigIntegerGMP.cpp` or `BigIntegerMono.cpp`.
 
