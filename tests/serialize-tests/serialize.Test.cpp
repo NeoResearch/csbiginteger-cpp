@@ -1260,3 +1260,18 @@ TEST_CASE("csBISerializeTests: isUnsigned isBigEndian")
    REQUIRE(big.ToByteArray(true, false) == cs_vbyte{ 0xFE, 0x80 });
    REQUIRE(big.ToByteArray(true, true) == cs_vbyte{ 0x80, 0xFE });
 }
+
+TEST_CASE("csBISerializeTests: isUnsigned isBigEndian II")
+{
+   cs_vbyte bytes = Helper::HexToBytes("cd0815de2ee5e0e1d6d19ed359f589860a9db799");
+   // big signed
+   BigInteger big_signed(bytes, false, true);
+   REQUIRE(big_signed.ToString(10) == "-290978218387399462397957987055587053118878271591");
+   // big unsigned
+   BigInteger big(bytes, true, true);
+   REQUIRE(big.ToString(10) == "1170523418943503455805726845660695966537054271385");
+   // TODO: cannot verify the test above! please double check number '1170523418943503455805726845660695966537054271385' and negative counterpart!
+}
+
+
+

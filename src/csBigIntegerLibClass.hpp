@@ -145,12 +145,23 @@ public:
       if (_data.size() == 0)
          _data.push_back(0x00); // default is zero, not Error
 
-      if (isUnsigned) {
-         while ((_data.size() > 0) && (_data[0] == 0))
-            _data.erase(_data.begin() + 0);
-      }
       if (!isBigEndian)
          reverse(_data.begin(), _data.end()); // to big-endian
+
+      if (isUnsigned) {
+         this->toUnsigned();
+         //while ((_data.size() > 0) && (_data[0] == 0))
+         //   _data.erase(_data.begin() + 0);
+      }
+   }
+
+   // helper method (TODO: remove)
+   void toUnsigned()
+   {
+      if (Sign() < 0) {
+         cs_vbyte zero = { 0x00 };
+         _data.insert(_data.begin() + 0, zero.begin(), zero.end());
+      }
    }
 
    // BigInteger is the same when _data is the same
