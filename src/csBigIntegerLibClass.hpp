@@ -537,6 +537,27 @@ public:
       return bigmod == BigInteger::Zero;
    }
 
+   BigInteger& operator=(const BigInteger& other)
+   {
+      if (this == &other)
+         return *this;
+      this->_data = other._data;
+      return *this;
+   }
+
+   BigInteger& operator=(BigInteger&& m_other)
+   {
+      this->_data = std::move(m_other._data);
+      m_other._data.clear();
+      return *this;
+   }
+
+   static BigInteger DivRem(const BigInteger& dividend, const BigInteger& divisor, BigInteger& out_remainder)
+   {
+      out_remainder = dividend % divisor;
+      return dividend / divisor;
+   }
+
 private:
    const static BigInteger error();
 

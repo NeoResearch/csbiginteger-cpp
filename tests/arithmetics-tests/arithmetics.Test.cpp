@@ -305,7 +305,10 @@ TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
    // 0: Divide 7 remainder 85,070,551,165,415,408,691,630,012,479,406,342,137
    REQUIRE((dividends[0] / divisor).ToString(10) == "7");
    REQUIRE((dividends[0] % divisor).ToString(10) == "85070551165415408691630012479406342137");
-
+   REQUIRE(BigInteger::DivRem(dividends[0], divisor, remainder) == 7);
+   // remainder 85,070,551,165,415,408,691,630,012,479,406,342,137
+   REQUIRE(remainder.ToString(10) == "85070551165415408691630012479406342137");
+   
    // 1: Divide 0 remainder 90,612,345,123,875,509,091,827,560,007,100,099
    REQUIRE((dividends[1] / divisor).ToString(10) == "0");
    REQUIRE((dividends[1] % divisor).ToString(10) == "90612345123875509091827560007100099");
@@ -392,3 +395,13 @@ TEST_CASE("csBIArithmeticsTests:  Sign()")
    REQUIRE(BigInteger{ -1 }.Sign() == -1);
    REQUIRE(BigInteger{ -2 }.Sign() == -1);
 }
+
+TEST_CASE("csBIArithmeticsTests:  Update with operator=")
+{
+   int sz = 20;
+   int d = 10;
+   BigInteger bi = BigInteger::One;
+   bi = {bi * sz + d};
+   REQUIRE(bi == 30);
+}
+
