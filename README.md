@@ -19,6 +19,42 @@ reused on other projects (on other languages too).
 
 The project is very flexible, but still very simple to use.
 
+### Demonstration
+
+See examples in `demo/` folder. GNU `make` with build three versions:
+- demo_hand: using [HandBigInt.hpp](./src/HandBigInt.hpp) (slow and the simplest to use)
+- demo_cshand: using [BigInteger.h](./src/BigInteger.h) + [BigIntegerHand.cpp](./src/BigIntegerHand.cpp)  (slow)
+- demo_csgmp: using [BigInteger.h](./src/BigInteger.h) + [BigIntegerGMP.cpp](./src/BigIntegerGMP.cpp)  (fast)
+
+Example from `./demo_cshand` (print `-1`, `128` and `2^128`):
+
+```
+demonstration for csBigInteger (Engine: 'HandBigInt')
+usage: <operation> <enter> <number> <enter> <number <enter>
+avaliable operations are: + - / * % ^ > < 0x 0b (0x and 0b are conversions to hex big endian and binary)
+
+please type the operation: 0x
+expects 1 number(s)
+please type first number (in decimal, or unsigned hex with prefix 0x, or binary prefix 0b):-1
+number is (decimal) '-1'
+conversion: 0xff     <----- Negative values have MSb set to one
+
+please type the operation: 0x
+expects 1 number(s)
+please type first number (in decimal, or unsigned hex with prefix 0x, or binary prefix 0b):128
+number is (decimal) '128'
+conversion: 0x0080   <----- This zero on the left is correct and necessary for csBigInteger
+
+please type the operation: ^
+expects 2 number(s)
+please type first number (in decimal, or unsigned hex with prefix 0x, or binary prefix 0b):2
+number is (decimal) '2'
+please type second number (in decimal):128
+number is '128'
+result: 340282366920938463463374607431768211456
+```
+
+
 ### Using Hand Implementation
 
 Just include the Single Header solution [src/HandBigInt.hpp](src/HandBigInt.hpp).

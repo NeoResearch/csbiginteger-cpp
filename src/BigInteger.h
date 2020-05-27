@@ -29,6 +29,9 @@ private:
    cs_vbyte _data;
 
 public:
+
+   static std::string getEngine();
+
    // size in bytes
    int Length() const
    {

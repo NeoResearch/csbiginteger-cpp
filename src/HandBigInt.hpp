@@ -5,9 +5,12 @@
 #ifndef HANDBIGINT_HPP
 #define HANDBIGINT_HPP
 
-#include <iostream>
-
+#include <algorithm>
 #include <assert.h>
+#include <iomanip> // setfill
+#include <iostream>
+#include <sstream> // stringstream
+#include <vector>
 
 // TODO: make this independent from csbiginteger helpers and types
 
@@ -38,7 +41,7 @@ static_assert(sizeof(cs_uint64) == 8);
 } // namespace csbiginteger_types
 
 using cs_byte = csbiginteger_types::cs_byte;
-using cs_vbyte = std::vector<csbiginteger::cs_byte>;
+using cs_vbyte = std::vector<cs_byte>;
 using cs_uint32 = csbiginteger_types::cs_uint32;
 using cs_uint64 = csbiginteger_types::cs_uint64;
 //using cs_vbyte = csbiginteger_types::cs_vbyte;
@@ -49,8 +52,6 @@ class HandHelper
 public:
    static cs_vbyte HexToBytes(const std::string& hex)
    {
-      // TODO: implement (begin 0x)
-      //NEOPT_EXCEPTION("Not implemented yet: HexToBytes");
       cs_vbyte bytes(hex.length() / 2);
 
       for (cs_uint32 i = 0; i < hex.length(); i += 2) {
@@ -59,6 +60,14 @@ public:
          bytes[i / 2] = b;
       }
       return bytes;
+   }
+
+   static std::string toHexString(const cs_vbyte& v)
+   {
+      std::stringstream ss;
+      for (unsigned i = 0; i < v.size(); i++) // TODO: use foreach
+         ss << std::setfill('0') << std::setw(2) << std::hex << (int)v[i];
+      return ss.str();
    }
 };
 
@@ -83,33 +92,12 @@ public:
    HandBigInt(float f)
      : HandBigInt(std::to_string(f))
    {
-      /*
-      std::cerr << "TODO: check if float is not given in scientific notation" << std::endl;
-      std::string str = std::to_string(f);
-      int _sign = (str[0] == '-' ? -1 : 1);
-      sdec = (_sign == -1 ? str.substr(1) : str);
-      std::reverse(str.begin(), str.end());
-      this->sdec = str;
-      this->sign = _sign;
-      this->fix(_sign);
-      */
    }
 
    //this is optional (good for basic testing)
    HandBigInt(int i)
      : HandBigInt(std::to_string(i))
    {
-      /*
-      std::cout << "HandBigInt(" << i << ")" << std::endl;
-      std::string str = std::to_string(i);
-      int _sign = (str[0] == '-' ? -1 : 1);
-      sdec = (_sign == -1 ? str.substr(1) : str);
-      std::reverse(str.begin(), str.end());
-      this->sdec = str;
-      this->sign = _sign;
-      this->fix(_sign);
-      std::cout << "sdec -> '" << sdec << "' sign=" << sign << std::endl;
-      */
    }
 
    // build from hex string in Big Endian
@@ -253,7 +241,8 @@ public:
       for (int i = sdec.size() - 1; i > 0 && sdec[i] == '0'; i--)
          sdec.erase(sdec.begin() + i); // get rid of last zeroes (useless)
       // update sign (check if only one zero remained)
-      this->sign = (sdec.size() == 1 && sdec[0] == '0' ? 1 : _sign);
+      //this->sign = (sdec.size() == 1 && sdec[0] == '0' ? 1 : _sign);
+      this->sign = (isZero() ? 1 : _sign);
       // returns copy of myself (fixed)
       return *this;
    }
@@ -281,8 +270,15 @@ public:
          // re-use toString() implementation
          return toString();
       } else if (base == 16) {
-         std::cerr << "TODO: get_str implement base 16 in Hand" << std::endl;
-         assert(false);
+         std::string shex;
+         HandBigInt copy = *this;
+         cs_vbyte bytes;
+         while (copy > 0) {
+            int byteDigit = (copy % 256).get_ui();
+            bytes.insert(bytes.begin(), byteDigit);
+            copy = copy / 256;
+         }
+         return HandHelper::toHexString(bytes);
       } else {
          //std::cerr << "get_str BASE " << base << std::endl;
          std::string sbin;
@@ -303,7 +299,7 @@ public:
    }
 
    // unsigned int (uint32)
-   unsigned int get_ui()
+   unsigned int get_ui() const
    {
       std::string str = this->sdec;
       std::reverse(str.begin(), str.end());
@@ -315,7 +311,7 @@ public:
    }
 
    // signed long (int64)
-   long int get_si()
+   long int get_si() const
    {
       std::string str = this->sdec;
       std::reverse(str.begin(), str.end());
@@ -358,7 +354,7 @@ public:
       return r.fix(this->sign);
    }
 
-   HandBigInt operator-(const HandBigInt& other)
+   HandBigInt operator-(const HandBigInt& other) const
    {
       //std::cout << "operator-(me=" << *this << " other=" << other << ")" << std::endl;
       HandBigInt copy = *this;
@@ -404,7 +400,7 @@ public:
       return r.fix(_sign);
    }
 
-   HandBigInt operator*(const HandBigInt& other)
+   HandBigInt operator*(const HandBigInt& other) const
    {
       HandBigInt r("0");
       HandBigInt other2 = other;
@@ -422,7 +418,7 @@ public:
       return r.fix(this->sign * other2.sign);
    }
 
-   HandBigInt operator/(const HandBigInt& other)
+   HandBigInt operator/(const HandBigInt& other) const
    {
       //std::cout << "operator/(" << *this << " , " << other << ")" << std::endl;
 
@@ -448,13 +444,12 @@ public:
 
       HandBigInt aux{ 0 }; // AUX is zero!
       for (int i = ((int)sdec.size()) - 1; i >= 0; i--) {
-         //aux.sdec.insert(aux.sdec.begin(), '0'); // multiply by 10
          aux = aux * 10;
          HandBigInt num(sdec.substr(i, 1));
          //aux = aux + sdec.substr(i, 1);
          aux = aux + num;
          //std::cout << "aux = '" << aux.sdec << "'" << std::endl;
-
+         // repeated subtractions
          while (!(aux < other2)) {
             aux = aux - other2;
             r.sdec[i]++;
@@ -464,29 +459,26 @@ public:
       return r.fix(_sign);
    }
 
-   HandBigInt operator%(const HandBigInt& other)
+   HandBigInt operator%(const HandBigInt& other) const
    {
       //std::cout << "operator%(" << *this << " , " << other << ")" << std::endl;
 
       HandBigInt other2 = other;
 
-      //if (other2.sdec.size() == 1 && other2.sdec[0] == '0')
-      //   other2.sdec[0] /= (other2.sdec[0] - '0');
       if (other2.isZero()) {
-         //other2.sdec[0] /= (other2.sdec[0] - '0');
          std::cerr << "DIVISION (MOD) BY ZERO! TODO: use 'error' flag" << std::endl;
          assert(false);
       }
 
-      HandBigInt r("0");
+      HandBigInt r{ 0 };
 
       other2.sign = 1;
 
-      for (int i = sdec.size() - 1; i >= 0; i--) {
-         r.sdec.insert(r.sdec.begin(), '0');
-
-         r = r + sdec.substr(i, 1);
-
+      for (int i = ((int)sdec.size()) - 1; i >= 0; i--) {
+         r = r * 10;
+         HandBigInt num(sdec.substr(i, 1));
+         r = r + num;
+         // repeated subtractions
          while (!(r < other2))
             r = r - other2;
       }
@@ -508,7 +500,7 @@ public:
       return (this->sign == other.sign) && (this->sdec == other.sdec);
    }
 
-   bool operator<(const HandBigInt& other)
+   bool operator<(const HandBigInt& other) const
    {
       //std::cerr << "HandBigInt operator<" << std::endl;
 

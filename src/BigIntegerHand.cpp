@@ -34,6 +34,13 @@ const BigInteger BigInteger::One = BigInteger(1);
 const BigInteger BigInteger::MinusOne = BigInteger(-1);
 const BigInteger BigInteger::Error = error();
 
+std::string
+BigInteger::getEngine()
+{
+   return "HandBigInt";   
+}
+
+
 const BigInteger
 BigInteger::error()
 {
