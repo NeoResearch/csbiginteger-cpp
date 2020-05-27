@@ -367,6 +367,8 @@ public:
 #include "BigIntegerGMP.cpp"
 #elif MONO_CSBIG
 #include "BigIntegerMono.cpp"
+#elif HAND_CSBIG
+#include "BigIntegerHand.cpp"
 #endif
 //
 #endif // CS_BIGINTEGER_BIGINTEGER_H

@@ -9,7 +9,7 @@ GMOCK_INCLUDE=./libgtest/googlemock/include
 all:
 	@echo "please type 'make test'"
 
-test: clean csBigIntegerGMP.test run_test_gmp csBigIntegerLib.test run_test_lib #csBigIntegerMono.test run_test_mono
+test: clean csBigIntegerHAND.test run_test_hand csBigIntegerGMP.test run_test_gmp csBigIntegerLib.test run_test_lib #csBigIntegerMono.test run_test_mono
 	@echo "Finished tests"
 
 # only run Mono tests in 'hard' mode
@@ -22,6 +22,13 @@ test-hard: test csBigIntegerMono.test run_test_mono csBigIntegerGMP-hard.test cs
 csBigIntegerGMP.test : csBigInteger.Test.cpp
 	@echo "Building tests using GMP library (requires 'libgmp')"
 	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ -lgmp -lgmpxx
+
+csBigIntegerHAND.test : csBigInteger.Test.cpp
+	@echo "Building tests using HAND library"
+	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@
+
+run_test_hand: csBigIntegerHAND.test
+	./csBigIntegerHAND.test -d yes ~*Online_Pack_Divisor*
 
 run_test_gmp: csBigIntegerGMP.test
 	./csBigIntegerGMP.test -d yes

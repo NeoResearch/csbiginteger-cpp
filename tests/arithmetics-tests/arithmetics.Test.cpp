@@ -279,6 +279,7 @@ TEST_CASE("csBIArithmeticsTests:  Pow3_0_Negative_Error")
 
 // from: https://docs.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.divide?view=netframework-4.8
 
+
 TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
 {
    BigInteger big64max(std::numeric_limits<cs_int64>::max());
@@ -325,6 +326,7 @@ TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
    REQUIRE((dividends[4] / divisor).ToString(10) == "1");
    REQUIRE((dividends[4] % divisor).ToString(10) == "1");
 }
+
 
 // TODO: add these bunch of tests https://github.com/dotnet/corefx/tree/master/src/System.Runtime.Numerics/tests/BigInteger
 
