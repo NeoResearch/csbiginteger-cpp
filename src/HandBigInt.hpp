@@ -11,11 +11,56 @@
 
 // TODO: make this independent from csbiginteger helpers and types
 
-#include "Helper.hpp"
+//#include "Helper.hpp"
+/*
 #include "types.h"
 using cs_byte = csbiginteger::cs_byte;
 using cs_vbyte = csbiginteger::cs_vbyte;
 using Helper = csbiginteger::Helper;
+*/
+namespace csbiginteger_types {
+
+using cs_byte = unsigned char;
+static_assert(sizeof(cs_byte) == 1);
+
+using cs_int32 = int;
+static_assert(sizeof(cs_int32) == 4);
+
+using cs_uint32 = unsigned int;
+static_assert(sizeof(cs_uint32) == 4);
+
+using cs_int64 = long long;
+static_assert(sizeof(cs_int64) == 8);
+
+using cs_uint64 = unsigned long long;
+static_assert(sizeof(cs_uint64) == 8);
+
+} // namespace csbiginteger_types
+
+using cs_byte = csbiginteger_types::cs_byte;
+using cs_vbyte = std::vector<csbiginteger::cs_byte>;
+using cs_uint32 = csbiginteger_types::cs_uint32;
+using cs_uint64 = csbiginteger_types::cs_uint64;
+//using cs_vbyte = csbiginteger_types::cs_vbyte;
+//using Helper = csbiginteger_types::Helper;
+
+class HandHelper
+{
+public:
+   static cs_vbyte HexToBytes(const std::string& hex)
+   {
+      // TODO: implement (begin 0x)
+      //NEOPT_EXCEPTION("Not implemented yet: HexToBytes");
+      cs_vbyte bytes(hex.length() / 2);
+
+      for (cs_uint32 i = 0; i < hex.length(); i += 2) {
+         std::string byteString = hex.substr(i, 2);
+         cs_byte b = (cs_byte)strtol(byteString.c_str(), NULL, 16);
+         bytes[i / 2] = b;
+      }
+      return bytes;
+   }
+};
 
 class HandBigInt
 {
@@ -82,7 +127,8 @@ public:
          str.insert(0, "0");
 
       // return bytearray initialized (in Big Endian)
-      cs_vbyte vb = Helper::HexToBytes(str);
+      //cs_vbyte vb = Helper::HexToBytes(str);
+      cs_vbyte vb = HandHelper::HexToBytes(str);
       //std::cout << " -------> fromUnsignedHex -> " << Helper::toHexString(vb) << std::endl;
 
       // build number byte by byte

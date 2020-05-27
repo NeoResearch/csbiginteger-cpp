@@ -19,7 +19,28 @@ reused on other projects (on other languages too).
 
 The project is very flexible, but still very simple to use.
 
-### Using on C++ projects
+### Using Hand Implementation
+
+Just include the Single Header solution [src/HandBigInt.hpp](src/HandBigInt.hpp).
+
+```{.cpp}
+#include<iostream>
+#include "HandBigInt.hpp"
+
+int main() {
+   HandBigInt big(10);
+   big = big + 1;
+   std::cout << big.toString() << std::endl;
+   // output is 11
+
+   return 0;
+}
+```
+
+This is VERY innefficient, but it is tested against all BigInteger tests (except Online_Pack test, which takes so long...).
+The BigInteger layer can be implemented with HandBigInt, GMP or Mono.
+
+### Using BigInteger on C++ projects
 
 If you have a C++ project and want to use csBigInteger, just:
 ```cpp
