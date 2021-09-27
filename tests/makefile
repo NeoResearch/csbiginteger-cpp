@@ -42,7 +42,7 @@ csBigIntegerLib.test : csBigInteger.Test.cpp
 	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
 
 run_test_hand_lib: csBigIntegerHandLib.test
-	./csBigIntegerLib.test -d yes
+	./csBigIntegerHandLib.test -d yes
 
 run_test_lib: csBigIntegerHandLib.test csBigIntegerLib.test
 	./csBigIntegerHandLib.test -d yes
