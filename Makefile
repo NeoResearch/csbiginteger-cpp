@@ -33,7 +33,8 @@ vendor:
 test:
 	@echo "Performing basic tests now"
 	@echo
-	(cd tests && make test)
+	(cd tests && make run_test_hand)
+	(cd tests && make run_test_hand_lib)
 	@echo
 	@echo "Generating coverage (see tests/reports/)"
 	@echo
@@ -43,5 +44,10 @@ test:
 	@echo "Performing hard tests now... this will take a while!"
 	@echo
 	#(cd tests && make test-hard)
+
+test-extra:
+	(cd tests && make test)
+	(cd tests && make test-hard)
+
 clean:
 	rm build/*.so 
