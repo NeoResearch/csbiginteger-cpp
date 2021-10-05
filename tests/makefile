@@ -21,11 +21,11 @@ test-hard: test csBigIntegerMono.test run_test_mono csBigIntegerGMP-hard.test cs
 # $(SRC_PATH)/BigIntegerGMP.cpp
 csBigIntegerGMP.test : csBigInteger.Test.cpp
 	@echo "Building tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ -lgmp -lgmpxx
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors -I$(SRC_PATH) -I../thirdparty $< -o $@ -lgmp -lgmpxx
 
 csBigIntegerHAND.test : csBigInteger.Test.cpp
 	@echo "Building tests using HAND library"
-	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@
+	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@
 
 run_test_hand: csBigIntegerHAND.test
 	./csBigIntegerHAND.test -d yes ~*Online_Pack_Divisor*
@@ -35,11 +35,11 @@ run_test_gmp: csBigIntegerGMP.test
 
 csBigIntegerHandLib.test : csBigInteger.Test.cpp
 	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp
+	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp
 
 csBigIntegerLib.test : csBigInteger.Test.cpp
 	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++11 -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB  --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
 
 run_test_hand_lib: csBigIntegerHandLib.test
 	./csBigIntegerHandLib.test -d yes
@@ -56,18 +56,18 @@ csBigIntegerMono.test : csBigInteger.Test.cpp
 	dotnet build ../src/dotnet/ -c Release
 	cp ../src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll .
 	mono --aot -O=all csbiginteger_dotnet.dll
-	g++ --coverage -g -O0 -I../thirdparty --std=c++11 `pkg-config --cflags --libs mono-2` -I$(SRC_PATH) -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerMono.cpp -lgmp -lgmpxx -lpthread -ldl
+	g++ --coverage -g -O0 -I../thirdparty --std=c++17 `pkg-config --cflags --libs mono-2` -I$(SRC_PATH) -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerMono.cpp -lgmp -lgmpxx -lpthread -ldl
 
 
 csBigIntegerGMP-hard.test : csBigInteger-hard.Test.cpp
-	g++ -Ofast --std=c++11 -I$(SRC_PATH) -I../thirdparty -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerGMP.cpp -lgmp -lgmpxx -lpthread -ldl
+	g++ -Ofast --std=c++17 -I$(SRC_PATH) -I../thirdparty -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerGMP.cpp -lgmp -lgmpxx -lpthread -ldl
 
 
 csBigIntegerMono-hard.test : csBigInteger-hard.Test.cpp
 	dotnet build ../src/dotnet/ -c Release
 	cp ../src/dotnet/bin/Release/netstandard2.0/csbiginteger_dotnet.dll .
 	mono --aot -O=all csbiginteger_dotnet.dll
-	g++ --coverage -g -O0  -I../thirdparty --std=c++11 `pkg-config --cflags --libs mono-2` -I$(SRC_PATH) -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerMono.cpp -lgmp -lgmpxx -lpthread -ldl
+	g++ --coverage -g -O0  -I../thirdparty --std=c++17 `pkg-config --cflags --libs mono-2` -I$(SRC_PATH) -I$(GTEST_INCLUDE) -I$(GMOCK_INCLUDE) $< -o $@ $(GMOCK_PATH)/gtest/libgtest_main.a $(GMOCK_PATH)/gtest/libgtest.a $(GMOCK_PATH)/libgmock.a $(SRC_PATH)/BigIntegerMono.cpp -lgmp -lgmpxx -lpthread -ldl
 
 
 test-coverage:

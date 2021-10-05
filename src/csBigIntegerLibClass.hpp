@@ -66,10 +66,39 @@ public:
       return true;
    }
 
-   const static BigInteger getMin; // get?
-   const static BigInteger One;
-   const static BigInteger Zero;
-   const static BigInteger MinusOne;
+   // used for global caching
+   static inline std::unique_ptr<BigInteger> _One;
+   static inline std::unique_ptr<BigInteger> _Zero;
+   static inline std::unique_ptr<BigInteger> _MinusOne;
+   static inline std::unique_ptr<BigInteger> _Error;
+
+   const static BigInteger One()
+   {
+      if(!_One)
+         _One = std::unique_ptr<BigInteger>(new BigInteger(1));  
+      return *_One;
+   }
+   const static BigInteger Zero()
+   {
+      if(!_Zero)
+         _Zero = std::unique_ptr<BigInteger>(new BigInteger(0));  
+      return *_Zero;
+   }
+   const static BigInteger MinusOne()
+   {
+      if(!_MinusOne)
+         _MinusOne = std::unique_ptr<BigInteger>(new BigInteger(-1));  
+      return *_MinusOne;
+   }
+   // error biginteger (empty internal bytearray)
+   const static BigInteger Error()
+   {
+      if(!_Error) {
+         _Error = std::unique_ptr<BigInteger>(new BigInteger());
+         _Error->_data.clear(); // error biginteger (empty internal bytearray)
+      }  
+      return *_Error;
+   }
 
 public:
    // zero
@@ -210,13 +239,13 @@ public:
 
    bool IsZero() const
    {
-      return (*this) == Zero;
+      return (*this) == Zero();
    }
 
    // TODO: expose or not to expose this? make it private?
    bool IsError() const
    {
-      return (*this) == Error;
+      return (*this) == Error();
    }
 
    // this one is little-endian by default
@@ -295,9 +324,9 @@ public:
 
    cs_int32 Sign() const
    {
-      if ((*this) == BigInteger::Zero)
+      if ((*this) == BigInteger::Zero())
          return 0;
-      else if ((*this) < BigInteger::Zero)
+      else if ((*this) < BigInteger::Zero())
          return -1;
       else
          return 1;
@@ -324,7 +353,7 @@ public:
    BigInteger operator+(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 + big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -352,7 +381,7 @@ public:
    BigInteger operator-(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 - big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -378,14 +407,14 @@ public:
    // negate (unary)
    BigInteger operator-() const
    {
-      return BigInteger::Zero - (*this);
+      return BigInteger::Zero() - (*this);
    }
 
    // depends on external implementation
    BigInteger operator*(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 * big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -409,7 +438,7 @@ public:
    BigInteger operator/(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError() || big2.IsZero())
-         return Error;
+         return Error();
       // perform big1 / big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -433,7 +462,7 @@ public:
    BigInteger operator%(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 % big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -460,7 +489,7 @@ public:
    BigInteger operator<<(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 << big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -487,7 +516,7 @@ public:
    BigInteger operator>>(const BigInteger& big2) const
    {
       if (this->IsError() || big2.IsError())
-         return Error;
+         return Error();
       // perform big1 >> big2 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
@@ -510,12 +539,12 @@ public:
 
    // Utils
 
-   // pow allows int32 positive exponent (negative will generate BigInteger::Error)
+   // pow allows int32 positive exponent (negative will generate BigInteger::Error())
    static BigInteger Pow(BigInteger value, cs_int32 exponent)
    {
       // according to C# spec, only non-negative int32 values accepted here
       if (exponent < 0)
-         return BigInteger::Error;
+         return BigInteger::Error();
       // perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
       //extern "C" int32
       //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
@@ -545,7 +574,7 @@ public:
    bool IsEven() const
    {
       BigInteger bigmod = (*this) % BigInteger{ 2 };
-      return bigmod == BigInteger::Zero;
+      return bigmod == BigInteger::Zero();
    }
 
    BigInteger& operator=(const BigInteger& other)
@@ -571,14 +600,9 @@ public:
 
 private:
    const static BigInteger error();
-
-public:
-   const static BigInteger Error; // error biginteger (empty internal bytearray)
 };
 
-const BigInteger BigInteger::Zero = BigInteger(0);
-const BigInteger BigInteger::One = BigInteger(1);
-const BigInteger BigInteger::MinusOne = BigInteger(-1);
+
 //
 const BigInteger
 BigInteger::error()
@@ -587,8 +611,6 @@ BigInteger::error()
    big._data = cs_vbyte(0); // empty array is error
    return big;
 }
-//
-const BigInteger BigInteger::Error = error();
 
 } // namespace csbigintegerlib
 

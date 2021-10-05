@@ -7,6 +7,7 @@
 #include <iostream> // todo: remove
 #include <sstream>
 #include <vector>
+#include <memory> // unique_ptr
 
 // internal classes
 #include "Helper.hpp"
@@ -51,9 +52,41 @@ public:
    }
 
    const static BigInteger getMin; // get?
-   const static BigInteger One;
-   const static BigInteger Zero;
-   const static BigInteger MinusOne;
+   //
+   
+   // used for global caching
+   static inline std::unique_ptr<BigInteger> _One;
+   static inline std::unique_ptr<BigInteger> _Zero;
+   static inline std::unique_ptr<BigInteger> _MinusOne;
+   static inline std::unique_ptr<BigInteger> _Error;
+
+   const static BigInteger One()
+   {
+      if(!_One)
+         _One = std::unique_ptr<BigInteger>(new BigInteger(1));  
+      return *_One;
+   }
+   const static BigInteger Zero()
+   {
+      if(!_Zero)
+         _Zero = std::unique_ptr<BigInteger>(new BigInteger(0));  
+      return *_Zero;
+   }
+   const static BigInteger MinusOne()
+   {
+      if(!_MinusOne)
+         _MinusOne = std::unique_ptr<BigInteger>(new BigInteger(-1));  
+      return *_MinusOne;
+   }
+   // error biginteger (empty internal bytearray)
+   const static BigInteger Error()
+   {
+      if(!_Error) {
+         _Error = std::unique_ptr<BigInteger>(new BigInteger());
+         _Error->_data.clear(); // error biginteger (empty internal bytearray)
+      }  
+      return *_Error;
+   }
 
 public:
    // zero
@@ -155,13 +188,13 @@ public:
 
    bool IsZero() const
    {
-      return (*this) == Zero;
+      return (*this) == Zero();
    }
 
    // TODO: expose or not to expose this? make it private?
    bool IsError() const
    {
-      return (*this) == Error;
+      return (*this) == Error();
    }
 
    // this one is little-endian by default
@@ -174,7 +207,7 @@ public:
       }
       if (!isBigEndian)
          std::reverse(rdata.begin(), rdata.end()); // little-endian
-      return std::move(rdata);                     // move
+      return rdata;                     // move
    }
 
    // this one is big-endian (prefixed 0x, to enforce hex format)
@@ -209,9 +242,9 @@ public:
 
    cs_int32 Sign() const
    {
-      if ((*this) == BigInteger::Zero)
+      if ((*this) == BigInteger::Zero())
          return 0;
-      else if ((*this) < BigInteger::Zero)
+      else if ((*this) < BigInteger::Zero())
          return -1;
       else
          return 1;
@@ -259,7 +292,7 @@ public:
    // negate (unary)
    BigInteger operator-() const
    {
-      return BigInteger::Zero - (*this);
+      return BigInteger::Zero() - (*this);
    }
 
    // depends on external implementation
@@ -312,7 +345,7 @@ public:
 
    // Utils
 
-   // pow allows int32 positive exponent (negative will generate BigInteger::Error)
+   // pow allows int32 positive exponent (negative will generate BigInteger::Error())
    static BigInteger Pow(BigInteger value, cs_int32 exponent);
    static BigInteger Multiply(BigInteger value1, BigInteger value2)
    {
@@ -332,7 +365,7 @@ public:
    bool IsEven() const
    {
       BigInteger bigmod = (*this) % BigInteger{ 2 };
-      return bigmod == BigInteger::Zero;
+      return bigmod == BigInteger::Zero();
    }
 
    BigInteger& operator=(const BigInteger& other)
@@ -358,9 +391,6 @@ public:
 
 private:
    const static BigInteger error();
-
-public:
-   const static BigInteger Error; // error biginteger (empty internal bytearray)
 };
 
 } // namespace

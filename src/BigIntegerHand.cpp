@@ -29,10 +29,6 @@ csBigIntegerGetBytesFromHAND(HandBigInt big);
 
 // ==================== END MPZ =======================
 
-const BigInteger BigInteger::Zero = BigInteger(0);
-const BigInteger BigInteger::One = BigInteger(1);
-const BigInteger BigInteger::MinusOne = BigInteger(-1);
-const BigInteger BigInteger::Error = error();
 
 std::string
 BigInteger::getEngine()
@@ -54,7 +50,7 @@ BigInteger::Pow(BigInteger value, int exponent)
 {
    // according to C# spec, only non-negative int32 values accepted here
    if (exponent < 0)
-      return BigInteger::Error;
+      return BigInteger::Error();
    HandBigInt big1 = csBigIntegerHANDparse(value.ToByteArray());
    HandBigInt r;
    unsigned long _exp = exponent;
@@ -156,92 +152,92 @@ BigInteger
 BigInteger::operator+(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    HandBigInt bOther = csBigIntegerHANDparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis + bOther);        // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator-(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    HandBigInt bOther = csBigIntegerHANDparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis - bOther);        // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator*(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    HandBigInt bOther = csBigIntegerHANDparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis * bOther);        // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator/(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError() || big2.IsZero())
-      return Error;
+      return Error();
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    HandBigInt bOther = csBigIntegerHANDparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis / bOther);        // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator%(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError() || big2.IsZero())
-      return Error;
+      return Error();
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    HandBigInt bOther = csBigIntegerHANDparse(big2.ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis % bOther);        // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator<<(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
-   if (big2 < Zero)
+      return Error();
+   if (big2 < Zero())
       return (*this) >> -big2;
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis << big2.toInt()); // get big-endian
-   return std::move(r);
+   return r;
 }
 
 BigInteger
 BigInteger::operator>>(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
-   if (big2 < Zero)
+      return Error();
+   if (big2 < Zero())
       return (*this) << -big2;
 
    HandBigInt bThis = csBigIntegerHANDparse(this->ToByteArray()); // parse from little-endian
    BigInteger r;                                                  // result
    r._data = csBigIntegerGetBytesFromHAND(bThis >> big2.toInt()); // get big-endian
-   return std::move(r);
+   return r;
 }
 
 // =================== BEGIN MPZ AGAIN =======================
@@ -307,7 +303,7 @@ csBigIntegerGetBytesFromHAND(HandBigInt big)
       // finished
       //std::cout << " ------ finished csBigIntegerGetBytesFromHAND" << std::endl;
       //
-      return std::move(v);
+      return v;
    } else {
       //std::cout << "IS NEGATIVE!" << std::endl;
       // -------------------
@@ -398,7 +394,7 @@ csBigIntegerGetBytesFromHAND(HandBigInt big)
       reverse(v.begin(), v.end()); // to big-endian
 
       // finished
-      return std::move(v);
+      return v;
    }
 }
 

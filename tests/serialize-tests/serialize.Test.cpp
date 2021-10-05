@@ -330,7 +330,7 @@ TEST_CASE("csBISerializeTests:  BigInteger1_toHexStr_S01")
 TEST_CASE("csBISerializeTests:  BigIntegerEmptyByteArray_toHexStr_S00")
 {
    BigInteger big(cs_vbyte(0));
-   REQUIRE(big != BigInteger::Error);
+   REQUIRE(big != BigInteger::Error());
    REQUIRE(big.toHexStr() ==  "00");
 }
 
@@ -636,7 +636,7 @@ TEST_CASE("csBISerializeTests:  BigInteger1_ToString_S0x01")
 TEST_CASE("csBISerializeTests:  BigIntegerEmptyByteArray_ToString_S0x00")
 {
    BigInteger big(cs_vbyte(0));
-   REQUIRE(big != BigInteger::Error);
+   REQUIRE(big != BigInteger::Error());
    REQUIRE(big.ToString() ==  "0x00");
 }
 
@@ -860,7 +860,7 @@ TEST_CASE("csBISerializeTests:  BigIntegerM1_ToString10_SM1")
 
 TEST_CASE("csBISerializeTests:  BigIntegerError_ToString_S0x")
 {
-   REQUIRE(BigInteger::Error.ToString() == "0x");
+   REQUIRE(BigInteger::Error().ToString() == "0x");
 }
 
 // ================================================================

@@ -17,27 +17,27 @@ using namespace std;
 TEST_CASE("csBIArithmeticsTests:  ZeroNotError")
 {
    BigInteger big0(0);
-   REQUIRE(big0 != BigInteger::Error);
+   REQUIRE(big0 != BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  OnePlusOneEqualsTwo")
 {
-   REQUIRE(BigInteger::One + BigInteger::One == BigInteger(2));
+   REQUIRE(BigInteger::One() + BigInteger::One() == BigInteger(2));
 }
 
 TEST_CASE("csBIArithmeticsTests:  OneTimesZeroEqualsZero")
 {
-   REQUIRE(BigInteger::One * BigInteger::Zero == BigInteger::Zero);
+   REQUIRE(BigInteger::One() * BigInteger::Zero() == BigInteger::Zero());
 }
 
 TEST_CASE("csBIArithmeticsTests:  OneTimesMinusOneEqualsMinusOne")
 {
-   REQUIRE(BigInteger::One * BigInteger::MinusOne == BigInteger::MinusOne);
+   REQUIRE(BigInteger::One() * BigInteger::MinusOne() == BigInteger::MinusOne());
 }
 
 TEST_CASE("csBIArithmeticsTests:  OnePlusMinusOneEqualsZero")
 {
-   REQUIRE(BigInteger::One + BigInteger::MinusOne == BigInteger::Zero);
+   REQUIRE(BigInteger::One() + BigInteger::MinusOne() == BigInteger::Zero());
 }
 
 TEST_CASE("csBIArithmeticsTests:  TenDivTwoEqualsFive")
@@ -62,7 +62,7 @@ TEST_CASE("csBIArithmeticsTests:  TenModThreeEqualsOne")
 
 TEST_CASE("csBIArithmeticsTests:  TenDivZeroEqualsError")
 {
-   REQUIRE(BigInteger(10) / BigInteger(0) == BigInteger::Error);
+   REQUIRE(BigInteger(10) / BigInteger(0) == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  _255DivOneEquals255")
@@ -77,7 +77,7 @@ TEST_CASE("csBIArithmeticsTests:  _255DivMinusOneEqualsM255")
 
 TEST_CASE("csBIArithmeticsTests:  OnePlusErrorEqualsError")
 {
-   REQUIRE(BigInteger(1) + BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(1) + BigInteger::Error() == BigInteger::Error());
 }
 
 // operator- unary
@@ -122,37 +122,37 @@ TEST_CASE("csBIArithmeticsTests:  TenSHLZeroIsTen")
 // ---------- error
 TEST_CASE("csBIArithmeticsTests:  ZeroAddErrorIsError")
 {
-   REQUIRE(BigInteger(0) + BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) + BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroMinusErrorIsError")
 {
-   REQUIRE(BigInteger(0) - BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) - BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroMulErrorIsError")
 {
-   REQUIRE(BigInteger(0) * BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) * BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroDivErrorIsError")
 {
-   REQUIRE(BigInteger(0) / BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) / BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroModErrorIsError")
 {
-   REQUIRE(BigInteger(0) % BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) % BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroSHLErrorIsError")
 {
-   REQUIRE(BigInteger(0) << BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) << BigInteger::Error() == BigInteger::Error());
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroSHRErrorIsError")
 {
-   REQUIRE(BigInteger(0) >> BigInteger::Error == BigInteger::Error);
+   REQUIRE(BigInteger(0) >> BigInteger::Error() == BigInteger::Error());
 }
 
 // ========= compare
@@ -187,12 +187,12 @@ TEST_CASE("csBIArithmeticsTests:  NotZeroGeqOne")
 
 TEST_CASE("csBIArithmeticsTests:  ZeroLessThanErrorIsFalse")
 {
-   REQUIRE(!(BigInteger(0) < BigInteger::Error));
+   REQUIRE(!(BigInteger(0) < BigInteger::Error()));
 }
 
 TEST_CASE("csBIArithmeticsTests:  ZeroGreaterThanErrorIsFalse")
 {
-   REQUIRE(!(BigInteger(0) > BigInteger::Error));
+   REQUIRE(!(BigInteger(0) > BigInteger::Error()));
 }
 
 // ============ special
@@ -221,12 +221,12 @@ TEST_CASE("csBIArithmeticsTests:  Mod2")
 {
    BigInteger b2 = BigInteger("2");
    BigInteger b3 = BigInteger("3");
-   REQUIRE(b2 % b2 == BigInteger::Zero);
-   //REQUIRE(b2 % 2 == BigInteger::Zero); // TODO: verify
-   REQUIRE(b3 % b2 == BigInteger::One);
-   //REQUIRE(b3 % 2 == BigInteger::One); // TODO: verify
-   REQUIRE(BigInteger::One % b2 == BigInteger::One);
-   REQUIRE(BigInteger::Zero % b2 == BigInteger::Zero);
+   REQUIRE(b2 % b2 == BigInteger::Zero());
+   //REQUIRE(b2 % 2 == BigInteger::Zero()); // TODO: verify
+   REQUIRE(b3 % b2 == BigInteger::One());
+   //REQUIRE(b3 % 2 == BigInteger::One()); // TODO: verify
+   REQUIRE(BigInteger::One() % b2 == BigInteger::One());
+   REQUIRE(BigInteger::Zero() % b2 == BigInteger::Zero());
 }
 
 TEST_CASE("csBIArithmeticsTests:  SpecialMod")
@@ -267,12 +267,12 @@ TEST_CASE("csBIArithmeticsTests:  Pow3_2_9")
 
 TEST_CASE("csBIArithmeticsTests:  Pow3_0_9")
 {
-   REQUIRE(BigInteger::Pow(BigInteger(3), 0) == BigInteger::One);
+   REQUIRE(BigInteger::Pow(BigInteger(3), 0) == BigInteger::One());
 }
 
 TEST_CASE("csBIArithmeticsTests:  Pow3_0_Negative_Error")
 {
-   REQUIRE(BigInteger::Pow(BigInteger(3), -2) == BigInteger::Error);
+   REQUIRE(BigInteger::Pow(BigInteger(3), -2) == BigInteger::Error());
 }
 
 // ======================= Online tests =======================
@@ -290,9 +290,9 @@ TEST_CASE("csBIArithmeticsTests:  Online_Pack_Divisor")
 
    BigInteger dividends[] = { BigInteger::Multiply(BigInteger(std::numeric_limits<float>::max()), 2),
                               BigInteger("90612345123875509091827560007100099", 10),
-                              BigInteger::One,
+                              BigInteger::One(),
                               BigInteger::Multiply(BigInteger(std::numeric_limits<int>::max()), BigInteger(std::numeric_limits<cs_int64>::max())),
-                              divisor + BigInteger::One };
+                              divisor + BigInteger::One() };
 
    // Divide each dividend by divisor in three different ways.
 
@@ -402,7 +402,7 @@ TEST_CASE("csBIArithmeticsTests:  Update with operator=")
 {
    int sz = 20;
    int d = 10;
-   BigInteger bi = BigInteger::One;
+   BigInteger bi = BigInteger::One();
    bi = {bi * sz + d};
    REQUIRE(bi == 30);
 }

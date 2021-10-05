@@ -89,10 +89,6 @@ executeOp(std::string op, cs_vbyte bytes1, cs_vbyte bytes2)
 
 // =======================
 
-const BigInteger BigInteger::Zero = BigInteger(0);
-const BigInteger BigInteger::One = BigInteger(1);
-const BigInteger BigInteger::MinusOne = BigInteger(-1);
-const BigInteger BigInteger::Error = error();
 
 std::string
 BigInteger::getEngine()
@@ -113,7 +109,7 @@ BigInteger
 BigInteger::Pow(BigInteger value, int exponent)
 {
    if (exponent < 0)
-      return BigInteger::Error;
+      return BigInteger::Error();
    MonoObject* bigLib = mono_object_new(domain, biglibclass);
    mono_runtime_object_init(bigLib);
 
@@ -326,7 +322,7 @@ BigInteger
 BigInteger::operator+(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    string op = "BigIntegerLib:add(byte[],byte[])";
    MonoObject* retarr = ::executeOp(op, this->ToByteArray(), big2.ToByteArray());
@@ -338,7 +334,7 @@ BigInteger
 BigInteger::operator-(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    string op = "BigIntegerLib:sub(byte[],byte[])";
    MonoObject* retarr = ::executeOp(op, this->ToByteArray(), big2.ToByteArray());
@@ -350,7 +346,7 @@ BigInteger
   BigInteger::operator*(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
+      return Error();
 
    string op = "BigIntegerLib:mul(byte[],byte[])";
    MonoObject* retarr = ::executeOp(op, this->ToByteArray(), big2.ToByteArray());
@@ -362,7 +358,7 @@ BigInteger
 BigInteger::operator/(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError() || big2.IsZero())
-      return Error;
+      return Error();
    //cout << "dividing " << this->toInt() << " / " << big2.toInt() << " " << endl;
    //cout << "dividing " << this->ToString(16) << " / " << big2.ToString(16) << " " << endl;
    string op = "BigIntegerLib:div(byte[],byte[])";
@@ -375,7 +371,7 @@ BigInteger
 BigInteger::operator%(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError() || big2.IsZero())
-      return Error;
+      return Error();
 
    string op = "BigIntegerLib:mod(byte[],byte[])";
    MonoObject* retarr = ::executeOp(op, this->ToByteArray(), big2.ToByteArray());
@@ -387,8 +383,8 @@ BigInteger
 BigInteger::operator<<(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
-   if (big2 < Zero)
+      return Error();
+   if (big2 < Zero())
       return (*this) >> -big2;
 
    string op = "BigIntegerLib:shl(byte[],byte[])";
@@ -401,8 +397,8 @@ BigInteger
 BigInteger::operator>>(const BigInteger& big2) const
 {
    if (this->IsError() || big2.IsError())
-      return Error;
-   if (big2 < Zero)
+      return Error();
+   if (big2 < Zero())
       return (*this) << -big2;
 
    string op = "BigIntegerLib:shr(byte[],byte[])";
