@@ -1,7 +1,7 @@
 {
     "name": "lol",
     "scripts": {
-        "build:codec": "rm -f dist/* && docker run --rm -v $(pwd)/../../:/src emscripten/emsdk  em++ --bind --std=c++17 -O3 -s WASM=1 -Isrc/ --pre-js ./packages/lib-csbiginteger-js/prefix-node-require.js -s ASSERTIONS=1  -s EXPORTED_RUNTIME_METHODS='[\"cwrap\", \"ccall\", \"UTF8ToString\", \"stringToUTF8\", \"intArrayFromString\", \"ALLOC_NORMAL\", \"allocate\", \"AsciiToString\"]' -s ALLOW_MEMORY_GROWTH=1 -s MODULARIZE=1 -s 'EXPORT_NAME=\"csbiginteger_raw_lib\"'  -o ./packages/lib-csbiginteger-js/build/csbiginteger_raw_lib.js  ./packages/lib-csbiginteger-js/lib-csbiginteger-js.cpp",
+        "build:codec": "rm -f dist/* && docker run --rm -v $(pwd)/../../:/src emscripten/emsdk  em++ --bind --std=c++17 -O3 -s WASM=1 -Isrc/ --pre-js ./packages/lib-csbiginteger-js/prefix-node-require.js --js-library ./packages/lib-csbiginteger-js/csbiginteger_web_exports.js -s ASSERTIONS=1  -s EXPORTED_RUNTIME_METHODS='[\"cwrap\", \"ccall\", \"UTF8ToString\", \"stringToUTF8\", \"intArrayFromString\", \"ALLOC_NORMAL\", \"allocate\", \"AsciiToString\"]' -s ALLOW_MEMORY_GROWTH=1 -s MODULARIZE=1 -s 'EXPORT_NAME=\"csbiginteger_raw_lib\"'  -o ./packages/lib-csbiginteger-js/build/csbiginteger_raw_lib.js  ./packages/lib-csbiginteger-js/lib-csbiginteger-js.cpp",
         "build:bundle": "webpack",
         "build": "npm run build:codec && npm run build:bundle",
         "test:node" : "./node-test.sh",
