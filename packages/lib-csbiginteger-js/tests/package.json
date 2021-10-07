@@ -1,0 +1,20 @@
+{
+  "name": "lib-csbiginteger-tests",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib-csbiginteger.test.js",
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "env": "^0.0.2"
+  },
+  "devDependencies": {
+    "jest": "",
+    "jest-puppeteer": "",
+    "puppeteer": ""
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "lol",
+    "scripts": {
+        "build:codec": "rm -f dist/* && docker run --rm -v $(pwd)/../../:/src emscripten/emsdk  em++ --bind --std=c++17 -O3 -s WASM=1 -Isrc/ --pre-js ./packages/lib-csbiginteger-js/prefix-node-require.js -s ASSERTIONS=1  -s EXPORTED_RUNTIME_METHODS='[\"cwrap\", \"ccall\", \"UTF8ToString\", \"stringToUTF8\", \"intArrayFromString\", \"ALLOC_NORMAL\", \"allocate\", \"AsciiToString\"]' -s ALLOW_MEMORY_GROWTH=1 -s MODULARIZE=1 -s 'EXPORT_NAME=\"csbiginteger_raw_lib\"'  -o ./packages/lib-csbiginteger-js/build/csbiginteger_raw_lib.js  ./packages/lib-csbiginteger-js/lib-csbiginteger-js.cpp",
+        "build:bundle": "webpack",
+        "build": "npm run build:codec && npm run build:bundle",
+        "test:node" : "./node-test.sh",
+        "serve": "http-server",
+        "start": "npm run build && npm run serve"
+    },
+    "devDependencies": {
+        "exports-loader": "^0.7.0",
+        "file-loader": "^1.1.11",
+        "http-server": "^13.0.2",
+        "jest": "^27.2.4",
+        "webpack": "^4.8.3",
+        "webpack-cli": "^3.1.2"
+    },
+    "dependencies": {
+        "env": "^0.0.2"
+    }
+}
