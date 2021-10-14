@@ -13,6 +13,12 @@ using cs_byte = csbiginteger::cs_byte;
 #define CSBIGINTEGER_EXTERN_C extern "C"
 #endif
 
+// get engine. output sr must be pre-allocated (return indicates failure, 'true' is fine)
+CSBIGINTEGER_EXTERN_C bool
+csbiginteger_engine(char* sr, int sz_sr);
+
+// =====================
+
 // initialize big integer and return its size (in bytes). output vr must be pre-allocated
 CSBIGINTEGER_EXTERN_C cs_int32
 csbiginteger_init_empty(cs_byte* vr, int sz_vr);

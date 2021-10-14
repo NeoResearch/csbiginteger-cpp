@@ -9,6 +9,18 @@ using cs_byte = csbiginteger::cs_byte;
 using cs_int32 = csbiginteger::cs_int32;
 using cs_vbyte = csbiginteger::cs_vbyte;
 
+CSBIGINTEGER_EXTERN_C bool
+csbiginteger_engine(char* sr, int sz_sr)
+{
+   std::string str = csbiginteger::BigInteger::getEngine();
+   // check memory
+   if (sz_sr < (int)str.length())
+      return false;
+   // copy to string
+   std::copy(str.begin(), str.end(), sr);
+   return true;
+}
+
 CSBIGINTEGER_EXTERN_C cs_int32
 csbiginteger_init_empty(cs_byte* vr, int sz_vr)
 {

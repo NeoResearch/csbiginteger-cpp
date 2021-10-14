@@ -25,6 +25,17 @@ export function hexToPtr(hex, wmodule) {
   return ptr;
 }
 
+// JS hexstring to wasm pointer (unsigned char*)
+// requires: EXPORTED_RUNTIME_METHODS='[\"intArrayFromString\", \"ALLOC_NORMAL\", \"allocate\", \"AsciiToString\"]'
+export function sizeToPtr(sz, wmodule) {
+  var hex = "";
+  for(var i=0; i<sz; i+=1)
+    hex += "00";
+  var hi_hex = hexToBytesU8(hex);//hexToBytes(hex);
+  var ptr = wmodule.allocate(hi_hex, wmodule.ALLOC_NORMAL);
+  return ptr;
+}
+
 // wasm pointer (char*) to JS string
 // requires: EXPORTED_RUNTIME_METHODS='[\"intArrayFromString\", \"ALLOC_NORMAL\", \"allocate\", \"AsciiToString\"]'
 export function ptrToStr(ptr, wmodule) {
@@ -82,6 +93,20 @@ export function asciiToBytes(ascii) {
   for (var bytes = [], c = 0; c < ascii.length; c += 1)
     bytes.push(ascii.charCodeAt(c));
   return bytes;
+}
+
+export function revertHexString(shex)
+{
+   // if needs padding
+   if (shex.length % 2 == 1)
+      shex = "0" + shex
+   var hex = shex;
+
+   var reverthex = "";
+   for (var i = 0; i < hex.length - 1; i += 2) {
+      reverthex = hex.substr(i, 2) + reverthex;
+   }
+   return reverthex;
 }
 
 // ========================= WASM MODULE LOADER

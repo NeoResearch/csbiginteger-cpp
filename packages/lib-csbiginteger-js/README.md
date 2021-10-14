@@ -4,13 +4,15 @@ This is a JS port from csBigInteger C++ project.
 
 Many initial ideas came from: https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc
 
-And obviously, from may issues in the Emscripten Project.
+And **obviously**, from many issues and discussions in the [emscripten.org Project](https://github.com/emscripten-core/emscripten).
 
-THANKS A LOT!
+**THANKS A LOT!**
+
+This package implements the step-by-step tutorial from [igormcoelho/emscripten-webpack-cpp-example](https://github.com/igormcoelho/emscripten-webpack-cpp-example).
 
 ## General Idea
 
-By using `make start`, a process will build the C++ using Emscripten and put it inside `build/` folder. After that, Webpack v4 will bundle it inside `dist/` folder.
+By using `make start`, a process will build the C++ using Emscripten and put it inside `build/` folder (good for Nodejs). After that, Webpack v4 will bundle it inside `dist/` folder (good for Web).
 
 ### make start
 
