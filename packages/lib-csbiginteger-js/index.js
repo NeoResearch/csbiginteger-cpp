@@ -4,8 +4,8 @@
 import csbiginteger from './build/csbiginteger_raw_lib.js';
 import wasm from './build/csbiginteger_raw_lib.wasm';
  
-// this module is named 'csBigInteger'
-// wasm module is the exported object: 'csBigInteger.wasmModule'
+// this module is named 'csBigIntegerLib'
+// wasm module is the exported object: 'csBigIntegerLib.wasmModule'
 export var wasmModule = null; 
 
 // ========================= HELPER WASM FUNCTIONS
@@ -112,7 +112,7 @@ export function revertHexString(shex)
 // ========================= WASM MODULE LOADER
 
 // exported loader function is named 'csbiginteger'
-// exported module is named 'csBigInteger'
+// exported module is named 'csBigIntegerLib'
 export const module = csbiginteger({
   // locateFile will find corresponding .wasm and match it here
   locateFile(path) {
@@ -125,7 +125,7 @@ export const module = csbiginteger({
     //console.log("loading wasmModule: "+JSON.stringify(instance));
     wasmModule = instance;
     //
-    console.log("loaded csBigInteger.wasmModule = "+wasmModule);
+    console.log("loaded csBigIntegerLib.wasmModule = "+wasmModule);
 
     // some operations may be necessary to load wasm module
     var hi = "hello world";

@@ -40,12 +40,12 @@ test('test_utils_hexToBytes', async () => {
 async function test_utils_hexToBytes() {
   await delay(100);
   const output1 = await page.evaluate(
-    () => csBigInteger.hexToBytes("00010203")
+    () => csBigIntegerLib.hexToBytes("00010203")
   );
   expect(output1).toEqual([0,1,2,3]);    
 
   const output2 = await page.evaluate(
-    () => csBigInteger.hexToBytes("0x030201")
+    () => csBigIntegerLib.hexToBytes("0x030201")
   );
   expect(output2).toEqual([3,2,1]);    
 }
@@ -59,12 +59,12 @@ test('test_utils_bytesToHex', async () => {
 async function test_utils_bytesToHex() {
   await delay(100);
   const output1 = await page.evaluate(
-    () => csBigInteger.bytesToHex([0,1,2,3])
+    () => csBigIntegerLib.bytesToHex([0,1,2,3])
   );
   expect(output1).toBe("00010203");    
 
   const output2 = await page.evaluate(
-    () => csBigInteger.bytesToHex([3,2,1])
+    () => csBigIntegerLib.bytesToHex([3,2,1])
   );
   expect(output2).toBe("030201");   
 }
@@ -78,12 +78,12 @@ test('test_utils_asciiToBytes', async () => {
 async function test_utils_asciiToBytes() {
   await delay(100);
   const output1 = await page.evaluate(
-    () => csBigInteger.asciiToBytes("AB\0C")
+    () => csBigIntegerLib.asciiToBytes("AB\0C")
   );
   expect(output1).toEqual([65,66,0,67]); 
 
   const output2 = await page.evaluate(
-    () => csBigInteger.asciiToBytes("\u0001\u0002\u0003")
+    () => csBigIntegerLib.asciiToBytes("\u0001\u0002\u0003")
   );
   expect(output2).toEqual([1,2,3]); 
 }
@@ -98,7 +98,7 @@ test('test_utils_revertHexString', async () => {
 async function test_utils_revertHexString() {
   await delay(100);
   const output1 = await page.evaluate(
-    () => csBigInteger.revertHexString("0102030405")
+    () => csBigIntegerLib.revertHexString("0102030405")
   );
   expect(output1).toEqual("0504030201"); 
 }
@@ -114,8 +114,8 @@ async function test_wasm_utils_strToPtr_ptrToStr() {
   await delay(100);
   const output1 = await page.evaluate(
     () => { 
-             var ptr = csBigInteger.strToPtr("hello", csBigInteger.wasmModule); 
-             csBigInteger.wasmModule._free(ptr); // free
+             var ptr = csBigIntegerLib.strToPtr("hello", csBigIntegerLib.wasmModule); 
+             csBigIntegerLib.wasmModule._free(ptr); // free
              return ptr; // copy should be fine
           }
   );
@@ -127,9 +127,9 @@ async function test_wasm_utils_strToPtr_ptrToStr() {
   const output2 = await page.evaluate(
     () => 
     { 
-      var ptr = csBigInteger.strToPtr("hello", csBigInteger.wasmModule); 
-      var str = csBigInteger.ptrToStr(ptr, csBigInteger.wasmModule);
-      csBigInteger.wasmModule._free(ptr); // free
+      var ptr = csBigIntegerLib.strToPtr("hello", csBigIntegerLib.wasmModule); 
+      var str = csBigIntegerLib.ptrToStr(ptr, csBigIntegerLib.wasmModule);
+      csBigIntegerLib.wasmModule._free(ptr); // free
       return str;
     }
   );
@@ -146,8 +146,8 @@ async function test_wasm_utils_hexToPtr_ptrToHex() {
   await delay(100);
   const output1 = await page.evaluate(
     () => { 
-             var ptr = csBigInteger.hexToPtr("0x010203", csBigInteger.wasmModule); 
-             csBigInteger.wasmModule._free(ptr); // free
+             var ptr = csBigIntegerLib.hexToPtr("0x010203", csBigIntegerLib.wasmModule); 
+             csBigIntegerLib.wasmModule._free(ptr); // free
              return ptr; // copy should be fine
           }
   );
@@ -158,10 +158,10 @@ async function test_wasm_utils_hexToPtr_ptrToHex() {
   const output2 = await page.evaluate(
     () => 
     { 
-      var ptr = csBigInteger.hexToPtr("0x01020003", csBigInteger.wasmModule); 
-      var str = csBigInteger.ptrToHex(ptr, 4, csBigInteger.wasmModule);
-      csBigInteger.wasmModule._free(ptr); // free
-      return csBigInteger.hexToBytes(str);
+      var ptr = csBigIntegerLib.hexToPtr("0x01020003", csBigIntegerLib.wasmModule); 
+      var str = csBigIntegerLib.ptrToHex(ptr, 4, csBigIntegerLib.wasmModule);
+      csBigIntegerLib.wasmModule._free(ptr); // free
+      return csBigIntegerLib.hexToBytes(str);
     }
   );
   expect(output2).toEqual([1,2,0,3]);
@@ -171,11 +171,11 @@ async function test_wasm_utils_hexToPtr_ptrToHex() {
     () => 
     { 
       // ptr is char*
-      var ptr = csBigInteger.strToPtr("ABC\0ABC\0", csBigInteger.wasmModule); 
+      var ptr = csBigIntegerLib.strToPtr("ABC\0ABC\0", csBigIntegerLib.wasmModule); 
       // ptrToHex expects unsigned char*
-      var str = csBigInteger.ptrToHex(ptr, 8, csBigInteger.wasmModule);
-      csBigInteger.wasmModule._free(ptr); // free
-      return csBigInteger.hexToBytes(str);
+      var str = csBigIntegerLib.ptrToHex(ptr, 8, csBigIntegerLib.wasmModule);
+      csBigIntegerLib.wasmModule._free(ptr); // free
+      return csBigIntegerLib.hexToBytes(str);
     }
   );
   expect(output3).toEqual([65,66,67,0,65,66,67,0]);
@@ -192,8 +192,8 @@ async function test_wasm_utils_sizeToPtr_ptrToHex() {
   await delay(100);
   const output1 = await page.evaluate(
     () => { 
-             var ptr = csBigInteger.sizeToPtr(5, csBigInteger.wasmModule); 
-             csBigInteger.wasmModule._free(ptr); // free
+             var ptr = csBigIntegerLib.sizeToPtr(5, csBigIntegerLib.wasmModule); 
+             csBigIntegerLib.wasmModule._free(ptr); // free
              return ptr; // copy should be fine
           }
   );
@@ -204,10 +204,10 @@ async function test_wasm_utils_sizeToPtr_ptrToHex() {
   const output2 = await page.evaluate(
     () => 
     { 
-      var ptr = csBigInteger.sizeToPtr(5, csBigInteger.wasmModule); 
-      var str = csBigInteger.ptrToHex(ptr, 5, csBigInteger.wasmModule);
-      csBigInteger.wasmModule._free(ptr); // free
-      return csBigInteger.hexToBytes(str);
+      var ptr = csBigIntegerLib.sizeToPtr(5, csBigIntegerLib.wasmModule); 
+      var str = csBigIntegerLib.ptrToHex(ptr, 5, csBigIntegerLib.wasmModule);
+      csBigIntegerLib.wasmModule._free(ptr); // free
+      return csBigIntegerLib.hexToBytes(str);
     }
   );
   expect(output2).toEqual([0,0,0,0,0]);
@@ -225,16 +225,16 @@ async function test_csbiginteger_init_s_from_decimal_to_hex() {
     () => { 
             var str = "123456789012345678901234";
             var sz_alloc = str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 10, bts_ptr, sz_alloc);
-            var hex = csBigInteger.ptrToHex(bts_ptr, sz_real, csBigInteger.wasmModule);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 10, bts_ptr, sz_alloc);
+            var hex = csBigIntegerLib.ptrToHex(bts_ptr, sz_real, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
             //
-            hex = "0x" + csBigInteger.revertHexString(hex);
+            hex = "0x" + csBigIntegerLib.revertHexString(hex);
             return {hex, sz_real, sz_alloc};
           }
   );
@@ -245,16 +245,16 @@ async function test_csbiginteger_init_s_from_decimal_to_hex() {
     () => { 
             var str = "123456789012345678901234567890";
             var sz_alloc = str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 10, bts_ptr, sz_alloc);
-            var hex = csBigInteger.ptrToHex(bts_ptr, sz_real, csBigInteger.wasmModule);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 10, bts_ptr, sz_alloc);
+            var hex = csBigIntegerLib.ptrToHex(bts_ptr, sz_real, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
             //
-            hex = "0x" + csBigInteger.revertHexString(hex);
+            hex = "0x" + csBigIntegerLib.revertHexString(hex);
             return {hex, sz_real, sz_alloc};
           }
   );
@@ -274,16 +274,16 @@ async function test_csbiginteger_init_s_from_hex_to_hex() {
     () => { 
             var str = "0x1a249b1f10a06c96aff2";
             var sz_alloc = 3*str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
-            var hex = csBigInteger.ptrToHex(bts_ptr, sz_real, csBigInteger.wasmModule);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
+            var hex = csBigIntegerLib.ptrToHex(bts_ptr, sz_real, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
             //
-            hex = "0x" + csBigInteger.revertHexString(hex);
+            hex = "0x" + csBigIntegerLib.revertHexString(hex);
             return {hex, sz_real, sz_alloc};
           }
   );
@@ -294,16 +294,16 @@ async function test_csbiginteger_init_s_from_hex_to_hex() {
     () => { 
             var str = "0x018ee90ff6c373e0ee4e3f0ad2";
             var sz_alloc = 3*str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
-            var hex = csBigInteger.ptrToHex(bts_ptr, sz_real, csBigInteger.wasmModule);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
+            var hex = csBigIntegerLib.ptrToHex(bts_ptr, sz_real, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
             //
-            hex = "0x" + csBigInteger.revertHexString(hex);
+            hex = "0x" + csBigIntegerLib.revertHexString(hex);
             return {hex, sz_real, sz_alloc};
           }
   );
@@ -324,23 +324,23 @@ async function test_csbiginteger_to_string_10() {
     () => { 
             var str = "0x1a249b1f10a06c96aff2";
             var sz_alloc = 3*str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             //
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
             
-            var str_dec_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
+            var str_dec_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
             //
             // to string
-            var good = csBigInteger.wasmModule._csbiginteger_to_string(
+            var good = csBigIntegerLib.wasmModule._csbiginteger_to_string(
               bts_ptr, sz_real, 10, str_dec_ptr, sz_alloc);
             //
-            var dec = csBigInteger.ptrToStr(str_dec_ptr, csBigInteger.wasmModule);
+            var dec = csBigIntegerLib.ptrToStr(str_dec_ptr, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
-            csBigInteger.wasmModule._free(str_dec_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_dec_ptr); // free
             //
             return {dec, sz_real, sz_alloc, good};
           }
@@ -353,23 +353,23 @@ async function test_csbiginteger_to_string_10() {
     () => { 
             var str = "0x018ee90ff6c373e0ee4e3f0ad2";
             var sz_alloc = 3*str.length+1;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
-            var str_ptr = csBigInteger.strToPtr(str, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
+            var str_ptr = csBigIntegerLib.strToPtr(str, csBigIntegerLib.wasmModule);
             //
             // invoke initialize big integer (second parameter is 'base', not 'size')
-            var sz_real = csBigInteger.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
+            var sz_real = csBigIntegerLib.wasmModule._csbiginteger_init_s(str_ptr, 16, bts_ptr, sz_alloc);
             
-            var str_dec_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
+            var str_dec_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
             //
             // to string
-            var good = csBigInteger.wasmModule._csbiginteger_to_string(
+            var good = csBigIntegerLib.wasmModule._csbiginteger_to_string(
               bts_ptr, sz_real, 10, str_dec_ptr, sz_alloc);
             //
-            var dec = csBigInteger.ptrToStr(str_dec_ptr, csBigInteger.wasmModule);
+            var dec = csBigIntegerLib.ptrToStr(str_dec_ptr, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
-            csBigInteger.wasmModule._free(str_ptr); // free
-            csBigInteger.wasmModule._free(str_dec_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_ptr); // free
+            csBigIntegerLib.wasmModule._free(str_dec_ptr); // free
             //
             return {dec, sz_real, sz_alloc, good};
           }
@@ -391,14 +391,14 @@ async function test_csbiginteger_engine() {
   const output1 = await page.evaluate(
     () => { 
             var sz_alloc = 100;
-            var bts_ptr = csBigInteger.sizeToPtr(sz_alloc, csBigInteger.wasmModule);
+            var bts_ptr = csBigIntegerLib.sizeToPtr(sz_alloc, csBigIntegerLib.wasmModule);
             //
             // invoke big integer getEngine()
-            var good = csBigInteger.wasmModule._csbiginteger_engine(bts_ptr, sz_alloc);
+            var good = csBigIntegerLib.wasmModule._csbiginteger_engine(bts_ptr, sz_alloc);
             //
-            var str = csBigInteger.ptrToStr(bts_ptr, csBigInteger.wasmModule);
+            var str = csBigIntegerLib.ptrToStr(bts_ptr, csBigIntegerLib.wasmModule);
             //
-            csBigInteger.wasmModule._free(bts_ptr); // free
+            csBigIntegerLib.wasmModule._free(bts_ptr); // free
             //
             return {str, good};
           }

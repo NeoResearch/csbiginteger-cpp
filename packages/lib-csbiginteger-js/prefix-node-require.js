@@ -10,7 +10,7 @@
 //let lt_csbn = require('csbiginteger');
 //let lt_cryptojs = require('crypto-js');
 //
-//Module["csBN"] = lt_csbn.csBigInteger;
+//Module["csBN"] = lt_csbn.csBigIntegerLib;
 //Module["CryptoJS"] = lt_cryptojs;
 
 

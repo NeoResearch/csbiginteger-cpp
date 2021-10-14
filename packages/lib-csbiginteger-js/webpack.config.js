@@ -13,7 +13,7 @@ module.exports = {
    output: {
      path: path.resolve(__dirname, "dist"), // find 'dist' folder
      filename: "lib-csbiginteger.js",       // goes to dist/
-     library: 'csBigInteger',               // names the library module 
+     library: 'csBigIntegerLib',            // names the library module 
      libraryTarget: 'umd',                  // format is Unified Module
      globalObject: 'this' // https://webpack.js.org/configuration/output/
    },

@@ -1,6 +1,6 @@
 # lib-csbiginteger-js
 
-This is a JS port from csBigInteger C++ project.
+This is a JS port called csBigIntegerLib, directly from csBigInteger C++ project.
 
 Many initial ideas came from: https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc
 
