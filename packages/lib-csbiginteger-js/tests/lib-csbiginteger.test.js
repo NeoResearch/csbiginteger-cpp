@@ -260,6 +260,26 @@ async function test_csbiginteger_init_s_from_decimal_to_hex() {
   );
   //
   expect(output2).toEqual({"hex": "0x018ee90ff6c373e0ee4e3f0ad2", "sz_real": 13, "sz_alloc": 31});
+  //
+  const output3 = await page.evaluate(
+    () => { 
+            var str = "123456789012345678901234567890";
+            var hex = csBigIntegerLib.convert10to16(str);
+            return hex;
+          }
+  );
+  //
+  expect(output3).toBe("0x018ee90ff6c373e0ee4e3f0ad2");
+  //
+  const output4 = await page.evaluate(
+    () => { 
+            var str = "-1";
+            var hex = csBigIntegerLib.convert10to16(str);
+            return hex;
+          }
+  );
+  //
+  expect(output4).toBe("0xff");
 }
 
 // --------------------
@@ -378,6 +398,15 @@ async function test_csbiginteger_to_string_10() {
   expect(output2).toEqual({"dec": "123456789012345678901234567890", "sz_real": 13,
                     "sz_alloc": 85, "good": 1});
   //
+  const output3 = await page.evaluate(
+    () => { 
+            var str = "0x018ee90ff6c373e0ee4e3f0ad2";
+            var dec = csBigIntegerLib.convert16to10(str);
+            return dec;
+          }
+  );
+  //
+  expect(output3).toBe("123456789012345678901234567890");
 }
 
 // --------------------
@@ -406,6 +435,49 @@ async function test_csbiginteger_engine() {
   //
   expect(output1).toEqual({"str": "HandBigInt", "good": 1});
 }
+
+
+// --------------------
+
+test('test_csbiginteger_op2_add_sub', async () => {
+  await test_csbiginteger_op2_add_sub();
+}); // test
+
+async function test_csbiginteger_op2_add_sub() {
+  await delay(100);
+  const output0 = await page.evaluate(
+    () => { 
+            var dec1 = csBigIntegerLib.convert16to10("0x03e8");
+            var dec2 = csBigIntegerLib.convert16to10("0x00ff");
+            //
+            return {dec1, dec2};
+          }
+  );
+  //
+  expect(output0).toEqual({"dec1": "1000", "dec2": "255"});
+  //
+  const output1 = await page.evaluate(
+    () => {
+            var out_hex = csBigIntegerLib.op2("0x05", "0x03", 2, csBigIntegerLib.wasmModule._csbiginteger_add);
+            //
+            return out_hex;
+          }
+  );
+  //
+  expect(output1).toBe("0x08");
+  //
+  const output2 = await page.evaluate(
+    () => {
+            // 1000 - 255 = 745
+            var out_hex = csBigIntegerLib.op2("0x03e8", "0x00ff", 12, csBigIntegerLib.wasmModule._csbiginteger_sub);
+            //
+            return out_hex;
+          }
+  );
+  //
+  expect(output2).toBe("0x02e9"); // 745: 0x02e9 (big) or e902 (little)
+}
+
 
 // --------------------
 // --------------------
