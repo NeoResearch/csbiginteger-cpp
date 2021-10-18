@@ -280,6 +280,16 @@ async function test_csbiginteger_init_s_from_decimal_to_hex() {
   );
   //
   expect(output4).toBe("0xff");
+  //
+  const output5 = await page.evaluate(
+    () => { 
+            var str = "0";
+            var hex = csBigIntegerLib.convert10to16(str);
+            return hex;
+          }
+  );
+  //
+  expect(output5).toBe("0x00");
 }
 
 // --------------------
@@ -407,6 +417,26 @@ async function test_csbiginteger_to_string_10() {
   );
   //
   expect(output3).toBe("123456789012345678901234567890");
+  //
+  const output4 = await page.evaluate(
+    () => { 
+            var str = "0xff";
+            var dec = csBigIntegerLib.convert16to10(str);
+            return dec;
+          }
+  );
+  //
+  expect(output4).toBe("-1");
+  //
+  const output5 = await page.evaluate(
+    () => { 
+            var str = "0x00";
+            var dec = csBigIntegerLib.convert16to10(str);
+            return dec;
+          }
+  );
+  //
+  expect(output5).toBe("0");
 }
 
 // --------------------
