@@ -7,11 +7,11 @@ const webpack = require("webpack");
 const path = require("path");
  
 module.exports = {
-   mode: "development", // TODO: change to production?
+   mode: "production", // TODO: change to production?
    context: path.resolve(__dirname, "."),
    entry: "./index.js",
    output: {
-     path: path.resolve(__dirname, "dist"), // find 'dist' folder
+     path: path.resolve(__dirname, "assets"), // find 'dist' folder
      filename: "lib-csbiginteger.js",       // goes to dist/
      library: 'csBigIntegerLib',            // names the library module 
      libraryTarget: 'umd',                  // format is Unified Module
@@ -34,7 +34,7 @@ module.exports = {
          loader: "file-loader",
          // this will rename file with a hash and put it inside dist/ folder
          options: {
-           publicPath: "dist/"
+           publicPath: "assets/"
          }
        }
      ]

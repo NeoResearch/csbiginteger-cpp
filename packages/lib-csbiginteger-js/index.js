@@ -219,7 +219,7 @@ export function op2(lehex1, lehex2, sizeOut, csbiginteger_func)
 
 // exported loader function is named 'csbiginteger'
 // exported module is named 'csBigIntegerLib'
-export const module = csbiginteger({
+export const myModule = csbiginteger({
   // locateFile will find corresponding .wasm and match it here
   locateFile(path) {
     if(path.endsWith('.wasm')) {

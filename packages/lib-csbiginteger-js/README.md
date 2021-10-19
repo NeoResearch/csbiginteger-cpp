@@ -25,6 +25,8 @@ If you want to test with Node, use `build/`
 ### make test
 
 If you want to test on web, use with `dist/`
+Note that, for production, we prefer `assets/` folder (instead of `dist/`).
+The reason is that websites tend to adopt this naming... Don't know if we can bundle this in a more flexible way.
 
 ### make clean
 

@@ -1,5 +1,6 @@
 build/
 dist/
+assets/
 node_modules/
 nohup.*
 *.out
