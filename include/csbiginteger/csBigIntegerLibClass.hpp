@@ -2,16 +2,18 @@
 #define CSBIGINTEGERLIB_BIGINTEGER_HPP
 
 // system includes
+/*
 #include <algorithm>
 #include <iomanip>
 #include <iostream> // todo: remove
 #include <sstream>
 #include <vector>
+*/
 
 #include "csBigIntegerLib.h" // NEVER INCLUDE "BigInteger.h" HERE!
 
 // internal classes
-#include "Helper.hpp" // from namespace 'csbiginteger'
+#include <csbiginteger/Helper.hpp> // from namespace 'csbiginteger'
 
 // original specification:
 // https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
@@ -74,29 +76,29 @@ public:
 
    const static BigInteger One()
    {
-      if(!_One)
-         _One = std::unique_ptr<BigInteger>(new BigInteger(1));  
+      if (!_One)
+         _One = std::unique_ptr<BigInteger>(new BigInteger(1));
       return *_One;
    }
    const static BigInteger Zero()
    {
-      if(!_Zero)
-         _Zero = std::unique_ptr<BigInteger>(new BigInteger(0));  
+      if (!_Zero)
+         _Zero = std::unique_ptr<BigInteger>(new BigInteger(0));
       return *_Zero;
    }
    const static BigInteger MinusOne()
    {
-      if(!_MinusOne)
-         _MinusOne = std::unique_ptr<BigInteger>(new BigInteger(-1));  
+      if (!_MinusOne)
+         _MinusOne = std::unique_ptr<BigInteger>(new BigInteger(-1));
       return *_MinusOne;
    }
    // error biginteger (empty internal bytearray)
    const static BigInteger Error()
    {
-      if(!_Error) {
+      if (!_Error) {
          _Error = std::unique_ptr<BigInteger>(new BigInteger());
          _Error->_data.clear(); // error biginteger (empty internal bytearray)
-      }  
+      }
       return *_Error;
    }
 
@@ -121,7 +123,7 @@ public:
    }
 
    // destructor
-   //virtual ~BigInteger();
+   // virtual ~BigInteger();
 
    // default is base 10
    // allowed base 2
@@ -162,10 +164,10 @@ public:
    {
    }
 
-   //BigInteger(float f) :
-   //BigInteger(std::to_string((int)f), 10)
+   // BigInteger(float f) :
+   // BigInteger(std::to_string((int)f), 10)
    //{
-   //}
+   // }
 
    // byte data in little-endian format (by default).
    BigInteger(cs_vbyte data, bool isUnsigned = false, bool isBigEndian = false)
@@ -179,8 +181,8 @@ public:
 
       if (isUnsigned) {
          this->toUnsigned();
-         //while ((_data.size() > 0) && (_data[0] == 0))
-         //   _data.erase(_data.begin() + 0);
+         // while ((_data.size() > 0) && (_data[0] == 0))
+         //    _data.erase(_data.begin() + 0);
       }
    }
 
@@ -285,18 +287,18 @@ private:
    std::string toStringBase10() const
    {
       // ToString(base). input vb and output sr must be pre-allocated (return indicates failure, 'true' is fine)
-      //extern "C" bool csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
+      // extern "C" bool csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
       std::string s(this->_data.size() * 5, ' '); // TODO: CHECK IF IT'S ENOUGH!
       //
       // ToString(base). input vb and output sr must be pre-allocated (return indicates failure, 'true' is fine)
-      //extern "C" bool
-      //csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
+      // extern "C" bool
+      // csbiginteger_to_string(byte* vb, int sz_vb, int base, char* sr, int sz_sr);
       cs_vbyte data = this->_data;            // copy
       std::reverse(data.begin(), data.end()); // to little endian
       bool good = csbiginteger_to_string((cs_byte*)data.data(), data.size(), 10, (char*)s.c_str(), s.length());
       csbiginteger::Helper::rtrim(s);
       if (!good) {
-         std::cout << "csBigIntegerLibClass WARNING: bad toStringBase10()" << std::endl;
+         // std::cout << "csBigIntegerLibClass WARNING: bad toStringBase10()" << std::endl;
          return "";
       }
       return s;
@@ -307,7 +309,7 @@ public:
    cs_int32 toInt() const
    {
       // toInt(). input vb must be pre-allocated
-      //extern "C" int csbiginteger_to_int(byte* vb, int sz_vb);
+      // extern "C" int csbiginteger_to_int(byte* vb, int sz_vb);
       cs_vbyte data = this->_data;            // copy
       std::reverse(data.begin(), data.end()); // to little endian
       return csbiginteger_to_int((cs_byte*)data.data(), data.size());
@@ -316,7 +318,7 @@ public:
    // native int64 format
    cs_int64 toLong() const
    {
-      //extern "C" long csbiginteger_to_long(byte* vb, int sz_vb);
+      // extern "C" long csbiginteger_to_long(byte* vb, int sz_vb);
       cs_vbyte data = this->_data;            // copy
       std::reverse(data.begin(), data.end()); // to little endian
       return csbiginteger_to_long((cs_byte*)data.data(), data.size());
@@ -355,8 +357,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 + big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_add(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -383,8 +385,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 - big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_sub(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -416,8 +418,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 * big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_mul(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() * big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -440,8 +442,8 @@ public:
       if (this->IsError() || big2.IsError() || big2.IsZero())
          return Error();
       // perform big1 / big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_div(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -464,8 +466,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 % big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_mod(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -491,8 +493,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 << big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_shl(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -518,8 +520,8 @@ public:
       if (this->IsError() || big2.IsError())
          return Error();
       // perform big1 >> big2 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_shr(byte* big1, int sz_big1, byte* big2, int sz_big2, byte* vr, int sz_vr);
       cs_vbyte local_data(this->_data.size() + big2._data.size() + 2, 0);
       cs_vbyte data = this->_data;              // copy
       std::reverse(data.begin(), data.end());   // to little endian
@@ -546,8 +548,8 @@ public:
       if (exponent < 0)
          return BigInteger::Error();
       // perform big ^ int32 and return its size (in bytes). output vr must be pre-allocated
-      //extern "C" int32
-      //csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
+      // extern "C" int32
+      // csbiginteger_pow(byte* big, int sz_big, int exp, byte* vr, int sz_vr);
       cs_vbyte local_data(value._data.size() * (2 * ::abs(exponent) + 2), 0);
       cs_vbyte data = value._data;            // copy
       std::reverse(data.begin(), data.end()); // to little endian
@@ -601,7 +603,6 @@ public:
 private:
    const static BigInteger error();
 };
-
 
 //
 const BigInteger

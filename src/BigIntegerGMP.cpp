@@ -1,5 +1,5 @@
 
-#include "BigInteger.h"
+#include <csbiginteger/BigInteger.h>
 
 // system
 #include <iostream> // todo: remove

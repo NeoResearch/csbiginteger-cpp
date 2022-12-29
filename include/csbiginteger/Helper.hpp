@@ -2,11 +2,16 @@
 #define CS_BIGINTEGER_HELPER_HPP
 
 // system includes
+/*
 #include <algorithm>
 #include <iomanip>
 #include <iostream> // todo: remove
 #include <sstream>
 #include <vector>
+*/
+#include <vector>
+#include <string>
+#include <iomanip> // setw
 
 // c++ standard part
 // ... none

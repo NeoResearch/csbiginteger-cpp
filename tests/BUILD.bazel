@@ -1,0 +1,39 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+
+cc_test(
+    name = "csBigIntegerHAND-test",
+    srcs = [
+        "csBigInteger.Test.cpp"
+    ],
+    defines = ["CATCH_CONFIG_MAIN", "HAND_CSBIG"],
+    deps = ["//include:csbiginteger",
+    ":tests_hpp",
+     ":catch2_thirdparty",
+     "//src:libcsbiginteger_hand"],
+)
+
+cc_library(
+    name = "tests_hpp",
+    hdrs = glob([
+        "**/*.Test.hpp"
+    ]),
+    #include_prefix = "tests/",
+)
+
+
+cc_library(
+    name = "catch2_thirdparty",
+    hdrs = ["thirdparty/catch2/catch_amalgamated.hpp"],
+    srcs = ["thirdparty/catch2/catch_amalgamated.cpp"],
+    strip_include_prefix="thirdparty/",
+)
+
+test_suite(
+    name = "all-tests",
+    tests = [
+        "csBigIntegerHAND-test"
+    ]
+)

@@ -1,0 +1,50 @@
+{
+	"name": "C++",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:1": {
+			"installZsh": "true",
+			"upgradePackages": "false",
+			"uid": "1000",
+			"gid": "1000",
+			"installOhMyZsh": "true",
+			"nonFreePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/docker-from-docker:1": {
+			"version": "latest",
+			"enableNonRootDocker": "false",
+			"moby": "false"
+		}
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "gcc -v",
+	// Configure tool-specific properties.
+	// "customizations": {},
+	"extensions": [
+		"mine.cpplint",
+		"DevonDCarew.bazel-code",
+		"llvm-vs-code-extensions.vscode-clangd",
+		"matepek.vscode-catch2-test-adapter"
+	],
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"LOCAL_DOCKER_SOCK" : "/run/user/1001/docker.sock"
+	},
+	// Docker-out-of-Docker (DooD)
+	"mounts": [
+		{
+			"source": "/run/user/1001/docker.sock",
+			"target": "/var/run/docker-host.sock",
+			"type": "bind"
+		}
+	],
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "root",
+	"postCreateCommand": "bazel --version && test -e .clang-format && cp .clang-format ~/.cache"
+}

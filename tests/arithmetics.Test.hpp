@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 
 // system
 #include <limits>
@@ -8,7 +8,7 @@
 #include <csBigIntegerLibClass.hpp>
 using namespace csbigintegerlib;
 #else
-#include <BigInteger.h>
+#include <csbiginteger/BigInteger.h>
 using namespace csbiginteger;
 #endif
 

@@ -3,6 +3,20 @@
 // building lib-neopt-core in javascript (via emscripten)
 //
 #include <emscripten.h>
+
+#include<string>
+#include <sstream>
+#include <iomanip>
+// system includes
+/*
+#include <algorithm>
+
+#include <iostream> // todo: remove
+
+#include <vector>
+#include <memory> // unique_ptr
+*/
+
 //
 // for helper prints and strings
 //#include <iostream>
@@ -12,11 +26,13 @@
 // =======================================================================================
 // these are C++ methods provided to emscripten (js part) via connection on C++ Neo3 Core
 //
+
 #include <BigInteger.h>
 #include <HandBigInt.hpp>
 #include <BigIntegerHand.cpp> // TODO: never try that at home!
 
 #define CSBIGINTEGER_EXTERN_C extern "C" EMSCRIPTEN_KEEPALIVE
+
 
 #include <csBigIntegerLib.h>
 #include <csBigIntegerLib.cpp> // TODO: never try that at home!
@@ -42,5 +58,9 @@ csbiginteger_welcome(int x) {
    const char* bn_out = str_out.c_str();
    unsigned char* u_out = ustr;
    int y = csbiginteger_external_welcome(bn1, bn_out, u_out);
-   return x+y+u_out[0];
+   //int y = 0;
+   std::vector<int> v(1, 5);
+   //std::cout << "oi" << v[0] << std::endl;
+   
+   return x+y+u_out[0]+v[0];
 }

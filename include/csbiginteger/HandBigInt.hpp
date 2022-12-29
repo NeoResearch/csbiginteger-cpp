@@ -5,12 +5,17 @@
 #ifndef HANDBIGINT_HPP
 #define HANDBIGINT_HPP
 
-#include <algorithm>
 #include <assert.h>
+#include <vector>
+#include <string>
+/*
+#include <algorithm>
+
 #include <iomanip> // setfill
 #include <iostream>
 #include <sstream> // stringstream
 #include <vector>
+*/
 
 // TODO: make this independent from csbiginteger helpers and types
 
@@ -426,7 +431,7 @@ public:
 
       if (other2.isZero()) {
          //other2.sdec[0] /= (other2.sdec[0] - '0');
-         std::cerr << "DIVISION BY ZERO! TODO: use 'error' flag" << std::endl;
+         // std::cerr << "DIVISION BY ZERO! TODO: use 'error' flag" << std::endl;
          assert(false);
       }
 
@@ -466,7 +471,7 @@ public:
       HandBigInt other2 = other;
 
       if (other2.isZero()) {
-         std::cerr << "DIVISION (MOD) BY ZERO! TODO: use 'error' flag" << std::endl;
+         // std::cerr << "DIVISION (MOD) BY ZERO! TODO: use 'error' flag" << std::endl;
          assert(false);
       }
 

@@ -231,15 +231,16 @@ export const myModule = csbiginteger({
     //console.log("loading wasmModule: "+JSON.stringify(instance));
     wasmModule = instance;
     //
-    console.log("loaded csBigIntegerLib.wasmModule = "+wasmModule);
+    // console.log("loaded csBigIntegerLib.wasmModule = "+wasmModule);
 
     // some operations may be necessary to load wasm module
+    /*
     var hi = "hello world";
     console.log("testing wasmModule: "+hi);
     var hi_ptr = strToPtr(hi, wasmModule);
     console.log("-> "+ptrToStr(hi_ptr, wasmModule));
-
     wasmModule._free(hi_ptr);
+    */
   }, function() {
     // error function
     console.log("wasmModule loading error!");

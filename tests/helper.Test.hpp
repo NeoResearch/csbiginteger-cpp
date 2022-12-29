@@ -1,7 +1,7 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 
 // core includes
-#include <Helper.hpp>
+#include <csbiginteger/Helper.hpp>
 
 using namespace std;
 using namespace csbiginteger;

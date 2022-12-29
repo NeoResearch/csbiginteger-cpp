@@ -21,11 +21,11 @@ test-hard: test csBigIntegerMono.test run_test_mono csBigIntegerGMP-hard.test cs
 # $(SRC_PATH)/BigIntegerGMP.cpp
 csBigIntegerGMP.test : csBigInteger.Test.cpp
 	@echo "Building tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors -I$(SRC_PATH) -I../thirdparty $< -o $@ -lgmp -lgmpxx
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors -I$(SRC_PATH) -I../include -I./thirdparty ./thirdparty/catch2/catch_amalgamated.cpp  $< -o $@ -lgmp -lgmpxx
 
 csBigIntegerHAND.test : csBigInteger.Test.cpp
 	@echo "Building tests using HAND library"
-	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@
+	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../include -I./thirdparty ./thirdparty/catch2/catch_amalgamated.cpp $< -o $@
 
 run_test_hand: csBigIntegerHAND.test
 	./csBigIntegerHAND.test -d yes ~*Online_Pack_Divisor*
@@ -35,11 +35,11 @@ run_test_gmp: csBigIntegerGMP.test
 
 csBigIntegerHandLib.test : csBigInteger.Test.cpp
 	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp
+	g++ -DCATCH_CONFIG_MAIN -DHAND_CSBIG -DTEST_CSBIGINTEGER_LIB --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty ../thirdparty/catch2/catch_amalgamated.cpp  $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp 
 
 csBigIntegerLib.test : csBigInteger.Test.cpp
 	@echo "Building LIBRARY tests using GMP library (requires 'libgmp')"
-	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB  --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
+	g++ -DCATCH_CONFIG_MAIN -DGMP_CSBIG -DTEST_CSBIGINTEGER_LIB  --coverage -g -O0 --std=c++17 -Wfatal-errors  -I$(SRC_PATH) -I../thirdparty ../thirdparty/catch2/catch_amalgamated.cpp  $< -o $@ $(SRC_PATH)/csBigIntegerLib.cpp -lgmp -lgmpxx
 
 run_test_hand_lib: csBigIntegerHandLib.test
 	./csBigIntegerHandLib.test -d yes

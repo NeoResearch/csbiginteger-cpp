@@ -40,7 +40,7 @@ cs_vbyte
 mono_bytearray_to_bytearray(MonoArray* arr)
 {
    unsigned int size = mono_array_length(arr);
-   vbyte bytes(size, 0x00);
+   cs_vbyte bytes(size, 0x00);
    for (unsigned i = 0; i < size; i++)
       bytes[i] = mono_array_get(arr, unsigned char, i);
    return bytes;

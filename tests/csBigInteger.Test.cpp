@@ -1,8 +1,8 @@
 
 // collection of 'csBigInteger' project tests
 
-#include "./arithmetics-tests/arithmetics.Test.cpp"
-#include "./helper-tests/helper.Test.cpp"
-#include "./serialize-tests/serialize.Test.cpp"
+#include "arithmetics.Test.hpp"
+#include "helper.Test.hpp"
+#include "serialize.Test.hpp"
 
 // good

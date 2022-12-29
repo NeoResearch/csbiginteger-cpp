@@ -1,12 +1,12 @@
 
-#include "BigInteger.h"
+#include <csbiginteger/BigInteger.h>
 
 // system
-#include <iostream> // todo: remove
+// #include <iostream> // todo: remove
 
 #include <assert.h>
 
-#include "HandBigInt.hpp"
+#include <csbiginteger/HandBigInt.hpp>
 
 //using namespace std;
 using namespace csbiginteger;

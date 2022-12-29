@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 
 // system
 #include <limits>

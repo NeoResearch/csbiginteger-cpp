@@ -6,3 +6,4 @@ nohup.*
 *.out
 *.tmp.js
 *.tmp.cpp
+tmp/
