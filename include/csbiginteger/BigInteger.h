@@ -1,3 +1,6 @@
+// SPDX-License-Identifier:  MIT
+// Copyright (C) 2020-2022 - csbiginteger-cpp project
+
 #ifndef CS_BIGINTEGER_BIGINTEGER_H
 #define CS_BIGINTEGER_BIGINTEGER_H
 
@@ -5,7 +8,7 @@
 /*
 #include <algorithm>
 #include <iomanip>
-#include <iostream> // todo: remove
+#include <iostream> // TODO(igormcoelho): remove
 #include <memory> // unique_ptr
 #include <sstream>
 #include <vector>
@@ -13,9 +16,11 @@
 #include <algorithm>  // std::copy
 #include <memory>     // unique_ptr
 #include <sstream>    // stringstream
+#include <string>
+#include <utility>
 
 // internal classes
-#include "Helper.hpp"
+#include <csbiginteger/Helper.hpp>
 
 // original specification:
 // https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
@@ -30,8 +35,8 @@ class BigInteger final {
  private:
   // internal data (vector of bytes) in big-endian format (for readability)
   // efficiency is not important at this moment, correctness and portability is!
-  // TODO: perhaps it's better to store in little-endian format... see which
-  // methods are affected.
+  // TODO(igormcoelho): perhaps it's better to store in little-endian format...
+  // see which methods are affected.
   cs_vbyte _data;
 
  public:
@@ -51,7 +56,7 @@ class BigInteger final {
     return true;
   }
 
-  const static BigInteger getMin;  // get?
+  static const BigInteger getMin;  // get?
   //
 
   // used for global caching
@@ -60,20 +65,20 @@ class BigInteger final {
   static inline std::unique_ptr<BigInteger> _MinusOne;
   static inline std::unique_ptr<BigInteger> _Error;
 
-  const static BigInteger One() {
+  static const BigInteger One() {
     if (!_One) _One = std::unique_ptr<BigInteger>(new BigInteger(1));
     return *_One;
   }
-  const static BigInteger Zero() {
+  static const BigInteger Zero() {
     if (!_Zero) _Zero = std::unique_ptr<BigInteger>(new BigInteger(0));
     return *_Zero;
   }
-  const static BigInteger MinusOne() {
+  static const BigInteger MinusOne() {
     if (!_MinusOne) _MinusOne = std::unique_ptr<BigInteger>(new BigInteger(-1));
     return *_MinusOne;
   }
   // error biginteger (empty internal bytearray)
-  const static BigInteger Error() {
+  static const BigInteger Error() {
     if (!_Error) {
       _Error = std::unique_ptr<BigInteger>(new BigInteger());
       _Error->_data.clear();  // error biginteger (empty internal bytearray)
@@ -126,7 +131,7 @@ class BigInteger final {
     }
   }
 
-  // helper method (TODO: remove)
+  // helper method (TODO(igormcoelho): remove)
   void toUnsigned() {
     if (Sign() < 0) {
       cs_vbyte zero = {0x00};
@@ -158,7 +163,7 @@ class BigInteger final {
 
   bool IsZero() const { return (*this) == Zero(); }
 
-  // TODO: expose or not to expose this? make it private?
+  // TODO(igormcoelho): expose or not to expose this? make it private?
   bool IsError() const { return (*this) == Error(); }
 
   // this one is little-endian by default
@@ -185,8 +190,8 @@ class BigInteger final {
     if (base == 2) {
       std::stringstream ss;
       for (unsigned i = 0; i < _data.size(); i++)
-        ss << Helper::parseBin(
-            _data[i]);  // byte to binary (TODO: verify if size is 8)
+        ss << Helper::parseBin(_data[i]);  // byte to binary (TODO(igormcoelho):
+                                           // verify if size is 8)
       return ss.str();
     }
 
@@ -340,7 +345,7 @@ class BigInteger final {
   }
 
  private:
-  const static BigInteger error();
+  static const BigInteger error();
 };
 
 }  // namespace csbiginteger
